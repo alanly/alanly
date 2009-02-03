@@ -8,5 +8,5 @@ This is a culmination of my various programming efforts, some of which are schoo
 = Projects =
   === [Loops] ===
     An assignment on Java loops.
-  === [OO-Monthly_Calendar] ===
+  === [OOMonthlyCalendar] ===
     An object-oriented based monthly calendar.
