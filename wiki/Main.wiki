@@ -2,12 +2,11 @@
 
 = Introduction =
 
-Add your content here.
+This is a culmination of my various programming efforts, some of which are school related assignments while others are purely personal adventures. Everything is licensed under the GNU-GPL3 license, so use the source as you wish to the extent of the license.
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Projects =
+  ===Loops===
+    An assignment on Java loops.
+  ===OO-Monthly_Calendar===
+    An object-oriented based monthly calendar.
