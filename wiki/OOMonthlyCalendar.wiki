@@ -1,5 +1,5 @@
 #summary An object-oriented Java-based monthly calendar.
 
-= OO-Monthly_Calendar =
+= OOMonthlyCalendar =
 
   == Program Narrative ==
