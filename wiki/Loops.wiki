@@ -11,3 +11,4 @@
 
   == Files ==
   * [http://code.google.com/p/alanly/source/browse/trunk/Loops/src/LoopsApp.java Source Code]
+  * [http://alanly.googlecode.com/files/Loops.jar Application .JAR]
