@@ -11,10 +11,18 @@ import javax.swing.JOptionPane;
 public class assg2textanalysis {
 
 	/**
-	 * The main method will handle the input from user and print the correct data to the console.
+	 * The main method will handle the input from user and print the correct data to the console. If it detects that the input does not end with a period (therefore not qualifying as a defined sentence), it will quit and print an error message.
 	 */
 	public static void main(String[] args) {
 		String inputSentence = JOptionPane.showInputDialog("Enter a sentence, ending in a period:");
+		
+		if (inputSentence.charAt(inputSentence.length() - 1) != '.') {
+			System.out.println("\nERROR: Invalid Input");
+			System.out.println("- The sentence must end with a period character. The sentence you have entered,");
+			System.out.println("\t\"" + inputSentence + "\"");
+			System.out.println("- does not match the requirements. Please check your input and try again.");
+			System.exit(1);
+		}
 
 		System.out.println("\t\t.: Text Analysis :.");
 		System.out.println("[Original sentence entered]");
