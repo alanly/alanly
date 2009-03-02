@@ -45,14 +45,13 @@ public class assg2textanalysis {
 		for (int stringIndex = 0, wordRunCount = 0; stringIndex + 1 < inputString.length();) {
 			int wordEnd = findWordEnd(inputString, stringIndex);
 			
-			if (inputString.charAt(wordEnd - 1) == inputString.charAt(findWordStart(inputString, wordEnd))) {
+			if (inputString.charAt(wordEnd - 1) == inputString.charAt(findWordStart(inputString, wordEnd)))
 				wordRunCount++;
-			} else {
+			else
 				if (wordRunCount > lengthMaxWordRun)
 					lengthMaxWordRun = wordRunCount;
 				else
 					wordRunCount = 0;
-			}
 			
 			stringIndex = findWordStart(inputString, wordEnd);
 		}
