@@ -44,9 +44,8 @@ public class assg2textanalysis {
 		
 		for (int stringIndex = 0, wordRunCount = 0; stringIndex + 1 < inputString.length();) {
 			int wordEnd = findWordEnd(inputString, stringIndex);
-			int nextWordBegin = findWordStart(inputString, wordEnd);
 			
-			if (inputString.charAt(wordEnd - 1) == inputString.charAt(nextWordBegin)) {
+			if (inputString.charAt(wordEnd - 1) == inputString.charAt(findWordStart(inputString, wordEnd))) {
 				wordRunCount++;
 			} else {
 				if (wordRunCount > lengthMaxWordRun)
