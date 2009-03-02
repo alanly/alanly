@@ -70,8 +70,7 @@ public class assg2textanalysis {
 	/**
 	 * Provided a sentence and the position of the last character of a specific word in the sentence, this program will return the starting position of the next word if available, else it will return the position of the period.
 	 *
-	 * @param	inputString	This String parameter holds the sentence that is to be processed through, and should be provided
-	 * 						by the calling method.
+	 * @param	inputString	This String parameter holds the sentence that is to be processed through, and should be provided by the calling method.
 	 * @param	wordEnd	This Integer parameter holds the position of the last character of a word, and should be
 	 * 							provided by the calling method.
 	 * @return	Returns an Integer value that represents the position of the first character of the proceeding word or period.
