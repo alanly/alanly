@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
  * Testing sentence should be, "as  the   new  days   started and the  eager runner ran with   the  endless sea and  dreamy shore  in   sight    the early sun caught  his gaze."
  *
  * @author	Alan Ly
- * @version	final-build:2009.02.27-03
+ * @version	final-build:2009.03.01-00
  */
 
 public class assg2textanalysis {
