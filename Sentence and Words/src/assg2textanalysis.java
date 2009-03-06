@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
  * Testing sentence should be, "as  the   new  days   started and the  eager runner ran with   the  endless sea and  dreamy shore  in   sight    the early sun caught  his gaze."
  *
  * @author	Alan Ly
- * @version	final-build:2009.03.01-00
+ * @version	final-build:2009.03.05-01
  */
 
 public class assg2textanalysis {
@@ -29,7 +29,7 @@ public class assg2textanalysis {
 		System.out.println("\t\"" + inputSentence + "\"");
 		System.out.println("\n[Sentence without excess blanks (if any)]");
 		System.out.println("\t\"" + squeezeBlanks(inputSentence) + "\"");
-		System.out.println("\n[Length of the longest word run, counted in connections between words]\n\t" + countMaxWordRun(squeezeBlanks(inputSentence)));
+		System.out.println("\n[Length of the longest word run (counted in # of words)]\n\t" + countMaxWordRun(squeezeBlanks(inputSentence)));
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class assg2textanalysis {
 			if (inputString.charAt(wordEnd - 1) == inputString.charAt(findWordStart(inputString, wordEnd)))
 				wordRunCount++;
 			else
-				if (wordRunCount > lengthMaxWordRun)
+				if (lengthMaxWordRun < wordRunCount)
 					lengthMaxWordRun = wordRunCount;
 				else
 					wordRunCount = 0;
@@ -56,7 +56,10 @@ public class assg2textanalysis {
 			stringIndex = findWordStart(inputString, wordEnd);
 		}
 		
-		return lengthMaxWordRun;
+		if (lengthMaxWordRun != 0)
+			return lengthMaxWordRun + 1;
+		else
+			return lengthMaxWordRun;
 	}
 
 	/**
