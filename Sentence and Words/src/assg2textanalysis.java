@@ -14,8 +14,10 @@ public class assg2textanalysis {
 	 * The main method will handle the input from user and print the correct data to the console. If it detects that the input does not end with a period (therefore not qualifying as a defined sentence), it will quit and print an error message.
 	 */
 	public static void main(String[] args) {
+		// Declare variable and read in value from user.
 		String inputSentence = JOptionPane.showInputDialog("Enter a sentence, ending in a period:");
 		
+		// Ensure input data meets requirements.
 		if (inputSentence.charAt(inputSentence.length() - 1) != '.') {
 			System.out.println("\nERROR: Invalid Input");
 			System.out.println("- The sentence must end with a period character. The sentence you have entered,");
@@ -24,24 +26,27 @@ public class assg2textanalysis {
 			System.exit(1);
 		}
 
+		// Call methods and output results.
 		System.out.println("\t\t.: Text Analysis :.");
 		System.out.println("[Original sentence entered]");
 		System.out.println("\t\"" + inputSentence + "\"");
 		System.out.println("\n[Sentence without excess blanks (if any)]");
 		System.out.println("\t\"" + squeezeBlanks(inputSentence) + "\"");
-		System.out.println("\n[Length of the longest word run (counted in # of words)]\n\t" + countMaxWordRun(squeezeBlanks(inputSentence)));
+		System.out.println("\n[Length of the longest word run]\n\t" + countMaxWordRun(squeezeBlanks(inputSentence)) + " word/s.");
 	}
 
 	/**
-	 * This method will analyse, calculate and return the length of the longest word run in the sentence provided.
+	 * This method will analyze, calculate and return the length of the longest word run in the sentence provided.
 	 *
 	 * @param	inputString	This String parameter holds the sentence that is to be processed through, and should be
 	 * 						provided by the main method.
-	 * @return	Returns an Integer value that represents the length of the longest word run in the sentence.
+	 * @return	Returns an Integer value that represents the length of the longest word run in the sentence, measured in the number of words in the particular run.
 	 */
 	public static int countMaxWordRun(String inputString) {
+		// Declare and initialize variable.
 		int lengthMaxWordRun = 0;
 		
+		// Determine longest word run.
 		for (int stringIndex = 0, wordRunCount = 0; stringIndex + 1 < inputString.length();) {
 			int wordEnd = findWordEnd(inputString, stringIndex);
 			
@@ -56,6 +61,7 @@ public class assg2textanalysis {
 			stringIndex = findWordStart(inputString, wordEnd);
 		}
 		
+		// If there are word runs, add one to tally number of words in (rather than instances of) word run.
 		if (lengthMaxWordRun != 0)
 			return lengthMaxWordRun + 1;
 		else
@@ -99,8 +105,10 @@ public class assg2textanalysis {
 	 * @return	Returns a String that represents the original input sentence with the excess spaces removed.
 	 */
 	public static String squeezeBlanks(String inputString) {
+		// Declare and initialize String variable to hold output.
 		String outputString = "";
 		
+		// Extract individual words and append to output variable along with a single space character.
 		for (int stringIndex = 0; stringIndex < inputString.length() - 1;) {
 			outputString += inputString.substring(stringIndex, findWordEnd(inputString, stringIndex) + 1);
 			for (stringIndex = findWordStart(inputString, findWordEnd(inputString, stringIndex)); inputString.charAt(stringIndex) == ' '; stringIndex++);
