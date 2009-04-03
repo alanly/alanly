@@ -56,7 +56,7 @@ public class MusicAlbumsCollection {
 			goldAlbumsByArtist[arrayIndex] = inputGoldAlbumsByArtist;
 		}
 		
-		/*
+/*
 		// Declare variables...
 		String inputString;
 		
@@ -78,7 +78,7 @@ public class MusicAlbumsCollection {
 				break;
 			}
 		}
-		*/
+*/
 	}
 	
 	/**
