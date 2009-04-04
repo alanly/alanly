@@ -40,11 +40,11 @@ public class MusicAlbumsCollection {
 			if (inputArtist.equals("sentinel"))
 				break;
 			else {
-				inputAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of albums by '" + inputArtist + "':"));
+				inputAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of albums by '" + inputArtist + "':\n(To stop, enter '9999')"));
 				if (inputAlbumsByArtist == 9999)
 					break;
 				else {
-					inputGoldAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of certified gold albums by '" + inputArtist + "':"));
+					inputGoldAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of certified gold albums by '" + inputArtist + "':\n(To stop, enter '9999')"));
 					if (inputGoldAlbumsByArtist == 9999)
 						break;
 				}
