@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 /**
  * The <code>MusicAlbumsCollection</code> class is responsible for holding the essential data relating to the instance of its object, as well as providing essential methods to process such data.
  * @author Alan Ly
- * @version build:2009.04.04-4
+ * @version build:2009.04.04-5
  */
 public class MusicAlbumsCollection {
 	// Declare instance variables...
@@ -154,7 +154,7 @@ public class MusicAlbumsCollection {
 		
 		// Loop through array while comparing Strings to see find alphabetically, the last artist with equivalent goldScore...
 		while (arrayIndex < totalArtists) {
-			if (goldAlbumsByArtist[arrayIndex] == goldScore && artistWithGoldNum.compareTo(artists[arrayIndex]) < 0)
+			if (goldAlbumsByArtist[arrayIndex] == goldScore && artistWithGoldNum.compareToIgnoreCase(artists[arrayIndex]) < 0)
 				artistWithGoldNum = artists[arrayIndex];
 			arrayIndex++;
 		}
@@ -170,7 +170,7 @@ public class MusicAlbumsCollection {
 	public int findNumAlbumsOfArtist(String artistName) {
 		// Run through loop and search for equivalent artistName...
 		for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
-			if (artists[arrayIndex].equals(artistName))
+			if (artists[arrayIndex].equalsIgnoreCase(artistName))
 				return albumsByArtist[arrayIndex];
 		
 		return 9999;
