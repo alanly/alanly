@@ -125,10 +125,13 @@ public class MusicAlbumsCollection {
 	 * @return	Returns an <code>Integer</code> value representing the sum of artists that have lower than average number of albums.
 	 */
 	public int calculateNumArtistsWithLowerThanAvgNumAlbums() {
+		// Declare and initialise variables...
 		int numArtistsWithLowerThanAvgNumAlbums = 0;
-			
+		double averageNumAlbums = calculateAverageNumAlbums();
+		
+		// Loop through array and sum up number of artists with lower than average albums...
 		for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
-			if (albumsByArtist[arrayIndex] < calculateAverageNumAlbums())
+			if (albumsByArtist[arrayIndex] < averageNumAlbums)
 				numArtistsWithLowerThanAvgNumAlbums++;
 			
 		return numArtistsWithLowerThanAvgNumAlbums;
@@ -142,15 +145,19 @@ public class MusicAlbumsCollection {
 	public String findArtistWithGoldNum(int goldScore) {		
 		// Declare and initialise variables...
 		String artistWithGoldNum = "noartist";
+		int arrayIndex;
 		
-		// Loop through array and determine the last artist alphabetically...
-			for (int arrayIndex = 0; arrayIndex < totalArtists && artistWithGoldNum.equals("noartist"); arrayIndex++)
-				if (goldAlbumsByArtist[arrayIndex] == goldScore)
-					artistWithGoldNum = artists[arrayIndex];
-			
-			for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
-				if (goldAlbumsByArtist[arrayIndex] == goldScore && artistWithGoldNum.compareTo(artists[arrayIndex]) < 0)
-					artistWithGoldNum = artists[arrayIndex];
+		// Determine the first artist with equivalent goldScore with loop if necessary...
+		for (arrayIndex = 0; arrayIndex < totalArtists && artistWithGoldNum.equals("noartist"); arrayIndex++)
+			if (goldAlbumsByArtist[arrayIndex] == goldScore)
+				artistWithGoldNum = artists[arrayIndex];
+		
+		// Loop through array while comparing Strings to see find alphabetically, the last artist with equivalent goldScore...
+		while (arrayIndex < totalArtists) {
+			if (goldAlbumsByArtist[arrayIndex] == goldScore && artistWithGoldNum.compareTo(artists[arrayIndex]) < 0)
+				artistWithGoldNum = artists[arrayIndex];
+			arrayIndex++;
+		}
 		
 		return artistWithGoldNum;
 	}
@@ -161,6 +168,7 @@ public class MusicAlbumsCollection {
 	 * @return	Returns an <code>Integer</code> value that will contain the number of albums by <code>artistName</code>.
 	 */
 	public int findNumAlbumsOfArtist(String artistName) {
+		// Run through loop and search for equivalent artistName...
 		for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
 			if (artists[arrayIndex].equals(artistName))
 				return albumsByArtist[arrayIndex];
