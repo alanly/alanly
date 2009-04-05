@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 /**
  * The <code>MusicAlbumsCollection</code> class is responsible for holding the essential data relating to the instance of its object, as well as providing essential methods to process such data.
  * @author Alan Ly
- * @version build:2009.04.02-2
+ * @version build:2009.04.04-1
  */
 public class MusicAlbumsCollection {
 	// Declare instance variables...
@@ -139,48 +139,18 @@ public class MusicAlbumsCollection {
 	 * @param	goldScore	This <code>Integer</code> parameter holds the number of gold albums to which this method must match an artist name to.
 	 * @return	Returns a <code>String</code> that will contain the name of the artist which has the matching amount of gold albums.
 	 */
-	public String findArtistWithGoldNum(int goldScore) {
-/*		// Declare and initialise variables...
-		String [] goldScoreArtists = new String[totalArtists];
-		String artistWithGoldNum;
-		int newArrayIndex = 0;
-		
-		// Check if arrays are empty...
-		if (totalArtists == 0)
-			return "noartist";
-		else
-			goldScoreArtists[0] = "noartist";
-		
-		// Copy all artists with equivalent goldScore's into a new array...		
-		for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
-			if (goldAlbumsByArtist[arrayIndex] == goldScore) {
-				goldScoreArtists[newArrayIndex] = new String(artists[arrayIndex]);
-				newArrayIndex++;
-			}
-		
-		// Loop through new filtered array, and find the last artist alphabetically...
-		artistWithGoldNum = new String(goldScoreArtists[0]);
-		for (int arrayIndex = 0; arrayIndex < newArrayIndex - 1; arrayIndex++)
-			if (artistWithGoldNum.charAt(0) <= goldScoreArtists[arrayIndex + 1].charAt(0))
-				artistWithGoldNum = new String(goldScoreArtists[arrayIndex + 1]);
-*/
-		
+	public String findArtistWithGoldNum(int goldScore) {		
 		// Declare and initialise variables...
 		String artistWithGoldNum = "noartist";
 		
 		// Loop through array and determine the last artist alphabetically...
-		if (totalArtists > 0) {
-			for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++) {
-				if (goldAlbumsByArtist[arrayIndex] == goldScore) {
+			for (int arrayIndex = 0; arrayIndex < totalArtists && artistWithGoldNum.equals("noartist"); arrayIndex++)
+				if (goldAlbumsByArtist[arrayIndex] == goldScore)
 					artistWithGoldNum = artists[arrayIndex];
-					break;
-				}
-			}
-				
+			
 			for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
-				if (goldAlbumsByArtist[arrayIndex] == goldScore && artistWithGoldNum.charAt(0) < artists[arrayIndex].charAt(0))
+				if (goldAlbumsByArtist[arrayIndex] == goldScore && artistWithGoldNum.compareTo(artists[arrayIndex]) < 0)
 					artistWithGoldNum = artists[arrayIndex];
-		}
 		
 		return artistWithGoldNum;
 	}
