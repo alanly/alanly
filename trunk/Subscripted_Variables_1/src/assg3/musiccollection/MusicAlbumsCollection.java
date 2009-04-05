@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 /**
  * The <code>MusicAlbumsCollection</code> class is responsible for holding the essential data relating to the instance of its object, as well as providing essential methods to process such data.
  * @author Alan Ly
- * @version build:2009.04.04-1
+ * @version build:2009.04.04-4
  */
 public class MusicAlbumsCollection {
 	// Declare instance variables...
@@ -22,7 +22,7 @@ public class MusicAlbumsCollection {
 	}
 			
 	/**
-	 * The <code>MusicAlbumsCollection</code> class overloaded constructor method that will accept a <code>String</code> input from the calling method, which will determine the name for the album collection.
+	 * The <code>MusicAlbumsCollection</code> class overloaded constructor method that will accept a <code>String</code> input from the calling method, which will determine the user-friendly name for the album collection object. It will then prompt the user to enter the data for artist name, number of albums by said artist, and number of certified gold albums by said artist. It will continue to do so until the end of the array or when the user enters the specified sentinel values in one of the prompt boxes, which will break the user free from the loop and return to the calling method. 
 	 * @param collectionName	This <code>String</code> parameter holds the name of the album collection as determined by the calling method.
 	 */
 	public MusicAlbumsCollection(String collectionName) {
@@ -113,7 +113,7 @@ public class MusicAlbumsCollection {
 		// Declare variable...
 		double sumOfAlbums = 0.0;
 		
-		// Loop through array and 
+		// Loop through array and calculate total number of albums...
 		for (int arrayIndex = 0; arrayIndex < totalArtists; arrayIndex++)
 			sumOfAlbums += albumsByArtist[arrayIndex];
 		
@@ -138,7 +138,7 @@ public class MusicAlbumsCollection {
 	}
 	
 	/**
-	 * The <code>findArtistWithGoldNum</code> method will be responsible for finding the name of the last artist in the array <strong>alphabetically</strong> that has a number of certified gold albums equivalent to <code>goldScore</code>, which is a parameter provided by the calling method.
+	 * The <code>findArtistWithGoldNum</code> method will be responsible for finding the name of the last artist in the array <strong>alphabetically</strong> that has a number of certified gold albums equivalent to <code>goldScore</code>, which is a parameter provided by the calling method. If none are found then "<code>noartist</code>" is returned.
 	 * @param	goldScore	This <code>Integer</code> parameter holds the number of gold albums to which this method must match an artist name to.
 	 * @return	Returns a <code>String</code> that will contain the name of the artist which has the matching amount of gold albums.
 	 */
