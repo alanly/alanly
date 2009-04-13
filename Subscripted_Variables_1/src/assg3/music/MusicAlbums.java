@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 /**
  * The <code>MusicAlbums</code> class will handle the priming input that will create the initial <code>MusicAlbumsCollection</code> object. It will then be responsible for the appropriate output data necessary.
  * @author Alan Ly
- * @version build:2009.04.04-0
+ * @version build:2009.04.13-0
  */
 public class MusicAlbums {
 	
@@ -18,12 +18,12 @@ public class MusicAlbums {
 		// Display splash screen...
 		JOptionPane.showMessageDialog(null, 
 				"[Album Collection Application]\n" +
-				"Written by: Alan Ly\n" +
-				"Last Amended: April 2, 2009"
-				, "Album Collection Application", JOptionPane.PLAIN_MESSAGE);
+				"  Written by: Alan Ly\n" +
+				"  Last Amended: April 2, 2009"
+				, "Album Collection", JOptionPane.PLAIN_MESSAGE);
 		
 		// Request user-friendly name of MusicAlbumsCollection from user... 
-		String inputString = JOptionPane.showInputDialog("Please enter the name of your album collection:");
+		String inputString = JOptionPane.showInputDialog(null, "Please enter the name of your album collection:", "Album Collection", JOptionPane.QUESTION_MESSAGE);
 		
 		// Create new MusicAlbumsCollection object with previously specified user-friendly name...
 		MusicAlbumsCollection albumCollection = new MusicAlbumsCollection(inputString);
@@ -34,11 +34,11 @@ public class MusicAlbums {
 		// Display output...
 		JOptionPane.showMessageDialog(null,
 				"[" + albumCollection.getCollectionName() + " Collection]" +
-				"\nYour collection \"" + albumCollection.getCollectionName() + "\" has " + albumCollection.getNumberOfArtists() + " artists in it." +
-				"\n- Average number of albums per artist: "+ decimal.format(albumCollection.calculateAverageNumAlbums()) +
-				"\n- Number of artists below that average : " + albumCollection.calculateNumArtistsWithLowerThanAvgNumAlbums() +
-				"\n- Last artist entered with 4 gold albums: \"" + albumCollection.findArtistWithGoldNum(4) + "\"" +
-				"\n- Number of albums by Pink Floyd: " + albumCollection.findNumAlbumsOfArtist("Pink Floyd")
-				, "Album Collection Applicaton", JOptionPane.PLAIN_MESSAGE);
+				"\n  Your collection has " + albumCollection.getNumberOfArtists() + " artists in it." +
+				"\n     - Average number of albums per artist: "+ decimal.format(albumCollection.calculateAverageNumAlbums()) +
+				"\n     - Number of artists below that average : " + albumCollection.calculateNumArtistsWithLowerThanAvgNumAlbums() +
+				"\n     - Last artist entered with 4 gold albums: \"" + albumCollection.findArtistWithGoldNum(4) + "\"" +
+				"\n     - Number of albums by Pink Floyd: " + albumCollection.findNumAlbumsOfArtist("Pink Floyd")
+				, "Album Collection", JOptionPane.INFORMATION_MESSAGE);
 	}
 }

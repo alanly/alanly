@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 /**
  * The <code>MusicAlbumsCollection</code> class is responsible for holding the essential data relating to the instance of its object, as well as providing essential methods to process such data.
  * @author Alan Ly
- * @version build:2009.04.04-5
+ * @version build:2009.04.13-1
  */
 public class MusicAlbumsCollection {
 	// Declare instance variables...
@@ -30,55 +30,42 @@ public class MusicAlbumsCollection {
 		this.collectionName = collectionName;
 		
 		// Declare variables...
-		String inputArtist;
-		int inputAlbumsByArtist;
-		int inputGoldAlbumsByArtist;
+		String inputArtist = "";
+		int inputAlbumsByArtist = 0;
+		int inputGoldAlbumsByArtist = 0;
 		
-		// Request for and input user data...
+		// Request for and input user data and catch exceptions...
 		for (int arrayIndex = 0; arrayIndex < artists.length; arrayIndex++) {
-			inputArtist = JOptionPane.showInputDialog("Enter the artist's name:\n(To stop, enter 'sentinel')");
-			if (inputArtist.equals("sentinel"))
-				break;
-			else {
-				inputAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of albums by '" + inputArtist + "':\n(To stop, enter '9999')"));
-				if (inputAlbumsByArtist == 9999)
+			try {
+				inputArtist = JOptionPane.showInputDialog(null, "Enter the artist's name:\n(To stop, enter 'sentinel')", "Album Collection", JOptionPane.QUESTION_MESSAGE);
+				if (inputArtist.equals("sentinel"))
 					break;
 				else {
-					inputGoldAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of certified gold albums by '" + inputArtist + "':\n(To stop, enter '9999')"));
-					if (inputGoldAlbumsByArtist == 9999)
+					inputAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the number of albums by '" + inputArtist + "':\n(To stop, enter '9999')", "\"" + inputArtist + "\"", JOptionPane.QUESTION_MESSAGE));
+					if (inputAlbumsByArtist == 9999)
 						break;
+					else {
+						inputGoldAlbumsByArtist = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter the number of certified gold albums by '" + inputArtist + "':\n(To stop, enter '9999')", "\"" + inputArtist + "\"", JOptionPane.QUESTION_MESSAGE));
+						if (inputGoldAlbumsByArtist == 9999)
+							break;
+					}
 				}
-			}
 			
-			totalArtists++;
-			artists[arrayIndex] = new String(inputArtist);
-			albumsByArtist[arrayIndex] = inputAlbumsByArtist;
-			goldAlbumsByArtist[arrayIndex] = inputGoldAlbumsByArtist;
-		}
-		
-/*
-		// Declare variables...
-		String inputString;
-		
-		for (int arrayIndex = 0; arrayIndex < artists.length; arrayIndex++) {
-			// Read in initial user data...
-			inputString = JOptionPane.showInputDialog("Enter the artist's name:\n(To stop, enter 'sentinel')");
-			
-			// Determine if user wants to end or not...
-			if (!inputString.equals("sentinel")) {
-				// Add to sum of total valid artists entered...
+				// Increment artist count and store user data into array... 
 				totalArtists++;
-				
-				// Input user data entries into array...
-				artists[arrayIndex] = new String(inputString);
-				albumsByArtist[arrayIndex] = Integer.parseInt(JOptionPane.showInputDialog("Please enter the number of albums by '" + artists[arrayIndex] + "':"));
-				goldAlbumsByArtist[arrayIndex] = Integer.parseInt(JOptionPane.showInputDialog("Please enter the number of certified gold albums by '" + artists[arrayIndex] + "':"));
-			} else {
-				// End loop upon user request...
-				break;
+				artists[arrayIndex] = new String(inputArtist);
+				albumsByArtist[arrayIndex] = inputAlbumsByArtist;
+				goldAlbumsByArtist[arrayIndex] = inputGoldAlbumsByArtist;
+			}
+			catch (NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null, "You have entered an invalid integer value. Please re-enter data for artist \"" + inputArtist + "\".\nDetails:\n    " + nfe.getMessage(), "Error: Non-Integer Input", JOptionPane.ERROR_MESSAGE);
+				arrayIndex--;
+			}
+			catch (NullPointerException npe) {
+				JOptionPane.showMessageDialog(null, "Please enter a valid artist name, or enter 'sentinel' to quit and show results.\nDetails:\n    " + npe.getMessage(), "Error: Null String Input", JOptionPane.ERROR_MESSAGE);
+				arrayIndex--;
 			}
 		}
-*/
 	}
 	
 	/**
