@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 /**
  * The <code>MusicAlbumsCollection</code> class is responsible for holding the essential data relating to the instance of its object, as well as providing essential methods to process such data.
  * @author Alan Ly
- * @version build:2009.05.03-00
+ * @version build:2009.05.09-02
  */
 public class MusicAlbumsCollection {
 	// Declare instance variables...
@@ -42,10 +42,7 @@ public class MusicAlbumsCollection {
 		
 		// Request for and input user data and catch exceptions...
 		do {	
-			try {
-				// Remove new line characters in buffer...
-				keyboard.nextLine();
-				
+			try {				
 				// Display header...
 				System.out.println("\n[Artist #" + (totalArtists + 1) + "]");
 				
@@ -60,7 +57,7 @@ public class MusicAlbumsCollection {
 				if (inputAlbumsByArtist == 9999)
 					break;
 				else if (inputAlbumsByArtist < 0 || inputAlbumsByArtist > 1000) {
-					System.out.println("\n\t***! Please keep the number of albums within the range of 0 and 1000 inclusive.. !***");
+					System.err.print("***! Please keep the number of albums within the range of 0 and 1000 inclusive.. !***");
 					continue;
 				}
 				
@@ -69,22 +66,30 @@ public class MusicAlbumsCollection {
 				if (inputGoldAlbumsByArtist == 9999)
 					break;
 				else if (inputGoldAlbumsByArtist < 0 || inputGoldAlbumsByArtist > 100) {
-					System.out.println("\t***! Please keep the number of gold albums within the range of 0 and 100 inclusive. !***");
+					System.err.print("***! Please keep the number of gold albums within the range of 0 and 100 inclusive. !***");
 					continue;
 				}
 				
-				// Enter data into appropriate variables and arrays...
-				totalArtists++;
+				// Remove residual new line character in the buffer...
+				keyboard.nextLine();
+				
+				// Enter data into appropriate array elements...
 				artists[arrayIndex] = new String(inputArtist);
 				albumsByArtist[arrayIndex] = inputAlbumsByArtist;
 				goldAlbumsByArtist[arrayIndex] = inputGoldAlbumsByArtist;
-				
-				// Advance array index...
+					
+				// Advance counter variables...
+				totalArtists++;
 				arrayIndex++;
 			}
 			catch (InputMismatchException ime) {
-				JOptionPane.showMessageDialog(null, "You have entered an invalid integer value. Please re-enter the data for artist \"" + inputArtist + "\".", "Error: Non-Integer Input", JOptionPane.ERROR_MESSAGE);
-				arrayIndex--;
+				System.err.println("\tYou have entered an invalid integer value. Please re-enter the data set for '" + inputArtist + "'.\n");
+				keyboard.nextLine();
+				continue;
+			}
+			catch (ArrayIndexOutOfBoundsException aioobe) {
+				JOptionPane.showMessageDialog(null, "Error: Null or size of zero arrays; no data to be processed.", "Error: Invalid arrays", JOptionPane.ERROR_MESSAGE);
+				System.exit(1);
 			}
 		} while (arrayIndex < artists.length);
 	}
@@ -212,6 +217,12 @@ public class MusicAlbumsCollection {
 	 * The <code>sortNamesAndNumAlbumsOnArtistName</code> method will be responsible for sorting, in parallel, the three arrays containing artist names and albums based on the ascending alphabetical order of the artist names.
 	 */
 	public void sortNamesAndNumAlbumsOnArtistName() {
+		// Check for null arrays...
+		if (artists == null || artists.length == 0 || albumsByArtist == null || albumsByArtist.length == 0 || goldAlbumsByArtist == null || goldAlbumsByArtist.length == 0) {
+			JOptionPane.showMessageDialog(null, "Error: Null or size of zero arrays; no data to be processed.", "Error: Invalid arrays", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+		
 		// Declare and initialise variables...
 		int arrayIndex, tempNumAlbums, tempNumGoldAlbums;
 		String tempArtistName;
@@ -249,6 +260,12 @@ public class MusicAlbumsCollection {
 	 * The <code>sortNamesAndNumAlbumsOnNumAlbums</code> method will be responsible for sorting, in parallel, the three arrays containing artist names and albums based on the ascending order of the number of albums.
 	 */
 	public void sortNamesAndNumAlbumsOnNumAlbums() {
+		// Check for null arrays...
+		if (artists == null || artists.length == 0 || albumsByArtist == null || albumsByArtist.length == 0 || goldAlbumsByArtist == null || goldAlbumsByArtist.length == 0) {
+			JOptionPane.showMessageDialog(null, "Error: Null or size of zero arrays; no data to be processed.", "Error: Invalid arrays", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+		
 		// Declare and initialise variables...
 		int arrayIndex, tempNumAlbums, tempNumGoldAlbums;
 		String tempArtistName;
