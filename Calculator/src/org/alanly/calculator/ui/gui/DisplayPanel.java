@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -26,10 +27,9 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * Default values for the panel
 	 */
 	private static final String DEFAULT_FONT_FACE = Font.MONOSPACED;
-	private static final int DEFAULT_FONT_STYLE = Font.PLAIN;
+	private static final int DEFAULT_FONT_STYLE = Font.BOLD;
 	private static final int DEFAULT_FONT_SIZE = 16;
 	
-	private Font font;
 	private JTextField textField;
 	
 	/**
@@ -44,17 +44,8 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * 
 	 * @param initialString the string to display when the panel is created
 	 */
-	public DisplayPanel(String initialString) {
+	public DisplayPanel(String initialString) {		
 		this(initialString, new Font(DEFAULT_FONT_FACE, DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE));
-	}
-	
-	/**
-	 * Creates the <code>DisplayPanel</code> with a blank initial string and a specified <code>Font</code> style.
-	 * 
-	 * @param font the font to use when the panel is created
-	 */
-	public DisplayPanel(Font font) {
-		this("", font);
 	}
 	
 	/**
@@ -65,29 +56,20 @@ public class DisplayPanel extends JPanel implements Observer {
 	 */
 	public DisplayPanel(String initialString, Font font) {
 		super();
-		this.initialisePanel(initialString, font);
+		this.initialise(initialString, font);
 	}
 	
-	/**
-	 * Initialises the panel.
-	 */
-	private void initialisePanel(String initialString, Font font) {
-		// Sets the panel layout manager to the BorderLayout
-		setLayout(new BorderLayout());
+	private void initialise(String initialString, Font font) {
+		this.setLayout(new BorderLayout());
 		
-		initialiseTextField(initialString, font);
-		add(textField, BorderLayout.CENTER);
-	}
-	
-	/**
-	 * Creates and initialises the <code>JTextField</code>.
-	 */
-	private void initialiseTextField(String initialString, Font font) {
-		textField = new JTextField(initialString);
-		textField.setHorizontalAlignment(JTextField.RIGHT);
-		textField.setFont(font);
-		textField.setEditable(false);
-		textField.setBackground(Color.WHITE);
+		this.textField = new JTextField(initialString);
+		this.textField.setFont(font);
+		this.textField.setHorizontalAlignment(JTextField.RIGHT);
+		this.textField.setBackground(Color.WHITE);
+		this.textField.setBorder(BorderFactory.createEmptyBorder());
+		this.textField.setEditable(false);
+		
+		add(this.textField, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -105,8 +87,8 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * @param font the font to use
 	 * @see java.awt.Font
 	 */
-	public void setFont(Font font) {
-		this.font = font;
+	public void setFieldFont(Font font) {
+		this.textField.setFont(font);
 	}
 	
 	/**
@@ -115,8 +97,19 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * @param percent the percentage to set the font size against
 	 */
 	public void setFontSize(double percent) {
-		int currentFontSize = (int) (DEFAULT_FONT_SIZE * percent);
-		textField.setFont(new Font(DEFAULT_FONT_FACE, DEFAULT_FONT_STYLE, currentFontSize));
+		Font currentFont = this.getFieldFont();
+		int newFontSize = (int) (currentFont.getSize() * percent);
+		
+		this.setFieldFont(new Font(currentFont.getName(), currentFont.getStyle(), newFontSize));
+	}
+	
+	/**
+	 * Gets the current font used for the <code>JTextField</code>.
+	 * 
+	 * @return the font currently used
+	 */
+	public Font getFieldFont() {
+		return this.textField.getFont();
 	}
 	
 	/**
