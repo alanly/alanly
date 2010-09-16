@@ -74,7 +74,7 @@ public class CalculatorInputHandler {
 		Iterator<String> equation = this.equationDeque.iterator();
 		
 		while(equation.hasNext())
-			equationString += equation.next();
+			equationString += equation.next() + " ";
 		
 		return equationString;
 	}
@@ -97,7 +97,11 @@ public class CalculatorInputHandler {
 	 * 
 	 * @param key the input key value
 	 */
-	public void keyInput(String key) {		
+	public void keyInput(String key) {
+		// If equation has been solved, then clear the equation deque
+		if(this.equationParser.isSolved())
+			this.equationDeque.clear();
+		
 		// Check to make sure the key string isn't null
 		if(key != null)
 			switch(key.charAt(0)) {
@@ -111,9 +115,8 @@ public class CalculatorInputHandler {
 							
 						// Solve the equation
 						this.tempValue = this.equationParser.solve().toString();
-							
-						// Clear the input deque
-						this.equationDeque.clear();
+						
+						this.equationDeque.offer("=");
 							
 						// Set the key booleans
 						this.operatorsEnabled = true;
@@ -160,7 +163,7 @@ public class CalculatorInputHandler {
 						this.tempValue = "0";
 						
 						// Check if the last value in the deque is a number or not
-						if(!EquationUtilities.isNumber(this.equationDeque.peek())) {
+						if(!EquationUtilities.isNumber(this.equationDeque.peekLast())) {
 							// If not a number, then remove last two elements
 							this.equationDeque.pollLast();
 							this.equationDeque.pollLast();
@@ -193,13 +196,13 @@ public class CalculatorInputHandler {
 							// Add the operator to the deque
 							this.equationDeque.offer(this.tempValue);
 							this.equationDeque.offer(key);
-						}
 
-						// Set key booleans
-						this.operatorsEnabled = false;
-						this.numericsEnabled = true;
-						this.decimalEnabled = true;
-						this.resetTemp = true;
+							// Set key booleans
+							this.operatorsEnabled = false;
+							this.numericsEnabled = true;
+							this.decimalEnabled = true;
+							this.resetTemp = true;
+						}
 					}
 			}
 	}
