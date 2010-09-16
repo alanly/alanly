@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -16,7 +17,7 @@ import javax.swing.SwingUtilities;
  * The <code>CalculatorFrame</code> represents Calculator interface.
  * 
  * @author Alan Ly
- * @version 1.2
+ * @version 1.3
  */
 public class CalculatorFrame extends JFrame {
 
@@ -25,6 +26,7 @@ public class CalculatorFrame extends JFrame {
 	
 	private CalculatorModel calculatorModel;
 	private DisplayPanel displayPanel;
+	private EquationDisplayPanel equationDisplayPanel;
 	private ButtonPanel buttonPanel;
 	
 	/**
@@ -34,19 +36,20 @@ public class CalculatorFrame extends JFrame {
 		super(FRAME_TITLE);
 		
 		// Initialise panels and Observable
-		displayPanel = new DisplayPanel("0");
-		calculatorModel = new CalculatorModel();
-		buttonPanel = new ButtonPanel(calculatorModel);
+		this.displayPanel = new DisplayPanel("0");
+		this.equationDisplayPanel = new EquationDisplayPanel();
+		this.calculatorModel = new CalculatorModel();
+		this.buttonPanel = new ButtonPanel(calculatorModel);
 		
 		// Initialise the model
-		initialiseModel();
+		this.initialiseModel();
 		
 		// Initialise the frame
-		initialiseFrame();
+		this.initialiseFrame();
 		
 		// Set frame visible and set focus to button
 		this.setVisible(true);
-		buttonPanel.setFocusToButton();
+		this.buttonPanel.setFocusToButton();
 	}
 	
 	/**
@@ -55,6 +58,7 @@ public class CalculatorFrame extends JFrame {
 	private void initialiseModel() {
 		// Add ButtonPanel Observers
 		calculatorModel.addObserver(displayPanel);
+		calculatorModel.addObserver(equationDisplayPanel);
 	}
 	
 	/**
@@ -68,17 +72,29 @@ public class CalculatorFrame extends JFrame {
 		// Set layout manager for Frame
 		this.setLayout(gridBagLayout);
 		
-		// Create constraint for display panel
+		// Create constraint for equation display panel
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
 		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.weighty = 0.5;
 		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		equationDisplayPanel.setBorder(BorderFactory.createEmptyBorder());
+		this.add(equationDisplayPanel, gridBagConstraints);
+		
+		// Create constraint for display panel
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 0.5;
+		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		displayPanel.setBorder(BorderFactory.createEmptyBorder());
 		this.add(displayPanel, gridBagConstraints);
 		
 		// Create constraints for button panel
 		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
 		this.add(buttonPanel, gridBagConstraints);
 		buttonPanel.requestFocusInWindow();
 		
