@@ -49,6 +49,15 @@ public class DisplayPanel extends JPanel implements Observer {
 	}
 	
 	/**
+	 * Creates the <code>DisplayPanel</code> with a specified font style and default initial string.
+	 * 
+	 * @param font the font to use when the panel is created
+	 */
+	public DisplayPanel(Font font) {
+		this("", font);
+	}
+	
+	/**
 	 * Creates the <code>DisplayPanel</code> with a specified initial string and a specified <code>Font</code> style.
 	 * 
 	 * @param initialString the string to display when the panel is created
@@ -87,7 +96,7 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * @param font the font to use
 	 * @see java.awt.Font
 	 */
-	public void setFieldFont(Font font) {
+	public void setTextFieldFont(Font font) {
 		this.textField.setFont(font);
 	}
 	
@@ -96,11 +105,11 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * 
 	 * @param percent the percentage to set the font size against
 	 */
-	public void setFontSize(double percent) {
-		Font currentFont = this.getFieldFont();
+	public void setTextFieldFontSize(double percent) {
+		Font currentFont = this.getTextFieldFont();
 		int newFontSize = (int) (currentFont.getSize() * percent);
 		
-		this.setFieldFont(new Font(currentFont.getName(), currentFont.getStyle(), newFontSize));
+		this.setTextFieldFont(new Font(currentFont.getName(), currentFont.getStyle(), newFontSize));
 	}
 	
 	/**
@@ -108,7 +117,7 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * 
 	 * @return the font currently used
 	 */
-	public Font getFieldFont() {
+	public Font getTextFieldFont() {
 		return this.textField.getFont();
 	}
 	

@@ -124,8 +124,8 @@ public class CalculatorFrame extends JFrame {
 				
 				double percent = (double) newSize.height / this.preferredFrameSize.height;
 				buttonPanel.setFontSize(percent);
-				equationDisplayPanel.setFontSize(percent);
-				displayPanel.setFontSize(percent);
+				equationDisplayPanel.setTextFieldFontSize(percent);
+				displayPanel.setTextFieldFontSize(percent);
 			}
 		}
 	}
