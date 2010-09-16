@@ -103,6 +103,13 @@ public class EquationParser {
 	}
 	
 	/**
+	 * Resets the solved boolean in the object.
+	 */
+	public void resetSolved() {
+		this.solved = false;
+	}
+	
+	/**
 	 * Solves the specified equation which should be in Infix notation and in <code>Queue<code> form and sets the solved state to true.
 	 * 
 	 * @param inputEquation the Infix equation to solve

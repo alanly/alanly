@@ -72,29 +72,24 @@ public class CalculatorFrame extends JFrame {
 		// Set layout manager for Frame
 		this.setLayout(gridBagLayout);
 		
+		// Default Gridbag Constraint values
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.fill = GridBagConstraints.BOTH;
+		
 		// Create constraint for equation display panel
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 0.5;
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		equationDisplayPanel.setBorder(BorderFactory.createEmptyBorder());
 		this.add(equationDisplayPanel, gridBagConstraints);
 		
 		// Create constraint for display panel
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 1;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 0.5;
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		displayPanel.setBorder(BorderFactory.createEmptyBorder());
 		this.add(displayPanel, gridBagConstraints);
 		
 		// Create constraints for button panel
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 2;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
 		this.add(buttonPanel, gridBagConstraints);
 		buttonPanel.requestFocusInWindow();
 		
@@ -129,6 +124,7 @@ public class CalculatorFrame extends JFrame {
 				
 				double percent = (double) newSize.height / this.preferredFrameSize.height;
 				buttonPanel.setFontSize(percent);
+				equationDisplayPanel.setFontSize(percent);
 				displayPanel.setFontSize(percent);
 			}
 		}

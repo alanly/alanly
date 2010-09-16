@@ -98,30 +98,37 @@ public class CalculatorInputHandler {
 	 * @param key the input key value
 	 */
 	public void keyInput(String key) {
+		if(this.resetTemp)
+			this.tempValue = "";
+		
 		// If equation has been solved, then clear the equation deque
-		if(this.equationParser.isSolved())
+		if(this.equationParser.isSolved()) {
 			this.equationDeque.clear();
+			this.equationParser.resetSolved();
+		}
 		
 		// Check to make sure the key string isn't null
 		if(key != null)
 			switch(key.charAt(0)) {
 				case '=':
+					System.out.println(tempValue);
 					try {
 						// Add the operand held in the operand store into the deque
 						this.equationDeque.offer(this.tempValue);
-							
+								
 						// Send the finalised equation to the parser
 						this.equationParser.setInputQueue(this.equationDeque);
-							
+								
 						// Solve the equation
 						this.tempValue = this.equationParser.solve().toString();
-						
-						this.equationDeque.offer("=");
 							
+						this.equationDeque.offer("=");
+								
 						// Set the key booleans
 						this.operatorsEnabled = true;
 						this.numericsEnabled = false;
 						this.decimalEnabled = false;
+						this.resetTemp = false;
 					} catch(ArithmeticException ae) {
 						// Get the exception message
 						this.tempValue = ae.getMessage();
