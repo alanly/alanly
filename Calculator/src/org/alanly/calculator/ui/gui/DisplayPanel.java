@@ -30,6 +30,8 @@ public class DisplayPanel extends JPanel implements Observer {
 	private static final int DEFAULT_FONT_STYLE = Font.BOLD;
 	private static final int DEFAULT_FONT_SIZE = 16;
 	
+	private int fontSize;
+	
 	private JTextField textField;
 	
 	/**
@@ -79,6 +81,8 @@ public class DisplayPanel extends JPanel implements Observer {
 		this.textField.setEditable(false);
 		
 		add(this.textField, BorderLayout.CENTER);
+		
+		this.fontSize = this.textField.getFont().getSize();
 	}
 	
 	/**
@@ -106,8 +110,8 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * @param percent the percentage to set the font size against
 	 */
 	public void setTextFieldFontSize(double percent) {
-		Font currentFont = this.getTextFieldFont();
-		int newFontSize = (int) (currentFont.getSize() * percent);
+		Font currentFont = this.textField.getFont();
+		int newFontSize = (int) (this.fontSize * percent);
 		
 		this.setTextFieldFont(new Font(currentFont.getName(), currentFont.getStyle(), newFontSize));
 	}
