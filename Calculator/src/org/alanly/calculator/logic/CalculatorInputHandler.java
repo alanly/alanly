@@ -111,7 +111,6 @@ public class CalculatorInputHandler {
 		if(key != null)
 			switch(key.charAt(0)) {
 				case '=':
-					System.out.println(tempValue);
 					try {
 						// Add the operand held in the operand store into the deque
 						this.equationDeque.offer(this.tempValue);
