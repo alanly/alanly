@@ -24,7 +24,7 @@ import javax.swing.border.CompoundBorder;
  * The <code>ButtonPanel</code> class represents the panel of the Calculator containing the buttons.
  * 
  * @author Alan Ly
- * @version 3.0
+ * @version 3.1
  */
 public class ButtonPanel extends JPanel {
 
@@ -37,16 +37,15 @@ public class ButtonPanel extends JPanel {
 	private ArrayList<GridBagConstraints> gridBagConstraints;
 	private JButton[] jButtons;
 	private CalculatorModel calculatorModel;
+	private HashMap<String, String> functionMap;
 	
 	private String[][] buttons = {
 			{"CE", "C"},
 			{"7", "8", "9", "÷", "="},
-			{"4", "5", "6", "X"},
+			{"4", "5", "6", "x"},
 			{"1", "2", "3", "-"},
 			{"0", "±", ".", "+"}
 	};
-	
-	private HashMap<String, String> functionMap;
 	
 	/**
 	 * Creates the <code>ButtonPanel</code> with a specified <code>CalculatorModel</code> relationship.
@@ -171,7 +170,7 @@ public class ButtonPanel extends JPanel {
 		this.functionMap = new HashMap<String, String>();
 		
 		functionMap.put("÷", "/");
-		functionMap.put("X", "*");
+		functionMap.put("x", "*");
 		functionMap.put("±", "~");
 		functionMap.put("+", "+");
 		functionMap.put("-", "-");

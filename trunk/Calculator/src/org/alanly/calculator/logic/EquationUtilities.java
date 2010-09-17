@@ -15,11 +15,21 @@ import java.util.Stack;
 /**
  * Contains static utility methods to handle arithmetic equations and work with numbers.
  * @author Alan Ly
- * @version 1.4
+ * @version 1.5
  */
 public class EquationUtilities {
 	
+	/**
+	 * A HashMap that contains the precedence values for the operators
+	 */
 	private static HashMap<Character, Integer> precedencemap;
+	
+	/**
+	 * The default <code>MathContext</code> value to use for BigDecimal operations.
+	 * 
+	 * @see java.math.MathContext
+	 */
+	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL32;
 	
 	/**
 	 * Initialises the internal <code>HashMap</code> with the appropriate orders of precedence for the arithmetic operators.
@@ -96,13 +106,11 @@ public class EquationUtilities {
 	
 	/**
 	 * Solves a given arithmetic equation that has been formatted in Postfix (Polish Notation). The Postfix equation must be presented as a F.I.F.O. <code>Queue</code>.
-	 * Operations are performed through the <code>BigDecimal</code> object with a 64-bit precision level (<code>MathContext.DECIMAL64</code>) in order to keep compatibility
-	 * with the double data type.
+	 * Operations are performed through the <code>BigDecimal</code> object with a fixed precision level.
 	 * 
 	 * @param postfixEquation the Postfix equation in <code>Queue</code> format
 	 * @return the result of the calculation as a <code>BigDecimal</code>
 	 * @see java.math.BigDecimal
-	 * @see java.math.MathContext
 	 */
 	public static BigDecimal solvePostfixEquation(Queue<String> postfixEquation) {
 		
@@ -136,16 +144,16 @@ public class EquationUtilities {
 				switch(value.charAt(0)) {
 					case '+':
 						// Perform operation and then add results back into operationStack
-						operationStack.add(operandOne.add(operandTwo, MathContext.DECIMAL64));
+						operationStack.add(operandOne.add(operandTwo, MATH_CONTEXT));
 						break;
 					case '-':
-						operationStack.add(operandOne.subtract(operandTwo, MathContext.DECIMAL64));
+						operationStack.add(operandOne.subtract(operandTwo, MATH_CONTEXT));
 						break;
 					case '/':
-						operationStack.add(operandOne.divide(operandTwo, MathContext.DECIMAL64));
+						operationStack.add(operandOne.divide(operandTwo, MATH_CONTEXT));
 						break;
 					case '*':
-						operationStack.add(operandOne.multiply(operandTwo, MathContext.DECIMAL64));
+						operationStack.add(operandOne.multiply(operandTwo, MATH_CONTEXT));
 						break;
 					default:
 						// If unable to find appropriate operator, then throw Input Mismatch Exception
