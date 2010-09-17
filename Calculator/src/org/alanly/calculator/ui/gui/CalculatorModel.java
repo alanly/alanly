@@ -19,11 +19,10 @@ public class CalculatorModel extends Observable {
 	private String outputString;
 	
 	/**
-	 * Creates a <code>CalculatorModel</code> with an initial observed string of <strong>null</strong>.
+	 * Creates a <code>CalculatorModel</code> with an initial observed string of <strong>0</strong>.
 	 */
 	public CalculatorModel() {
 		this("0");
-		System.out.println("getOutput() = " + this.inputHandler.getOutput());
 	}
 	
 	/**

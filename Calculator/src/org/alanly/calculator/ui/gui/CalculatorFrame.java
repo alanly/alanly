@@ -10,18 +10,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  * The <code>CalculatorFrame</code> represents Calculator interface.
  * 
  * @author Alan Ly
- * @version 1.3
+ * @version 1.5
  */
 public class CalculatorFrame extends JFrame {
 
 	private static final long serialVersionUID = 7311732750377812837L;
-	private static final String FRAME_TITLE = "jCalc";
+	private static final String DEFAULT_FRAME_TITLE = "jCalc";
 	
 	private CalculatorModel calculatorModel;
 	private DisplayPanel displayPanel;
@@ -29,11 +28,16 @@ public class CalculatorFrame extends JFrame {
 	private ButtonPanel buttonPanel;
 	
 	/**
-	 * Creates a <code>CalculatorFrame</code>.
+	 * Creates a <code>CaluclatorFrame</code>.
 	 */
 	public CalculatorFrame() {
-		super(FRAME_TITLE);
-		
+		this(DEFAULT_FRAME_TITLE);
+	}
+	
+	/**
+	 * Creates a <code>CalculatorFrame</code> with a specified <code>JFrame</code> title.
+	 */
+	public CalculatorFrame(String frameTitle) {		
 		// Initialise panels and Observable
 		this.displayPanel = new DisplayPanel("0");
 		this.equationDisplayPanel = new EquationDisplayPanel();
@@ -43,8 +47,8 @@ public class CalculatorFrame extends JFrame {
 		// Initialise the model
 		this.initialiseModel();
 		
-		// Initialise the frame
-		this.initialiseFrame();
+		// Initialise the frame with a title
+		this.initialiseFrame(frameTitle);
 		
 		// Set frame visible and set focus to button
 		this.setVisible(true);
@@ -63,7 +67,7 @@ public class CalculatorFrame extends JFrame {
 	/**
 	 * Initialises the frame.
 	 */
-	private void initialiseFrame() {
+	private void initialiseFrame(String frameTitle) {
 		// Create GridBag
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -93,7 +97,7 @@ public class CalculatorFrame extends JFrame {
 		buttonPanel.requestFocusInWindow();
 		
 		// Set frame properties
-		this.setTitle(FRAME_TITLE);
+		this.setTitle(frameTitle);
 		this.pack();
 		
 		// Bind component listener
@@ -127,22 +131,6 @@ public class CalculatorFrame extends JFrame {
 				displayPanel.setTextFieldFontSize(percent);
 			}
 		}
-	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				CalculatorFrame calcFrame = new CalculatorFrame();
-				calcFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				calcFrame.setLocationRelativeTo(null);
-			}
-			
-		});
 	}
 
 }
