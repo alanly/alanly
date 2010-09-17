@@ -11,18 +11,18 @@ import java.util.Iterator;
  * 
  * Valid key input values are listed in the following table:
  * 
- * <table>
- * 	<tr><td><strong>Key Value</strong></td><td><strong>Function</strong></td></tr>
- * 	<tr><td><code>+</code></td><td>Addition</td></tr>
- * 	<tr><td><code>-</code></td><td>Subtraction</td></tr>
- * 	<tr><td><code>*</code></td><td>Multiplication</td></tr>
- * 	<tr><td><code>/</code></td><td>Division</td></tr>
- * 	<tr><td><code>.</code></td><td>Decimal point</td></tr>
- * 	<tr><td><code>~</code></td><td>Negate value</td></tr>
- * 	<tr><td><code>=</code></td><td>Solve equation</td></tr>
- * 	<tr><td><code>CE</code></td><td>Clear Entry up to last previous operand</td></tr>
- * 	<tr><td><code>C</code></td><td>Clear calculator</td></tr>
- * </table>
+ * <ul><table>
+ * 		<tr><td><strong>Key Value</strong></td><td><strong>Function</strong></td></tr>
+ *	 	<tr><td><code>+</code></td><td>Addition</td></tr>
+ *		<tr><td><code>-</code></td><td>Subtraction</td></tr>
+ *	 	<tr><td><code>*</code></td><td>Multiplication</td></tr>
+ *	 	<tr><td><code>/</code></td><td>Division</td></tr>
+ *	 	<tr><td><code>.</code></td><td>Decimal point</td></tr>
+ *	 	<tr><td><code>~</code></td><td>Negate value</td></tr>
+ * 		<tr><td><code>=</code></td><td>Solve equation</td></tr>
+ * 		<tr><td><code>CE</code></td><td>Clear Entry up to last previous operand</td></tr>
+ * 		<tr><td><code>C</code></td><td>Clear calculator</td></tr>
+ * </table></ul>
  * 
  * Invalid input values will throw an <code>InputMismatchException</code>.
  * 
