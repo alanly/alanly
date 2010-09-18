@@ -28,7 +28,7 @@ public class DisplayPanel extends JPanel implements Observer {
 	 */
 	private static final String DEFAULT_FONT_FACE = Font.MONOSPACED;
 	private static final int DEFAULT_FONT_STYLE = Font.BOLD;
-	private static final int DEFAULT_FONT_SIZE = 16;
+	private static final int DEFAULT_FONT_SIZE = 15;
 	
 	private int fontSize;
 	
@@ -76,7 +76,7 @@ public class DisplayPanel extends JPanel implements Observer {
 		this.textField = new JTextField(initialString);
 		this.textField.setFont(font);
 		this.textField.setHorizontalAlignment(JTextField.RIGHT);
-		this.textField.setBackground(Color.WHITE);
+		this.textField.setBackground(new Color(205, 223, 204));
 		this.textField.setBorder(BorderFactory.createEmptyBorder());
 		this.textField.setEditable(false);
 		
