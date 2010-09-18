@@ -11,7 +11,7 @@ import java.util.Iterator;
  * 
  * Valid key input values are listed in the following table:
  * 
- * <ul><table>
+ * <ul><table border="1">
  * 		<tr><td><strong>Key Value</strong></td><td><strong>Function</strong></td></tr>
  *	 	<tr><td><code>+</code></td><td>Addition</td></tr>
  *		<tr><td><code>-</code></td><td>Subtraction</td></tr>
@@ -133,7 +133,15 @@ public class CalculatorInputHandler {
 							this.equationParser.setInputQueue(this.equationDeque);
 									
 							// Solve the equation
-							this.tempValue = this.equationParser.solve().toString();
+							this.tempValue = this.equationParser.solve().toPlainString();
+							
+							System.out.println("Infix = " + this.equationParser.getEquationString());
+
+							Iterator<String> iter = this.equationParser.generatePostfix(this.equationParser.getEquationQueue()).iterator();
+							System.out.print("Postfix = ");
+							while(iter.hasNext()) {
+								System.out.print(iter.next() + " ");
+							}
 								
 							this.equationDeque.offer("=");
 									
@@ -183,7 +191,7 @@ public class CalculatorInputHandler {
 						this.tempValue = "0";
 						
 						// Check if the last value in the deque is a number or not
-						if(!EquationUtilities.isNumber(this.equationDeque.peekLast())) {
+						if(!equationParser.isNumber(this.equationDeque.peekLast())) {
 							// If not a number, then remove last two elements
 							this.equationDeque.pollLast();
 							this.equationDeque.pollLast();
@@ -201,7 +209,7 @@ public class CalculatorInputHandler {
 					break;
 				default:
 					// Check if the key called is a numeric key or an operator key and check if numeric keys are enabled
-					if(EquationUtilities.isNumber(key)) {
+					if(equationParser.isNumber(key)) {
 						// Checks if the numerical keys are enabled or not
 						if(this.numericsEnabled) {							
 							// Checks if the temporary value is the default value or if the equations been solved already

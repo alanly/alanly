@@ -13,7 +13,6 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
 
 /**
  * The <code>CalculatorFrame</code> represents Calculator interface.
@@ -24,7 +23,7 @@ import javax.swing.UIManager;
 public class CalculatorFrame extends JFrame {
 
 	private static final long serialVersionUID = 7311732750377812837L;
-	private static final String DEFAULT_FRAME_TITLE = "jCalc";
+	private static final String DEFAULT_FRAME_TITLE = "Calculator";
 	
 	private CalculatorModel calculatorModel;
 	private DisplayPanel displayPanel;
@@ -71,14 +70,7 @@ public class CalculatorFrame extends JFrame {
 	/**
 	 * Initialises the frame.
 	 */
-	private void initialiseFrame(String frameTitle) {
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	private void initialiseFrame(String frameTitle) {		
 		// Create GridBag
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
@@ -142,8 +134,8 @@ public class CalculatorFrame extends JFrame {
 				
 				double percent = (double) newSize.height / this.preferredFrameSize.height;
 				buttonPanel.setFontSize(percent);
-				equationDisplayPanel.setTextFieldFontSize(percent);
-				displayPanel.setTextFieldFontSize(percent);
+				equationDisplayPanel.adjustFontSize(percent);
+				displayPanel.adjustFontSize(percent);
 			}
 		}
 	}

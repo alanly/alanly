@@ -30,7 +30,7 @@ public class DisplayPanel extends JPanel implements Observer {
 	private static final int DEFAULT_FONT_STYLE = Font.BOLD;
 	private static final int DEFAULT_FONT_SIZE = 15;
 	
-	private int fontSize;
+	private Font currentFont;
 	
 	private JTextField textField;
 	
@@ -73,16 +73,16 @@ public class DisplayPanel extends JPanel implements Observer {
 	private void initialise(String initialString, Font font) {
 		this.setLayout(new BorderLayout());
 		
+		this.currentFont = font;
+		
 		this.textField = new JTextField(initialString);
-		this.textField.setFont(font);
+		this.textField.setFont(this.currentFont);
 		this.textField.setHorizontalAlignment(JTextField.RIGHT);
 		this.textField.setBackground(new Color(205, 223, 204));
 		this.textField.setBorder(BorderFactory.createEmptyBorder());
 		this.textField.setEditable(false);
 		
 		add(this.textField, BorderLayout.CENTER);
-		
-		this.fontSize = this.textField.getFont().getSize();
 	}
 	
 	/**
@@ -100,8 +100,10 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * @param font the font to use
 	 * @see java.awt.Font
 	 */
-	public void setTextFieldFont(Font font) {
-		this.textField.setFont(font);
+	public void setCurrentFont(Font font) {
+		this.currentFont = font;
+		
+		this.textField.setFont(this.currentFont);
 	}
 	
 	/**
@@ -109,11 +111,10 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * 
 	 * @param percent the percentage to set the font size against
 	 */
-	public void setTextFieldFontSize(double percent) {
-		Font currentFont = this.textField.getFont();
-		int newFontSize = (int) (this.fontSize * percent);
+	public void adjustFontSize(double percent) {		
+		int newFontSize = (int) (this.currentFont.getSize() * percent);
 		
-		this.setTextFieldFont(new Font(currentFont.getName(), currentFont.getStyle(), newFontSize));
+		this.setCurrentFont(new Font(this.currentFont.getName(), this.currentFont.getStyle(), newFontSize));
 	}
 	
 	/**
@@ -121,8 +122,8 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * 
 	 * @return the font currently used
 	 */
-	public Font getTextFieldFont() {
-		return this.textField.getFont();
+	public Font getCurrentFont() {
+		return this.currentFont;
 	}
 	
 	/**
