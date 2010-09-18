@@ -26,7 +26,7 @@ public class GUILauncher {
 
 			@Override
 			public void run() {
-				CalculatorFrame calcFrame = new CalculatorFrame("Calculator");
+				CalculatorFrame calcFrame = new CalculatorFrame("jCalc");
 				calcFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				calcFrame.setLocationRelativeTo(null);
 			}

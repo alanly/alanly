@@ -4,16 +4,34 @@
 package org.alanly.calculator.logic;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * An <code>EquationParser</code> contains the necessary logic to solve basic mathematical arithmetic equations based on an equation contained within a <code>Queue</code.
  * 
  * @author Alan Ly
- * @version 1.5
+ * @version 2.0
  */
 public class EquationParser { 
+	
+	/**
+	 * A HashMap that contains the precedence values for the operators
+	 */
+	private HashMap<Character, Integer> precedenceMap;
+	
+	/**
+	 * The default <code>MathContext</code> value to use for BigDecimal operations.
+	 * 
+	 * Precision of 16 digits with a <code>HALF_UP</code> rounding mode.
+	 * 
+	 * @see java.math.MathContext
+	 */
+	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL64;
 	
 	private Queue<String> inputEquation;
 	private BigDecimal result;
@@ -43,12 +61,27 @@ public class EquationParser {
 	 * @param inputEquation the input queue
 	 */
 	private void initialise(Queue<String> inputEquation) {
+		this.initialisePrecedenceMap();
 		this.setInputQueue(inputEquation);
 		this.result = new BigDecimal(0);
 		this.solved = false;
 		
 		if(this.inputEquation != null)
 			this.solve(this.inputEquation);
+	}
+	
+	/**
+	 * Initialises the internal <code>HashMap</code> with the appropriate orders of precedence for the arithmetic operators.
+	 */
+	private void initialisePrecedenceMap() {
+		// Initialise HashMap
+		precedenceMap = new HashMap<Character, Integer>();
+		
+		// Add orders of precedence, from lowest to highest
+		precedenceMap.put('+', 1); // Precedence for addition
+		precedenceMap.put('-', 1); // Precedence for subtraction
+		precedenceMap.put('*', 2); // Precedence for multiplication
+		precedenceMap.put('/', 2); // Precedence for division
 	}
 	
 	/**
@@ -85,9 +118,9 @@ public class EquationParser {
 	}
 	
 	/**
-	 * Gets the result of the equation as a <code>Double</code>.
+	 * Gets the result of the equation as a <code>BigDecimal</code>.
 	 * 
-	 * @return the result of the equation
+	 * @return the result of the equation in <code>BigDecimal</code>
 	 */
 	public BigDecimal getEquationResult() {
 		return result;
@@ -113,20 +146,163 @@ public class EquationParser {
 	 * Solves the specified equation which should be in Infix notation and in <code>Queue<code> form and sets the solved state to true.
 	 * 
 	 * @param inputEquation the Infix equation to solve
+	 * @return the result of the equation in <code>BigDecimal</code>
 	 */
 	public BigDecimal solve(Queue<String> inputEquation) {				
 		// Generate Postfix Equation and Solve It
-		this.result = EquationUtilities.solvePostfixEquation(EquationUtilities.generatePostfix(inputEquation));
+		this.result = this.solvePostfixEquation(this.generatePostfix(inputEquation));
 		this.solved = true;
 		
 		return this.result;
 	}
 	
 	/**
-	 * Solves this equation.
+	 * Solves the equation contained in this object.
+	 * 
+	 * @return the result of the equation in <code>BigDecimal</code>
 	 */
 	public BigDecimal solve() {
 		return this.solve(this.inputEquation);
+	}
+	
+	/**
+	 * Generates a Postfix (Polish Notation) equation from an Infix equation. Infix equation must be in the form of an <code>Queue</code> and output will be in the form 
+	 * of a <code>Queue</code>. Assumes that input <code>Queue</code> contains valid values.
+	 *  
+	 * @param inputEquation the Infix equation to convert into Postfix
+	 * @return the Postfix equivalence of <code>inputEquation</code>
+	 * @since 2.0
+	 */
+	public Queue<String> generatePostfix(Queue<String> inputEquation) {
+		
+		// Create Collections used to separate and/or hold operands and operators
+		Stack<String> operatorStack = new Stack<String>(); // Temporarily holds the operators in the equation
+		Queue<String> outputQueue = new ArrayDeque<String>(); // Holds the Postfix output of the equation
+		
+		// Instantiate Iterator for inputEquation
+		Iterator<String> equationIterator = inputEquation.iterator();
+		
+		// Iterate through the inputEquation Queue and process each item in Collection
+		while(equationIterator.hasNext()) {
+			// Fetch next value from Iterator
+			String value = equationIterator.next();
+			
+			// Determine if 'value' is a number or not
+			if(this.isNumber(value)) {
+				// If 'value' is a number then add it into the outputQueue
+				outputQueue.add(value);
+			} else {
+				// If 'value' is a operator then determine whether there is anything in the operatorStack
+				if(!operatorStack.empty()) {
+					// If the operatorStack is NOT empty then peek at the last value in the stack
+					String lastOperator = operatorStack.peek();
+					
+					// Determine if the current operator is greater than the last operator in the stack
+					if(precedenceMap.get(value.charAt(0)) > precedenceMap.get(lastOperator.charAt(0))) {
+						// If it is then simply add it to the end of the operator stack
+						operatorStack.add(value);
+					} else {
+						// If it isn't then dump the operator stack onto the output queue and then add the current operator to the head of the stack
+						while(!operatorStack.empty() && precedenceMap.get(operatorStack.peek().charAt(0)) >= precedenceMap.get(value.charAt(0))) 
+							outputQueue.add(operatorStack.pop());
+						
+						operatorStack.add(value);
+					}
+				} else {
+					// If the operatorStack is empty then simply add the operator into the stack
+					operatorStack.add(value);
+				}
+			}
+		}
+		
+		// Pop all values out of stack into outputQueue
+		while(!operatorStack.empty()) {
+			outputQueue.add(operatorStack.pop());
+		}
+		
+		return outputQueue;
+	}
+	
+	/**
+	 * Solves a given arithmetic equation that has been formatted in Postfix (Polish Notation). The Postfix equation must be presented as a F.I.F.O. <code>Queue</code>.
+	 * Operations are performed through the <code>BigDecimal</code> object with a fixed precision level.
+	 * 
+	 * @param postfixEquation the Postfix equation in <code>Queue</code> format
+	 * @return the result of the calculation as a <code>BigDecimal</code>
+	 * @see java.math.BigDecimal
+	 * @since 2.0
+	 */
+	public BigDecimal solvePostfixEquation(Queue<String> postfixEquation) {
+		
+		// Declare temporary Queue to hold values during an operation
+		Stack<BigDecimal> operationStack = new Stack<BigDecimal>();
+		
+		// Declare Iterator to iterate through postfixEquation
+		Iterator<String> equationIterator = postfixEquation.iterator();
+		
+		// Loop through entire postfixEquation and process values
+		while(equationIterator.hasNext()) {
+			// Fetch next value from the postfixEquation
+			String value = equationIterator.next();
+			
+			// Declare temporary double variables that will store the appropriate operands 
+			BigDecimal operandOne = new BigDecimal(0);
+			BigDecimal operandTwo = new BigDecimal(0);
+					
+			// Perform the appropriate processing
+			switch(value.charAt(0)) {
+				case '+':
+					// Retrieve necessary operands
+					operandTwo = operationStack.pop();
+					operandOne = operationStack.pop();
+							
+					// Perform operation and then add results back into operationStack
+					operationStack.add(operandOne.add(operandTwo, MATH_CONTEXT));
+					break;
+				case '-':
+					// Retrieve necessary operands
+					operandTwo = operationStack.pop();
+					operandOne = operationStack.pop();
+						
+					operationStack.add(operandOne.subtract(operandTwo, MATH_CONTEXT));
+					break;
+				case '/':
+					// Retrieve necessary operands
+					operandTwo = operationStack.pop();
+					operandOne = operationStack.pop();
+							
+					operationStack.add(operandOne.divide(operandTwo, MATH_CONTEXT));
+					break;
+				case '*':
+					// Retrieve necessary operands
+					operandTwo = operationStack.pop();
+					operandOne = operationStack.pop();
+							
+					operationStack.add(operandOne.multiply(operandTwo, MATH_CONTEXT));
+					break;
+				default:
+					// If not an operator then add that into the operation stack
+					operationStack.add(new BigDecimal(value));
+			}
+		}
+		
+		return operationStack.pop();
+	}
+
+	/**
+	 * Determines if a particular <code>String</code> value is a number or not. Returns <strong>true</strong> if <code>value</code> is a number and <strong>false</strong> if otherwise.
+	 * 
+	 * @param value the value to test
+	 * @return the validity of the input as a number
+	 * @since 2.0
+	 */
+	public boolean isNumber(String value) {
+		try {
+			Double.parseDouble(value);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 	
 }
