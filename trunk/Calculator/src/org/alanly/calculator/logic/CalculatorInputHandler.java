@@ -31,6 +31,11 @@ import java.util.Iterator;
  */
 public class CalculatorInputHandler {
 	
+	/**
+	 * The maximum length of the input value
+	 */
+	private static final int MAX_VALUE_LENGTH = 16;
+	
 	private String tempValue;
 	private ArrayDeque<String> equationDeque;
 	private EquationParser equationParser;
@@ -70,9 +75,11 @@ public class CalculatorInputHandler {
 	 * @return the equation in a String
 	 */
 	public String getEquationString() {
+		// Create temporary string and iterator
 		String equationString = "";
 		Iterator<String> equation = this.equationDeque.iterator();
 		
+		// Loop with iterator and append values onto string
 		while(equation.hasNext())
 			equationString += equation.next() + " ";
 		
@@ -83,7 +90,7 @@ public class CalculatorInputHandler {
 	 * Initialises the object with default values.
 	 */
 	private void initialise() {
-		this.tempValue = "";
+		this.tempValue = "0";
 		this.equationDeque = new ArrayDeque<String>();
 		this.equationParser = new EquationParser();
 		this.operatorsEnabled = false;
@@ -98,16 +105,26 @@ public class CalculatorInputHandler {
 	 * @param key the input key value
 	 */
 	public void keyInput(String key) {		
-		if(this.resetTemp) {
-			this.tempValue = "";
-			this.resetTemp = false;
-		}
-		
 		// Check to make sure the key string isn't null
-		if(key != null)
+		if(key != null && !key.equals("")) {
+			
+			// Check if its necessary to reset the temporary value
+			if(this.resetTemp) {
+				this.tempValue = "";
+				this.resetTemp = false;
+			}
+			
+			// Check if the temporary value has exceeded the allowable length
+			if(this.tempValue.length() >= MAX_VALUE_LENGTH) {
+				this.numericsEnabled = false;
+				this.decimalEnabled = false;
+			}
+			
+			// Determine which key called and perform the appropriate processing
 			switch(key.charAt(0)) {
 				case '=':
-					if(!this.equationParser.isSolved())
+					// Check if the equation has already been solved and if the temporary value is empty
+					if(!this.equationParser.isSolved() && !this.tempValue.equals(""))
 						try {
 							// Add the operand held in the operand store into the deque
 							this.equationDeque.offer(this.tempValue);
@@ -172,6 +189,7 @@ public class CalculatorInputHandler {
 							this.equationDeque.pollLast();
 						}
 						
+						// Reset boolean values
 						this.operatorsEnabled = false;
 						this.numericsEnabled = true;
 						this.decimalEnabled = true;
@@ -184,15 +202,22 @@ public class CalculatorInputHandler {
 				default:
 					// Check if the key called is a numeric key or an operator key and check if numeric keys are enabled
 					if(EquationUtilities.isNumber(key)) {
-						if(this.numericsEnabled) {
-							if(this.tempValue.equals("0") || this.equationParser.isSolved())
+						// Checks if the numerical keys are enabled or not
+						if(this.numericsEnabled) {							
+							// Checks if the temporary value is the default value or if the equations been solved already
+							if(this.tempValue.equals("0") || this.equationParser.isSolved()) {
+								// Replaces the temporary values existing data with the key value and sets the appropriate state
 								this.tempValue = key;
-							else
+								this.decimalEnabled = true;
+								this.equationDeque.clear();
+								this.equationParser.resetSolved();
+							} else
+								// Appends the key value onto the temporary value
 								this.tempValue += key;
 							
+							// Reset boolean values
 							this.operatorsEnabled = true;
 							this.numericsEnabled = true;
-							this.decimalEnabled = true;
 							this.resetTemp = false;
 						}
 					} else {
@@ -200,6 +225,7 @@ public class CalculatorInputHandler {
 						if(operatorsEnabled) {
 							// If equation has been solved, then clear the equation deque
 							if(this.equationParser.isSolved()) {
+								// Resets the state of objects
 								this.equationDeque.clear();
 								this.equationParser.resetSolved();
 							}
@@ -216,6 +242,7 @@ public class CalculatorInputHandler {
 						}
 					}
 			}
+		}
 	}
 
 }

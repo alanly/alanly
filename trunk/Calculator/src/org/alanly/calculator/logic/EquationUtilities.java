@@ -27,9 +27,11 @@ public class EquationUtilities {
 	/**
 	 * The default <code>MathContext</code> value to use for BigDecimal operations.
 	 * 
+	 * Precision of 16 digits with a <code>HALF_UP</code> rounding mode.
+	 * 
 	 * @see java.math.MathContext
 	 */
-	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL32;
+	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL64;
 	
 	/**
 	 * Initialises the internal <code>HashMap</code> with the appropriate orders of precedence for the arithmetic operators.

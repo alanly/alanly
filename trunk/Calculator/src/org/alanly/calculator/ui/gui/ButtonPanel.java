@@ -30,8 +30,8 @@ public class ButtonPanel extends JPanel {
 
 	private static final long serialVersionUID = -2222123633760445628L;
 	private static final String FONT_FACE = Font.DIALOG;
-	private static final int FONT_STYLE = Font.PLAIN;
-	private static final int FONT_SIZE = 14;
+	private static final int FONT_STYLE = Font.BOLD;
+	private static final int FONT_SIZE = 15;
 	
 	private GridBagLayout gridBagLayout;
 	private ArrayList<GridBagConstraints> gridBagConstraints;
