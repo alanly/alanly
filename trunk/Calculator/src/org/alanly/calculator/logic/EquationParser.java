@@ -174,19 +174,19 @@ public class EquationParser {
 	 * @since 2.0
 	 */
 	public Queue<String> generatePostfix(Queue<String> inputEquation) {
-		
+
 		// Create Collections used to separate and/or hold operands and operators
 		Stack<String> operatorStack = new Stack<String>(); // Temporarily holds the operators in the equation
 		Queue<String> outputQueue = new ArrayDeque<String>(); // Holds the Postfix output of the equation
-		
+
 		// Instantiate Iterator for inputEquation
 		Iterator<String> equationIterator = inputEquation.iterator();
-		
+
 		// Iterate through the inputEquation Queue and process each item in Collection
 		while(equationIterator.hasNext()) {
 			// Fetch next value from Iterator
 			String value = equationIterator.next();
-			
+
 			// Determine if 'value' is a number or not
 			if(this.isNumber(value)) {
 				// If 'value' is a number then add it into the outputQueue
@@ -196,7 +196,7 @@ public class EquationParser {
 				if(!operatorStack.empty()) {
 					// If the operatorStack is NOT empty then peek at the last operator in the stack
 					String lastOperator = operatorStack.peek();
-					
+
 					// Determine if the current operator is greater than the last operator in the stack
 					if(precedenceMap.get(value.charAt(0)) > precedenceMap.get(lastOperator.charAt(0))) {
 						// If it is then simply add it to the end of the operator stack
@@ -205,7 +205,7 @@ public class EquationParser {
 						// If it isn't then dump the stack into the outputQueue up to an operator that's smaller than the current value
 						while(!operatorStack.empty() && precedenceMap.get(operatorStack.peek().charAt(0)) >= precedenceMap.get(value.charAt(0))) 
 							outputQueue.add(operatorStack.pop());
-						
+
 						// Add the current value into the stack
 						operatorStack.add(value);
 					}
@@ -215,12 +215,12 @@ public class EquationParser {
 				}
 			}
 		}
-		
+
 		// Pop all values out of stack into outputQueue
 		while(!operatorStack.empty()) {
 			outputQueue.add(operatorStack.pop());
 		}
-		
+
 		return outputQueue;
 	}
 	
@@ -301,7 +301,7 @@ public class EquationParser {
 		try {
 			// Try parsing the value
 			Double.parseDouble(value);
-			
+
 			// Return true if the value parses successfully
 			return true;
 		} catch(Exception e) {
