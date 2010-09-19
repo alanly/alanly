@@ -134,14 +134,6 @@ public class CalculatorInputHandler {
 									
 							// Solve the equation
 							this.tempValue = this.equationParser.solve().toPlainString();
-							
-							System.out.println("Infix = " + this.equationParser.getEquationString());
-
-							Iterator<String> iter = this.equationParser.generatePostfix(this.equationParser.getEquationQueue()).iterator();
-							System.out.print("Postfix = ");
-							while(iter.hasNext()) {
-								System.out.print(iter.next() + " ");
-							}
 								
 							this.equationDeque.offer("=");
 									
