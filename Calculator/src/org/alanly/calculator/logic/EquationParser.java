@@ -194,7 +194,7 @@ public class EquationParser {
 			} else {
 				// If 'value' is a operator then determine whether there is anything in the operatorStack
 				if(!operatorStack.empty()) {
-					// If the operatorStack is NOT empty then peek at the last value in the stack
+					// If the operatorStack is NOT empty then peek at the last operator in the stack
 					String lastOperator = operatorStack.peek();
 					
 					// Determine if the current operator is greater than the last operator in the stack
@@ -202,10 +202,11 @@ public class EquationParser {
 						// If it is then simply add it to the end of the operator stack
 						operatorStack.add(value);
 					} else {
-						// If it isn't then dump the operator stack onto the output queue and then add the current operator to the head of the stack
+						// If it isn't then dump the stack into the outputQueue up to an operator that's smaller than the current value
 						while(!operatorStack.empty() && precedenceMap.get(operatorStack.peek().charAt(0)) >= precedenceMap.get(value.charAt(0))) 
 							outputQueue.add(operatorStack.pop());
 						
+						// Add the current value into the stack
 						operatorStack.add(value);
 					}
 				} else {
@@ -298,9 +299,13 @@ public class EquationParser {
 	 */
 	public boolean isNumber(String value) {
 		try {
+			// Try parsing the value
 			Double.parseDouble(value);
+			
+			// Return true if the value parses successfully
 			return true;
 		} catch(Exception e) {
+			// Return false if the value fails to parse
 			return false;
 		}
 	}
