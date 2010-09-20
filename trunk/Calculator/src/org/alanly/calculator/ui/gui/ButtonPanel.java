@@ -83,6 +83,8 @@ public class ButtonPanel extends JPanel {
 	 * Creates and sets the <code>GridBagConstraints</code> for the <code>GridBagLayout</code>.
 	 */
 	private void initialiseConstraints() {
+		
+		// Initialises constraints
 		this.gridBagConstraints = new ArrayList<GridBagConstraints>();
 		
 		// Set general button constraints based on buttons array
@@ -128,18 +130,16 @@ public class ButtonPanel extends JPanel {
 		// Create border for JButtons
 		CompoundBorder border = BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		int buttonCount = 0;
-		
 		// Create and add buttons
-		for(int row = 0; row < buttons.length; row++)
-			for(int col = 0; col < buttons[row].length; col++) {
+		for(int row = 0, buttonCount = 0; row < buttons.length; row++)
+			for(int col = 0; col < buttons[row].length; col++, buttonCount++) {
 				jButtons[buttonCount] = new JButton(buttons[row][col]);
 				jButtons[buttonCount].setFont(new Font(FONT_FACE, FONT_STYLE, FONT_SIZE));
 				jButtons[buttonCount].setBorder(border);
 				jButtons[buttonCount].addKeyListener(keyListener);
 				jButtons[buttonCount].addActionListener(actionListener);
 				add(jButtons[buttonCount], gridBagConstraints.get(buttonCount));
-				buttonCount++;
+				//buttonCount++;
 			}
 		
 		// Create temporary variables to hold sizes
