@@ -27,7 +27,7 @@ import java.util.Iterator;
  * Invalid input values will throw an <code>InputMismatchException</code>.
  * 
  * @author Alan Ly
- * @version 1.3
+ * @version 1.4
  */
 public class CalculatorInputHandler {
 	
@@ -39,10 +39,10 @@ public class CalculatorInputHandler {
 	private String tempValue;
 	private ArrayDeque<String> equationDeque;
 	private EquationParser equationParser;
-	private boolean operatorsEnabled;
 	private boolean numericsEnabled;
 	private boolean decimalEnabled;
 	private boolean resetTemp;
+	private boolean operatorChangeEnabled;
 	
 	/**
 	 * Creates a <code>CalculatorInputHandler</code> with default values.
@@ -93,10 +93,10 @@ public class CalculatorInputHandler {
 		this.tempValue = "0";
 		this.equationDeque = new ArrayDeque<String>();
 		this.equationParser = new EquationParser();
-		this.operatorsEnabled = false;
 		this.numericsEnabled = true;
 		this.decimalEnabled = true;
 		this.resetTemp = true;
+		this.operatorChangeEnabled = false;
 	}
 	
 	/**
@@ -138,18 +138,16 @@ public class CalculatorInputHandler {
 							this.equationDeque.offer("=");
 									
 							// Set the key booleans
-							this.operatorsEnabled = true;
 							this.numericsEnabled = true;
 							this.decimalEnabled = false;
 							this.resetTemp = false;
+							this.operatorChangeEnabled = false;
 						} catch(ArithmeticException ae) {
 							// Get the exception message
 							this.tempValue = ae.getMessage();
 							
 							// Set the key booleans
-							this.operatorsEnabled = false;
-							this.numericsEnabled = false;
-							this.decimalEnabled = false;
+							this.resetTemp = true;
 						}
 					
 					break;
@@ -178,7 +176,7 @@ public class CalculatorInputHandler {
 					break;
 				case 'C':
 					// Check if the key called was Clear Entry or Clear
-					if(key.equalsIgnoreCase("CE")) {
+					if(key.equalsIgnoreCase("CE") && !this.equationParser.isSolved()) {
 						// Clear temporary operand store
 						this.tempValue = "0";
 						
@@ -190,7 +188,6 @@ public class CalculatorInputHandler {
 						}
 						
 						// Reset boolean values
-						this.operatorsEnabled = false;
 						this.numericsEnabled = true;
 						this.decimalEnabled = true;
 						this.resetTemp = true;
@@ -216,30 +213,34 @@ public class CalculatorInputHandler {
 								this.tempValue += key;
 							
 							// Reset boolean values
-							this.operatorsEnabled = true;
 							this.numericsEnabled = true;
 							this.resetTemp = false;
+							this.operatorChangeEnabled = false;
 						}
-					} else {
-						// Check if the last value in the deque is an operator or not
-						if(operatorsEnabled) {
-							// If equation has been solved, then clear the equation deque
-							if(this.equationParser.isSolved()) {
-								// Resets the state of objects
-								this.equationDeque.clear();
-								this.equationParser.resetSolved();
-							}
-							
+					} else {						
+						// If equation has been solved, then clear the equation deque
+						if(this.equationParser.isSolved()) {
+							// Resets the state of objects
+							this.equationDeque.clear();
+							this.equationParser.resetSolved();
+						}
+
+						// Check if the last operator can be changed
+						if(this.operatorChangeEnabled) {
+							// Replace the last operator with a new value
+							this.equationDeque.pollLast();
+							this.equationDeque.offer(key);
+						} else {
 							// Add the operator to the deque
 							this.equationDeque.offer(this.tempValue);
 							this.equationDeque.offer(key);
-
-							// Set key booleans
-							this.operatorsEnabled = false;
-							this.numericsEnabled = true;
-							this.decimalEnabled = true;
-							this.resetTemp = true;
 						}
+
+						// Set key booleans
+						this.numericsEnabled = true;
+						this.decimalEnabled = true;
+						this.resetTemp = true;
+						this.operatorChangeEnabled = true;
 					}
 			}
 		}
