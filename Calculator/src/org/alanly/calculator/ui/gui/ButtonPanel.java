@@ -139,7 +139,6 @@ public class ButtonPanel extends JPanel {
 				jButtons[buttonCount].addKeyListener(keyListener);
 				jButtons[buttonCount].addActionListener(actionListener);
 				add(jButtons[buttonCount], gridBagConstraints.get(buttonCount));
-				//buttonCount++;
 			}
 		
 		// Create temporary variables to hold sizes
