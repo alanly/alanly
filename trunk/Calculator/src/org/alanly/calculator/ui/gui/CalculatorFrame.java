@@ -18,7 +18,7 @@ import javax.swing.JFrame;
  * The <code>CalculatorFrame</code> represents Calculator interface.
  * 
  * @author Alan Ly
- * @version 1.5
+ * @version 1.6
  */
 public class CalculatorFrame extends JFrame {
 
@@ -83,13 +83,13 @@ public class CalculatorFrame extends JFrame {
 		gridBagConstraints.weighty = 1.0;
 		gridBagConstraints.fill = GridBagConstraints.BOTH;
 		
-		// Create constraint for equation display panel
+		// Create constraints and borders for equation display panel
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
 		equationDisplayPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(2, 2, 0, 2), BorderFactory.createMatteBorder(1, 1, 0, 1, Color.BLACK)));
 		this.add(equationDisplayPanel, gridBagConstraints);
 		
-		// Create constraint for display panel
+		// Create constraints and borders for display panel
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 1;
 		displayPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 2, 1, 2), BorderFactory.createMatteBorder(0, 1, 2, 1, Color.BLACK)));

@@ -166,8 +166,10 @@ public class ButtonPanel extends JPanel {
 	 * Initialises the <code>HashMap</code> with the appropriate function display and backend values.
 	 */
 	private void initialiseFunctionMap() {
+		// Initialise HashMap
 		this.functionMap = new HashMap<String, String>();
 		
+		// Fill values
 		functionMap.put("÷", "/");
 		functionMap.put("x", "*");
 		functionMap.put("±", "~");
@@ -233,8 +235,8 @@ public class ButtonPanel extends JPanel {
 			int keyChar = e.getKeyChar();
 			
 			switch (keyChar) {
-			// The number keys
-			case '0':
+			// The numerical keys
+			case '0': // The '0' key and etc.
 				jButtons[15].doClick();
 				break;
 			case '1':
@@ -292,12 +294,12 @@ public class ButtonPanel extends JPanel {
 				break;
 				
 			// The clear buttons
-			case 'e': // Clear Last Entry
+			case 'e': // Clear Last Entry (CE) key
 			case 'E':
 			case KeyEvent.VK_BACK_SPACE:
 				jButtons[0].doClick();
 				break;
-			case 'c': // Clear Equation
+			case 'c': // Clear Equation (C) key
 			case 'C':
 			case KeyEvent.VK_DELETE:
 				jButtons[1].doClick();

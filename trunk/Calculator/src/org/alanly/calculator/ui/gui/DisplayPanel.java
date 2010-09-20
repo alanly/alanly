@@ -17,7 +17,7 @@ import javax.swing.JTextField;
  * The <code>DisplayPanel</code> represents the panel of the Calculator containing the display panel for output.
  * 
  * @author Alan Ly
- * @version 2.1
+ * @version 2.2
  */
 public class DisplayPanel extends JPanel implements Observer {
 
@@ -31,7 +31,6 @@ public class DisplayPanel extends JPanel implements Observer {
 	private static final int DEFAULT_FONT_SIZE = 15;
 	
 	private Font currentFont;
-	
 	private JTextField textField;
 	
 	/**
@@ -71,17 +70,21 @@ public class DisplayPanel extends JPanel implements Observer {
 	}
 	
 	private void initialise(String initialString, Font font) {
+
+		// Set layout for this panel
 		this.setLayout(new BorderLayout());
 		
-		this.currentFont = font;
-		
+		// Set initial properties for the JTextField
 		this.textField = new JTextField(initialString);
-		this.textField.setFont(this.currentFont);
 		this.textField.setHorizontalAlignment(JTextField.RIGHT);
 		this.textField.setBackground(new Color(205, 223, 204));
 		this.textField.setBorder(BorderFactory.createEmptyBorder());
 		this.textField.setEditable(false);
 		
+		// Set the font
+		this.setCurrentFont(font);
+		
+		// Add the component into the layout manager
 		add(this.textField, BorderLayout.CENTER);
 	}
 	
@@ -112,8 +115,10 @@ public class DisplayPanel extends JPanel implements Observer {
 	 * @param percent the percentage to set the font size against
 	 */
 	public void adjustFontSize(double percent) {		
+		// Create the new font size based on the set size and percentage
 		int newFontSize = (int) (this.currentFont.getSize() * percent);
 		
+		// Set the new font
 		this.setCurrentFont(new Font(this.currentFont.getName(), this.currentFont.getStyle(), newFontSize));
 	}
 	
@@ -133,10 +138,13 @@ public class DisplayPanel extends JPanel implements Observer {
 	 */
 	@Override
 	public void update(Observable observableObj, Object obj) {
+		// Check if the update was from CalculatorModel
 		if(observableObj instanceof CalculatorModel)
+			// If secondary parameter is not null then it should contain the string
 			if(obj != null)
 				this.setText( (String) obj );
 			else
+				// If not, then we will manually fetch the string
 				this.setText( ( (CalculatorModel) observableObj ).getOutput() );
 	}
 
