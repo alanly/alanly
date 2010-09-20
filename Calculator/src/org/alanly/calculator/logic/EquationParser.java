@@ -5,8 +5,10 @@ package org.alanly.calculator.logic;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayDeque;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Queue;
 import java.util.Iterator;
 import java.util.Stack;
@@ -15,7 +17,7 @@ import java.util.Stack;
  * An <code>EquationParser</code> contains the necessary logic to solve basic mathematical arithmetic equations based on an equation contained within a <code>Queue</code.
  * 
  * @author Alan Ly
- * @version 2.0
+ * @version 2.4
  */
 public class EquationParser { 
 	
@@ -31,7 +33,7 @@ public class EquationParser {
 	 * 
 	 * @see java.math.MathContext
 	 */
-	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL64;
+	private static final MathContext MATH_CONTEXT = new MathContext(16, RoundingMode.HALF_UP);
 	
 	private Queue<String> inputEquation;
 	private BigDecimal result;
@@ -66,6 +68,7 @@ public class EquationParser {
 		this.result = new BigDecimal(0);
 		this.solved = false;
 		
+		// If inputEquation queue is not null, then solve input equation
 		if(this.inputEquation != null)
 			this.solve(this.inputEquation);
 	}
@@ -108,9 +111,11 @@ public class EquationParser {
 	 * @return the equation in a <code>String</code>
 	 */
 	public String getEquationString() {
+		// Create iterator and String
 		Iterator<String> equationIterator = inputEquation.iterator();
 		String equationString = "";
 		
+		// While iterator has next another value, append to the end of the string
 		while(equationIterator.hasNext())
 			equationString += equationIterator.next() + " ";
 		
@@ -151,6 +156,8 @@ public class EquationParser {
 	public BigDecimal solve(Queue<String> inputEquation) {				
 		// Generate Postfix Equation and Solve It
 		this.result = this.solvePostfixEquation(this.generatePostfix(inputEquation));
+		
+		// Set state
 		this.solved = true;
 		
 		return this.result;
@@ -184,6 +191,7 @@ public class EquationParser {
 
 		// Iterate through the inputEquation Queue and process each item in Collection
 		while(equationIterator.hasNext()) {
+			
 			// Fetch next value from Iterator
 			String value = equationIterator.next();
 
@@ -192,16 +200,20 @@ public class EquationParser {
 				// If 'value' is a number then add it into the outputQueue
 				outputQueue.add(value);
 			} else {
+				
 				// If 'value' is a operator then determine whether there is anything in the operatorStack
 				if(!operatorStack.empty()) {
+					
 					// If the operatorStack is NOT empty then peek at the last operator in the stack
 					String lastOperator = operatorStack.peek();
 
 					// Determine if the current operator is greater than the last operator in the stack
 					if(precedenceMap.get(value.charAt(0)) > precedenceMap.get(lastOperator.charAt(0))) {
+						
 						// If it is then simply add it to the end of the operator stack
 						operatorStack.add(value);
 					} else {
+						
 						// If it isn't then dump the stack into the outputQueue up to an operator that's smaller than the current value
 						while(!operatorStack.empty() && precedenceMap.get(operatorStack.peek().charAt(0)) >= precedenceMap.get(value.charAt(0))) 
 							outputQueue.add(operatorStack.pop());
@@ -217,9 +229,8 @@ public class EquationParser {
 		}
 
 		// Pop all values out of stack into outputQueue
-		while(!operatorStack.empty()) {
+		while(!operatorStack.empty())
 			outputQueue.add(operatorStack.pop());
-		}
 
 		return outputQueue;
 	}
@@ -243,47 +254,36 @@ public class EquationParser {
 		
 		// Loop through entire postfixEquation and process values
 		while(equationIterator.hasNext()) {
+			
 			// Fetch next value from the postfixEquation
 			String value = equationIterator.next();
 			
-			// Declare temporary double variables that will store the appropriate operands 
-			BigDecimal operandOne = new BigDecimal(0);
-			BigDecimal operandTwo = new BigDecimal(0);
-					
-			// Perform the appropriate processing
-			switch(value.charAt(0)) {
-				case '+':
-					// Retrieve necessary operands
-					operandTwo = operationStack.pop();
-					operandOne = operationStack.pop();
-							
-					// Perform operation and then add results back into operationStack
-					operationStack.add(operandOne.add(operandTwo, MATH_CONTEXT));
-					break;
-				case '-':
-					// Retrieve necessary operands
-					operandTwo = operationStack.pop();
-					operandOne = operationStack.pop();
-						
-					operationStack.add(operandOne.subtract(operandTwo, MATH_CONTEXT));
-					break;
-				case '/':
-					// Retrieve necessary operands
-					operandTwo = operationStack.pop();
-					operandOne = operationStack.pop();
-							
-					operationStack.add(operandOne.divide(operandTwo, MATH_CONTEXT));
-					break;
-				case '*':
-					// Retrieve necessary operands
-					operandTwo = operationStack.pop();
-					operandOne = operationStack.pop();
-							
-					operationStack.add(operandOne.multiply(operandTwo, MATH_CONTEXT));
-					break;
-				default:
-					// If not an operator then add that into the operation stack
-					operationStack.add(new BigDecimal(value));
+			// If value is a number, then add it into the operation stack
+			if(this.isNumber(value))
+				operationStack.add(new BigDecimal(value));
+			else {
+				// Declare temporary double variables that will store the appropriate operands
+				BigDecimal operandTwo = operationStack.pop();
+				BigDecimal operandOne = operationStack.pop();
+				
+				// Perform the appropriate processing
+				switch(value.charAt(0)) {
+					case '+':								
+						// Perform operation and then add results back into operationStack
+						operationStack.add(operandOne.add(operandTwo, MATH_CONTEXT));
+						break;
+					case '-':							
+						operationStack.add(operandOne.subtract(operandTwo, MATH_CONTEXT));
+						break;
+					case '/':
+						operationStack.add(operandOne.divide(operandTwo, MATH_CONTEXT));
+						break;
+					case '*':
+						operationStack.add(operandOne.multiply(operandTwo, MATH_CONTEXT));
+						break;
+					default:
+						throw new InputMismatchException("Invalid Operator: " + value);
+				}
 			}
 		}
 		

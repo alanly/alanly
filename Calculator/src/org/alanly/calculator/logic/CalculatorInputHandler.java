@@ -110,12 +110,16 @@ public class CalculatorInputHandler {
 			
 			// Check if its necessary to reset the temporary value
 			if(this.resetTemp) {
+				
+				// Reset temporary value to blank string and change state
 				this.tempValue = "";
 				this.resetTemp = false;
 			}
 			
 			// Check if the temporary value has exceeded the allowable length
 			if(this.tempValue.length() >= MAX_VALUE_LENGTH) {
+				
+				// Disable numerical and decimal input
 				this.numericsEnabled = false;
 				this.decimalEnabled = false;
 			}
@@ -123,18 +127,23 @@ public class CalculatorInputHandler {
 			// Determine which key called and perform the appropriate processing
 			switch(key.charAt(0)) {
 				case '=':
+					
 					// Check if the equation has already been solved and if the temporary value is empty
 					if(!this.equationParser.isSolved() && !this.tempValue.equals(""))
 						try {
+							
 							// Add the operand held in the operand store into the deque
 							this.equationDeque.offer(this.tempValue);
 									
 							// Send the finalised equation to the parser
 							this.equationParser.setInputQueue(this.equationDeque);
+							
+							System.out.println(this.getEquationString());
 									
 							// Solve the equation
 							this.tempValue = this.equationParser.solve().toPlainString();
-								
+							
+							// Add the equals symbol to the end of the deque for equation display purposes
 							this.equationDeque.offer("=");
 									
 							// Set the key booleans
@@ -143,6 +152,7 @@ public class CalculatorInputHandler {
 							this.resetTemp = false;
 							this.operatorChangeEnabled = false;
 						} catch(ArithmeticException ae) {
+							
 							// Get the exception message
 							this.tempValue = ae.getMessage();
 							
@@ -152,6 +162,7 @@ public class CalculatorInputHandler {
 					
 					break;
 				case '.':
+					
 					// Check if the decimal key is enabled
 					if(decimalEnabled) {
 						// Add a decimal point to the end of the current value
@@ -163,7 +174,8 @@ public class CalculatorInputHandler {
 					
 					break;
 				case '~':
-					// Check if operator keys are enabled
+					
+					// Check if numerical keys are enabled
 					if(this.numericsEnabled)
 						// Check if the stored operand starts with a negative sign
 						if(this.tempValue.startsWith("-"))
@@ -175,6 +187,7 @@ public class CalculatorInputHandler {
 					
 					break;
 				case 'C':
+					
 					// Check if the key called was Clear Entry or Clear
 					if(key.equalsIgnoreCase("CE") && !this.equationParser.isSolved()) {
 						// Clear temporary operand store
@@ -197,6 +210,7 @@ public class CalculatorInputHandler {
 						
 					break;
 				default:
+					
 					// Check if the key called is a numeric key or an operator key and check if numeric keys are enabled
 					if(equationParser.isNumber(key)) {
 						// Checks if the numerical keys are enabled or not
@@ -227,10 +241,12 @@ public class CalculatorInputHandler {
 
 						// Check if the last operator can be changed
 						if(this.operatorChangeEnabled) {
+							
 							// Replace the last operator with a new value
 							this.equationDeque.pollLast();
 							this.equationDeque.offer(key);
 						} else {
+							
 							// Add the operator to the deque
 							this.equationDeque.offer(this.tempValue);
 							this.equationDeque.offer(key);
