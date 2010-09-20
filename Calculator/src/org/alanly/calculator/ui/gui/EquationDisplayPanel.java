@@ -46,7 +46,9 @@ public class EquationDisplayPanel extends DisplayPanel {
 	 */
 	@Override
 	public void update(Observable observableObj, Object obj) {
+		// Check if the update was from the CalculatorModel
 		if(observableObj instanceof CalculatorModel)
+			// Manually get the equation string
 			this.setText( ( (CalculatorModel) observableObj ).getEquationString() );
 	}
 	
