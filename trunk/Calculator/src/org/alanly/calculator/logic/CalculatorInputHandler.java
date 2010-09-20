@@ -137,8 +137,6 @@ public class CalculatorInputHandler {
 									
 							// Send the finalised equation to the parser
 							this.equationParser.setInputQueue(this.equationDeque);
-							
-							System.out.println(this.getEquationString());
 									
 							// Solve the equation
 							this.tempValue = this.equationParser.solve().toPlainString();
