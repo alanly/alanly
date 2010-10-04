@@ -3,6 +3,8 @@
  */
 package org.alanly.jam.da;
 
+import java.sql.Connection;
+
 /**
  * The <code>DbConnector</code> is responsible for handling database connections and operations.
  * 
@@ -25,6 +27,8 @@ public abstract class DbConnector {
 	private final String DB_NAME = "";
 	private final String DB_USER = "A830207";
 	private final String DB_PASS = "";
+	
+	private Connection dbConnection;
 	
 	public DbConnector() {
 		super();
