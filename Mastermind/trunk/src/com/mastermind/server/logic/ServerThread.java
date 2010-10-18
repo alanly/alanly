@@ -4,11 +4,10 @@
 package com.mastermind.server.logic;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 import com.mastermind.util.ConsoleUtilities;
+import com.mastermind.util.net.DataCommunication;
 
 /**
  * @author Alan Ly
@@ -23,8 +22,6 @@ public class ServerThread {
     
     private Socket clientSocket;
     private byte[] messageBuffer;
-    private InputStream inStream;
-    private OutputStream outStream;
     
     /**
      * Creates a <code>ServerThread</code> with a specified <code>Socket</code> connection to the client. 
@@ -32,20 +29,12 @@ public class ServerThread {
      * @param clientSocket the <code>Socket</code> connection to the client
      * @throws IOException thrown when IO streams cannot be retrieved from client
      */
-    public ServerThread(Socket clientSocket) throws IOException {
-	super();
-	this.clientSocket = clientSocket;
-	
-	// Initialise message buffer
-	this.messageBuffer = new byte[MESSAGE_BUFFER_SIZE];
-	
-	// Instantiate IO streams
-	try {
-	    this.inStream = this.clientSocket.getInputStream();
-	    this.outStream = this.clientSocket.getOutputStream();
-	} catch (IOException ioe) {
-	    throw new IOException("Unable to retrieve IO stream from client socket");
-	}
+    public ServerThread(Socket clientSocket) {
+		super();
+		this.clientSocket = clientSocket;
+		
+		// Initialise message buffer
+		this.messageBuffer = new byte[MESSAGE_BUFFER_SIZE];
     }
     
     /**
@@ -53,7 +42,7 @@ public class ServerThread {
      * @return the client socket
      */
     public Socket getClientSocket() {
-	return this.clientSocket;
+    	return this.clientSocket;
     }
     
     /**
@@ -61,7 +50,7 @@ public class ServerThread {
      * @param clientSocket a client socket
      */
     public void setClientSocket(Socket clientSocket) {
-	this.clientSocket = clientSocket;
+    	this.clientSocket = clientSocket;
     }
     
     /**
@@ -70,22 +59,22 @@ public class ServerThread {
      * @throws IOException thrown when IO stream cannot be opened
      */
     public void startThread() throws IOException {
-	int receiveSize = 0;
-	
-	System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostName());
-	
-	try {
-	    while((receiveSize = inStream.read(messageBuffer)) != -1) {
-	        // TODO implement Mastermind Game Logic instance code here
-	    }
-	} catch (IOException ioe) {
-	    throw new IOException("Unable to open IO stream");
-	} finally {
-	    if(this.clientSocket.isConnected())
-		this.clientSocket.close();
-	}
-	
-	System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client from " + this.clientSocket.getInetAddress().getHostName() + " disconnected");
+		int receiveSize = 0;
+		
+		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostName());
+		
+		try {
+		    while((receiveSize = DataCommunication.receive(clientSocket, messageBuffer)) != -1) {
+		        // TODO implement Mastermind Game Logic instance code here
+		    }
+		} catch (IOException ioe) {
+		    throw new IOException("Unable to open IO stream");
+		} finally {
+		    if(this.clientSocket.isConnected())
+			this.clientSocket.close();
+		}
+		
+		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client from " + this.clientSocket.getInetAddress().getHostName() + " disconnected");
     }
     
 }
