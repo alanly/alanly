@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.mastermind.server.util.ConsoleUtilities;
+import com.mastermind.util.ConsoleUtilities;
 
 /**
  * The <code>ServerListener</code> class listens for and handles client connections to the Mastermind server. 

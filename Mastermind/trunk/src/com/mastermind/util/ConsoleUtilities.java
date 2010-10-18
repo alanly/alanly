@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mastermind.server.util;
+package com.mastermind.util;
 
 import java.util.Calendar;
 

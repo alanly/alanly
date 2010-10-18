@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mastermind.net;
+package com.mastermind.util.net;
 
 /**
  * @author Alan Ly

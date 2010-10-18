@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import com.mastermind.server.util.ConsoleUtilities;
+import com.mastermind.util.ConsoleUtilities;
 
 /**
  * @author Alan Ly
@@ -26,6 +26,12 @@ public class ServerThread {
     private InputStream inStream;
     private OutputStream outStream;
     
+    /**
+     * Creates a <code>ServerThread</code> with a specified <code>Socket</code> connection to the client. 
+     * An <code>IOException</code> may be thrown if the appropriate IO streams cannot be obtained from the client socket connection.
+     * @param clientSocket the <code>Socket</code> connection to the client
+     * @throws IOException thrown when IO streams cannot be retrieved from client
+     */
     public ServerThread(Socket clientSocket) throws IOException {
 	super();
 	this.clientSocket = clientSocket;
@@ -41,15 +47,28 @@ public class ServerThread {
 	    throw new IOException("Unable to retrieve IO stream from client socket");
 	}
     }
-
+    
+    /**
+     * Gets the client <code>Socket</code> for the related instance of <code>ServerThread</code>.
+     * @return the client socket
+     */
     public Socket getClientSocket() {
 	return this.clientSocket;
     }
     
+    /**
+     * Sets the appropriate client <code>Socket</code> for the <code>ServerThread</code>.
+     * @param clientSocket a client socket
+     */
     public void setClientSocket(Socket clientSocket) {
 	this.clientSocket = clientSocket;
     }
     
+    /**
+     * Starts the <code>ServerThread</code> and handles the assigned client connection.
+     * An <code>IOException</code> is thrown when the appropriate IO stream cannot be opened.
+     * @throws IOException thrown when IO stream cannot be opened
+     */
     public void startThread() throws IOException {
 	int receiveSize = 0;
 	
@@ -57,7 +76,7 @@ public class ServerThread {
 	
 	try {
 	    while((receiveSize = inStream.read(messageBuffer)) != -1) {
-	        
+	        // TODO implement Mastermind Game Logic instance code here
 	    }
 	} catch (IOException ioe) {
 	    throw new IOException("Unable to open IO stream");
