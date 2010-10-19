@@ -28,7 +28,7 @@ public class ServerListener {
      * Create a <code>ServerListener</code> with the default listening port to listen for and handle client connections to the Mastermind server.
      */
     public ServerListener() {
-	this(DEFAULT_LISTENING_PORT);
+    	this(DEFAULT_LISTENING_PORT);
     }
     
     /**
@@ -36,8 +36,8 @@ public class ServerListener {
      * @param listeningPort the port on which to listen to for client connections
      */
     public ServerListener(int listeningPort) {
-	super();
-	this.listeningPort = listeningPort;
+		super();
+		this.listeningPort = listeningPort;
     }
     
     /**
@@ -45,7 +45,7 @@ public class ServerListener {
      * @return the port number to listen on
      */
     public int getListeningPort() {
-	return this.listeningPort;
+    	return this.listeningPort;
     }
     
     /**
@@ -53,7 +53,7 @@ public class ServerListener {
      * @param listeningPort the port number to listen on
      */
     public void setListeningPort(int listeningPort) {
-	this.listeningPort = listeningPort;
+    	this.listeningPort = listeningPort;
     }
     
     /**
@@ -63,49 +63,56 @@ public class ServerListener {
      * @throws IOException thrown when a socket is unable to be opened
      */
     public void startListening() throws IOException {
-	ServerSocket serverSocket = null;
-	Socket clientSocket = null;
-	
-	// Opens a ServerSocket on the port specified by the 'listeningPort' variable
-	try {
-	    serverSocket = new ServerSocket(this.listeningPort);
-	    
-	    // Enable server to listen for connection
-	    this.listenForConnection = true;
-	    
-	    // Print out listening header for status
-	    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server listening on port " + this.listeningPort + "...");
-	    
-	    // Run loop while condition is true to listen for clients
-	    while(this.listenForConnection) {
-		// Get client connection
-		clientSocket = serverSocket.accept();
+    	
+		ServerSocket serverSocket = null;
+		Socket clientSocket = null;
 		
-		// Print status message for client connection
-		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client connection from " + clientSocket.getInetAddress().getHostName());
-		
-		// Create a ServerThread
-		ServerThread serverThread = new ServerThread(clientSocket);
-		
-		// Start handling client
-		serverThread.startThread();
-	    }
-	} catch(IOException ioe) {
-	    // Throw new IOException with the appropriate message
-	    throw new IOException("Unable to open server socket on port " + this.listeningPort);
-	} finally {
-	    // Close the client socket if necessary
-	    if(clientSocket.isConnected())
-		clientSocket.close();
-	    
-	    // Close the server socket if necessary
-	    if(!serverSocket.isClosed())
-		serverSocket.close();
-	}
+		// Opens a ServerSocket on the port specified by the 'listeningPort' variable
+		try {
+			
+		    serverSocket = new ServerSocket(this.listeningPort);
+		    
+		    // Enable server to listen for connection
+		    this.listenForConnection = true;
+		    
+		    // Print out listening header for status
+		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server listening on port " + this.listeningPort + "...");
+		    
+		    // Run loop while condition is true to listen for clients
+		    while(this.listenForConnection) {
+				// Get client connection
+				clientSocket = serverSocket.accept();
+				
+				// Print status message for client connection
+				System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client connection from " + clientSocket.getInetAddress().getHostName());
+				
+				// Create a ServerThread
+				ServerThread serverThread = new ServerThread(clientSocket);
+				
+				// Start handling client
+				serverThread.startThread();
+		    }
+		    
+		} catch(IOException ioe) {
+			
+		    // Throw new IOException with the appropriate message
+		    throw new IOException("Unable to open server socket on port " + this.listeningPort);
+		    
+		} finally {
+			
+		    // Close the client socket if necessary
+		    if(clientSocket.isConnected())
+			clientSocket.close();
+		    
+		    // Close the server socket if necessary
+		    if(!serverSocket.isClosed())
+			serverSocket.close();
+		    
+		}
     }
     
     public void stopListening() {
-	this.listenForConnection = false;
+    	this.listenForConnection = false;
     }
     
 }

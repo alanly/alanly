@@ -64,14 +64,20 @@ public class ServerThread {
 		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostName());
 		
 		try {
+			
 		    while((receiveSize = DataCommunication.receive(clientSocket, messageBuffer)) != -1) {
 		        // TODO implement Mastermind Game Logic instance code here
 		    }
+		    
 		} catch (IOException ioe) {
+			
 		    throw new IOException("Unable to open IO stream");
+		    
 		} finally {
+			
 		    if(this.clientSocket.isConnected())
 			this.clientSocket.close();
+		    
 		}
 		
 		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client from " + this.clientSocket.getInetAddress().getHostName() + " disconnected");
