@@ -15,21 +15,9 @@ import com.mastermind.util.ConsoleUtilities;
  * @version 1.0
  */
 public class ServerListener {
-    
-    /**
-     * Specifies the default listening port as 30,000.
-     */
-    private static final int DEFAULT_LISTENING_PORT = 30000;
-    
+        
     private int listeningPort;
     private boolean listenForConnection;
-    
-    /**
-     * Create a <code>ServerListener</code> with the default listening port to listen for and handle client connections to the Mastermind server.
-     */
-    public ServerListener() {
-    	this(DEFAULT_LISTENING_PORT);
-    }
     
     /**
      * Create a <code>ServerListener</code> with a specified listening port to listen for and handle client connections to the Mastermind server.
@@ -64,12 +52,13 @@ public class ServerListener {
      */
     public void startListening() throws IOException {
     	
+    	// Create sockets
 		ServerSocket serverSocket = null;
 		Socket clientSocket = null;
 		
 		// Opens a ServerSocket on the port specified by the 'listeningPort' variable
 		try {
-			
+			// Initialise the server socket based on the assigned listening port
 		    serverSocket = new ServerSocket(this.listeningPort);
 		    
 		    // Enable server to listen for connection
@@ -80,7 +69,8 @@ public class ServerListener {
 		    
 		    // Run loop while condition is true to listen for clients
 		    while(this.listenForConnection) {
-				// Get client connection
+		    	
+				// Get a socket connection to the client
 				clientSocket = serverSocket.accept();
 				
 				// Print status message for client connection
