@@ -8,5 +8,21 @@ package com.mastermind.server.logic;
  *
  */
 public class GameLogic {
+	
+	public GameLogic() {
+		
+	}
+	
+	public void startGame() {
+		
+	}
+	
+	public void endGame() {
+		
+	}
+	
+	public void validateGuess() {
+		
+	}
 
 }

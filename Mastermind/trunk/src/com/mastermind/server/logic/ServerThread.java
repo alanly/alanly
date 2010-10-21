@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.mastermind.util.ConsoleUtilities;
-import com.mastermind.util.net.DataCommunication;
+import com.mastermind.util.net.ByteComm;
 
 /**
  * @author Alan Ly
@@ -65,7 +65,7 @@ public class ServerThread {
 		
 		try {
 			
-		    while((receiveSize = DataCommunication.receive(clientSocket, messageBuffer)) != -1) {
+		    while((receiveSize = ByteComm.receive(clientSocket, messageBuffer)) != -1) {
 		        // TODO implement Mastermind Game Logic instance code here
 		    }
 		    

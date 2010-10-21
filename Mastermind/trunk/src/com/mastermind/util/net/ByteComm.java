@@ -13,7 +13,7 @@ import java.net.Socket;
  * @author Alan Ly
  * @version 1.0
  */
-public class DataCommunication {
+public class ByteComm {
     
 	/**
 	 * Gets a message from a connection specified by the <code>socket</code> and stores the message into the <code>buffer</code> array.
