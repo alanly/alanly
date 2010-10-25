@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.alanly.jam.module.contacts.ui;
+package org.alanly.jam.module.contacts.ui.gui;
 
 import javax.swing.JFrame;
 
