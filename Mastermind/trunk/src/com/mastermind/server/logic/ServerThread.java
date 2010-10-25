@@ -11,7 +11,7 @@ import com.mastermind.util.net.ByteComm;
 
 /**
  * @author Alan Ly
- * @version 1.0
+ * @version 1.1
  */
 public class ServerThread {
     
@@ -22,6 +22,7 @@ public class ServerThread {
     
     private Socket clientSocket;
     private byte[] messageBuffer;
+    private GameLogic game;
     
     /**
      * Creates a <code>ServerThread</code> with a specified <code>Socket</code> connection to the client. 
@@ -59,19 +60,17 @@ public class ServerThread {
      * @throws IOException thrown when IO stream cannot be opened
      */
     public void startThread() throws IOException {
-		int receiveSize = 0;
 		
 		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostName());
 		
 		try {
 			
-		    while((receiveSize = ByteComm.receive(clientSocket, messageBuffer)) != -1) {
-		        // TODO implement Mastermind Game Logic instance code here
-		    }
-		    
+			this.game = new GameLogic(this.clientSocket, this.messageBuffer);
+			this.game.startGame();
+			
 		} catch (IOException ioe) {
 			
-		    throw new IOException("Unable to open IO stream");
+		    throw new IOException(ioe.getMessage());
 		    
 		} finally {
 			
