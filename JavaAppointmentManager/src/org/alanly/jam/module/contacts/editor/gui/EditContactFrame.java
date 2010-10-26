@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.alanly.jam.module.contacts.editor.EditContact.gui;
+package org.alanly.jam.module.contacts.editor.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.alanly.jam.module.contacts.editor.gui.FieldsPanel;
 
 /**
  * @author Alan Ly
