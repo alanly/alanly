@@ -32,7 +32,7 @@ public class FieldsPanel extends JPanel {
     		"First Name", "Middle Name", "Last Name", "Company Name", "Address (Line 1)", "Address (Line 2)", "City", "Province/State", "Country", "Postal/Zip Code", "Phone Number", "Mobile Number", "Fax Number", "Email Address"
     };
     
-    private int[] fieldSizes = { 20, 20, 20, 20, 30, 30, 20, 20, 20, 10, 20, 20, 20, 20 };
+    private int[] fieldSizes = { 15, 15, 15, 15, 30, 30, 15, 15, 15, 10, 15, 15, 15, 15 };
     
     private JTextField[] textFields = null;
 
@@ -119,7 +119,7 @@ public class FieldsPanel extends JPanel {
     }
     
     private JLabel createLabel(String text) {
-    	JLabel label = new JLabel(text);
+    	JLabel label = new JLabel(text + ":");
     	label.setFont(new Font(DEFAULT_LABEL_FONT_FACE, DEFAULT_LABEL_FONT_STYLE, DEFAULT_LABEL_FONT_SIZE));
     	
     	return label;
