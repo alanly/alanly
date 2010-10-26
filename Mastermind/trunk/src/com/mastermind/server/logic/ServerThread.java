@@ -7,11 +7,10 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.mastermind.util.ConsoleUtilities;
-import com.mastermind.util.net.ByteComm;
 
 /**
  * @author Alan Ly
- * @version 1.1
+ * @version 1.2
  */
 public class ServerThread {
     
