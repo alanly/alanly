@@ -21,7 +21,7 @@ public class EditorFrame extends JFrame {
 	
     private static final long serialVersionUID = 8579889651972518017L;
 
-	private static final String FRAME_TITLE = "Edit Contact";
+	private static final String FRAME_TITLE = "Contact";
 	
 	private FieldsPanel fieldsPanel;
 
