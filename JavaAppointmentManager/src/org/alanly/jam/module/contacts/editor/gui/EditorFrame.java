@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
  * @author Alan Ly
  *
  */
-public class EditContactFrame extends JFrame {
+public class EditorFrame extends JFrame {
 	
     private static final long serialVersionUID = 8579889651972518017L;
 
@@ -25,7 +25,7 @@ public class EditContactFrame extends JFrame {
 	
 	private FieldsPanel fieldsPanel;
 
-	public EditContactFrame() {
+	public EditorFrame() {
 		super(FRAME_TITLE);
 		
 		this.setLayout(new BorderLayout());
@@ -49,7 +49,7 @@ public class EditContactFrame extends JFrame {
 
 			@Override
             public void run() {
-	            EditContactFrame ecf = new EditContactFrame();
+	            EditorFrame ecf = new EditorFrame();
 	            ecf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	            ecf.setVisible(true);
             }
