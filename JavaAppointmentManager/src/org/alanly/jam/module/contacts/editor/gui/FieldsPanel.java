@@ -26,7 +26,7 @@ public class FieldsPanel extends JPanel {
     
     private static final String DEFAULT_TEXTFIELD_FONT_FACE = Font.SANS_SERIF;
     private static final int DEFAULT_TEXTFIELD_FONT_STYLE = Font.PLAIN;
-    private static final int DEFAULT_TEXTFIELD_FONT_SIZE = 11;
+    private static final int DEFAULT_TEXTFIELD_FONT_SIZE = 12;
     
     private String[] fields = {
     		"First Name", "Middle Name", "Last Name", "Company Name", "Address (Line 1)", "Address (Line 2)", "City", "Province/State", "Country", "Postal/Zip Code", "Phone Number", "Mobile Number", "Fax Number", "Email Address"
@@ -69,12 +69,12 @@ public class FieldsPanel extends JPanel {
     	// Address - Line 1
     	add(createLabel(fields[4]), createConstraints(0, 4, 1, 1, GridBagConstraints.EAST));
     	textFields[4] = createTextField(fieldSizes[4]);
-    	add(textFields[4], createConstraints(1, 4, 1, 1, GridBagConstraints.WEST));
+    	add(textFields[4], createConstraints(1, 4, 3, 1, GridBagConstraints.WEST));
     	
     	// Address - Line 2
     	add(createLabel(fields[5]), createConstraints(0, 5, 1, 1, GridBagConstraints.EAST));
     	textFields[5] = createTextField(fieldSizes[5]);
-    	add(textFields[5], createConstraints(1, 5, 1, 1, GridBagConstraints.WEST));
+    	add(textFields[5], createConstraints(1, 5, 3, 1, GridBagConstraints.WEST));
     	
     	// City
     	add(createLabel(fields[6]), createConstraints(0, 6, 1, 1, GridBagConstraints.EAST));
