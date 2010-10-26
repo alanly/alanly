@@ -73,8 +73,8 @@ public class ServerThread {
 		    
 		} finally {
 			
-		    if(this.clientSocket.isConnected())
-			this.clientSocket.close();
+		    if(this.clientSocket.getInputStream().read() == -1)
+		    	this.clientSocket.close();
 		    
 		}
 		
