@@ -65,7 +65,7 @@ public class ServerThread {
 		try {
 			
 			this.game = new GameLogic(this.clientSocket, this.messageBuffer);
-			this.game.startGame();
+			this.game.start();
 			
 		} catch (IOException ioe) {
 			

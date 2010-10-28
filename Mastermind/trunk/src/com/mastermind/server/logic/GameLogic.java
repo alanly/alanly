@@ -21,12 +21,14 @@ import com.mastermind.util.net.ByteComm;
 public class GameLogic {
 	
 	private static final int ANSWER_SIZE = 4;
-	private static final int MAX_GUESSES = 8;
+	private static final int MAX_GUESSES = 10;
 	
 	private Socket socket;
 	private byte[] buffer;
 	private int[] answer;
 	private int guessCount;
+	private boolean endGame;
+	private boolean lostGame;
 	
 	/**
 	 * Initialises a <code>GameLogic</code> instance with a specified <code>clientSocket</code> and <code>buffer</code> array.
@@ -38,8 +40,7 @@ public class GameLogic {
 		super();
 		this.socket = clientSocket;
 		this.buffer = buffer;
-		this.answer = generateAnswer(ANSWER_SIZE);
-		
+		this.initialiseGame();
 	}
 	
 	/**
@@ -48,14 +49,42 @@ public class GameLogic {
 	private void initialiseGame() {
 		this.answer = generateAnswer(ANSWER_SIZE);
 		this.guessCount = 0;
+		this.endGame = false;
+		this.lostGame = false;
 	}
 	
-	public void startGame() throws IOException {
-		int receiveSize = 0;
-		
-		while((receiveSize = ByteComm.receive(this.socket, this.buffer)) != -1) {
-	        // TODO implement Mastermind Game Logic instance code here
-	    }
+	/**
+	 * Starts this <strong>GameLogic</strong> instance and plays a game of <strong>Mastermind</strong> with the client.
+	 * 
+	 * @throws IOException thrown if an error occurs when handling the client socket
+	 */
+	public void start() throws IOException {		
+		while(!endGame) {
+			ByteComm.receive(this.socket, this.buffer);
+			
+			switch (this.buffer[0]) {
+				// Start a new game
+				case 0:
+					if(!lostGame) {
+						initialiseGame();
+					}
+					break;
+				// End the current game
+				case 1:
+					lostGame = true;
+					break;
+				// Validate a guess
+				case 2:
+					if(guessCount < MAX_GUESSES) {
+						int[] guess = new int[ANSWER_SIZE];
+						
+						for(int i = 1; i < buffer.length; i++)
+							guess[i - 1] = buffer[i];
+					}
+					break;
+				default:
+			}
+		}
 	}
 	
 	/**

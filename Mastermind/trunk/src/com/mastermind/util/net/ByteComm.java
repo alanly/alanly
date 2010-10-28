@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Vector;
 
 /**
  * A utility class that contains the necessary static methods to send and receive data between a client and a server system over a <code>Socket</code> connection.
@@ -60,13 +61,23 @@ public class ByteComm {
      * @throws IOException thrown when IO streams with client could not be opened
      */
     public static int communicate(int mode, Socket socket, byte[] bufferArray) throws IOException {
-    	int streamStatus = -1;
+    	int streamReply = 0;
     	
     	switch(mode) {
-    		case 0:
+    		case 0:    			
     			try {
     				InputStream stream = socket.getInputStream();
-    				streamStatus = stream.read(bufferArray);
+    				Vector<Byte> receiveData = new Vector<Byte>();
+    				
+    				while((streamReply = stream.read()) != -1) {
+    					receiveData.add((byte) streamReply);
+    				}
+    				
+    				bufferArray = new byte[receiveData.size()];
+    				
+    				for(int i = 0; i < bufferArray.length; i++) {
+    					bufferArray[i] = receiveData.elementAt(i);
+    				}
     			} catch (IOException ioe) {
     				throw new IOException("Unable to open input stream to " + socket.getInetAddress().getHostAddress());
     			}
@@ -74,7 +85,6 @@ public class ByteComm {
     		case 1:
     			try {
     				socket.getOutputStream().write(bufferArray);
-    				streamStatus = 1;
     			} catch (IOException ioe) {
     				throw new IOException("Unable to open output stream to " + socket.getInetAddress().getHostAddress());
     			}
@@ -83,7 +93,7 @@ public class ByteComm {
     			throw new IllegalArgumentException("Illegal communication mode passed: " + mode);
     	}
     	
-    	return streamStatus;
+    	return streamReply;
     }
     
 }
