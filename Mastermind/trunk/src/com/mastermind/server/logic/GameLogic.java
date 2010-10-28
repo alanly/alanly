@@ -21,10 +21,12 @@ import com.mastermind.util.net.ByteComm;
 public class GameLogic {
 	
 	private static final int ANSWER_SIZE = 4;
+	private static final int MAX_GUESSES = 8;
 	
 	private Socket socket;
 	private byte[] buffer;
 	private int[] answer;
+	private int guessCount;
 	
 	/**
 	 * Initialises a <code>GameLogic</code> instance with a specified <code>clientSocket</code> and <code>buffer</code> array.
@@ -40,20 +42,20 @@ public class GameLogic {
 		
 	}
 	
+	/**
+	 * Sets the appropriate state for the start of a game or for a new game.
+	 */
+	private void initialiseGame() {
+		this.answer = generateAnswer(ANSWER_SIZE);
+		this.guessCount = 0;
+	}
+	
 	public void startGame() throws IOException {
 		int receiveSize = 0;
 		
 		while((receiveSize = ByteComm.receive(this.socket, this.buffer)) != -1) {
 	        // TODO implement Mastermind Game Logic instance code here
 	    }
-	}
-	
-	private void newGame() {
-		
-	}
-	
-	private void endGame() {
-		
 	}
 	
 	/**
@@ -72,7 +74,7 @@ public class GameLogic {
 	 * @return an <strong>int</strong> array containing the appropriate clues
 	 * @see com.mastermind.util.Colour
 	 */
-	public int[] generateClue(int[] guess, int[] answer) {
+	private int[] generateClue(int[] guess, int[] answer) {
 		int[] clues = new int[answer.length];
 		
 		for(int i = 0; i < answer.length; i++) {
