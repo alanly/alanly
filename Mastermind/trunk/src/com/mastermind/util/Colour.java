@@ -8,7 +8,7 @@ package com.mastermind.util;
  * @author Alan Ly
  * @version 1.0
  */
-public enum Colours {
+public enum Colour {
 	RED(1),
 	GREEN(2),
 	BLUE(3),
@@ -20,11 +20,11 @@ public enum Colours {
 	
 	private final int colour;
 	
-	Colours(int colour) {
+	Colour(int colour) {
 		this.colour = colour;
 	}
 	
-	public int colour() {
+	public int toInteger() {
 		return this.colour;
 	}
 }
