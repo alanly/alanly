@@ -5,9 +5,7 @@ package com.mastermind.util.net;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Vector;
 
 /**
  * A utility class that contains the necessary static methods to send and receive data between a client and a server system over a <code>Socket</code> connection.
