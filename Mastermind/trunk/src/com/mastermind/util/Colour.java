@@ -24,7 +24,7 @@ public enum Colour {
 		this.colour = colour;
 	}
 	
-	public int toInteger() {
+	public int toInt() {
 		return this.colour;
 	}
 }

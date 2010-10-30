@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.mastermind.util.Colour;
 import com.mastermind.util.net.ByteComm;
+import com.mastermind.util.net.ByteProtocol;
 
 /**
  * The <code>GameLogic</code> class represents the logical backend properties of a <strong>Mastermind</strong> game.
@@ -16,18 +17,33 @@ import com.mastermind.util.net.ByteComm;
  * It contains the necessary behaviour required to interact and play a game of <strong>Mastermind</strong> with a client session.
  * 
  * @author Alan Ly
- * @version 1.3
+ * @version 1.5
  */
 public class GameLogic {
 	
-	private static final int ANSWER_SIZE = 4;
-	private static final int MAX_GUESSES = 10;
+	/**
+	 * The size of the answer, as in the number of values that make up the answer.
+	 */
+	public static final int ANSWER_SIZE = 4;
 	
+	/**
+	 * The maximum number of guesses that are allowed before the user loses.
+	 */
+	public static final int MAX_GUESSES = 10;
+	
+	/**
+	 * The size of the byte array message used to communicate between server and client.
+	 */
+	public static final int MESSAGE_SIZE = 5;
+	
+	// Global variables related to connection
 	private Socket socket;
 	private byte[] buffer;
+	private boolean clientConnected;
+	
+	// Global variables related to game
 	private int[] answer;
 	private int guessCount;
-	private boolean endGame;
 	private boolean lostGame;
 	
 	/**
@@ -40,6 +56,7 @@ public class GameLogic {
 		super();
 		this.socket = clientSocket;
 		this.buffer = buffer;
+		this.clientConnected = true;
 		this.initialiseGame();
 	}
 	
@@ -49,7 +66,6 @@ public class GameLogic {
 	private void initialiseGame() {
 		this.answer = generateAnswer(ANSWER_SIZE);
 		this.guessCount = 0;
-		this.endGame = false;
 		this.lostGame = false;
 	}
 	
@@ -58,31 +74,75 @@ public class GameLogic {
 	 * 
 	 * @throws IOException thrown if an error occurs when handling the client socket
 	 */
-	public void start() throws IOException {		
-		while(!endGame) {
-			ByteComm.receive(this.socket, this.buffer);
+	public void start() throws IOException {
+		
+		// Handle the client
+		while(true) {
 			
-			switch (this.buffer[0]) {
-				// Start a new game
-				case 0:
-					if(!lostGame) {
-						initialiseGame();
-					}
+			// Retrieve the message array from the client; if size of -1 is returned, then client has disconnected
+			for(int receiveSize = 0; receiveSize < MESSAGE_SIZE; receiveSize = ByteComm.receive(this.socket, this.buffer))
+				if(receiveSize == -1) {
+					this.clientConnected = false;
 					break;
-				// End the current game
-				case 1:
-					lostGame = true;
+				}
+			
+			// If the client is no longer connected, then break the loop
+			if(!this.clientConnected)
+				break;
+			
+			// Figure what type of message it is using the message header (element 0),
+			switch(this.buffer[0]) {
+
+				// Start new game
+				case ByteProtocol.START_GAME_HEADER:
+					// Reset state
+					this.initialiseGame();
+					
 					break;
-				// Validate a guess
-				case 2:
-					if(guessCount < MAX_GUESSES) {
-						int[] guess = new int[ANSWER_SIZE];
+				
+				// End current game and send the answer
+				case ByteProtocol.END_GAME_HEADER:
+					// Set 'lost' state
+					this.lostGame = true;
+					
+					break;
+
+				// Validate a guess and send the clues
+				case ByteProtocol.VALIDATE_HEADER:
+					
+					// Check for lost game and out-of-guesses
+					if(!lostGame && this.guessCount < MAX_GUESSES) {
+						int[] guesses = new int[ANSWER_SIZE];
 						
-						for(int i = 1; i < buffer.length; i++)
-							guess[i - 1] = buffer[i];
+						// Generate guesses array; decode from buffer
+						for(int i = 0; i < ANSWER_SIZE; i++)
+							guesses[i] = (buffer[i + 1] - ByteProtocol.VALIDATE_GUESS_PREFIX);
+						
+						// Generate the clues
+						int[] clues = this.generateClue(guesses, this.answer);
+						
+						//
+						// Send the clues back to the client
+						//
+						
+						// Create a new buffer array 
+						this.buffer = new byte[MESSAGE_SIZE];
+						
+						// Set the message header
+						this.buffer[0] = ByteProtocol.VALIDATE_HEADER;
+						
+						// Add clues into buffer; encode with prefix
+						for(int i = 0; i < ANSWER_SIZE; i++)
+							buffer[i + 1] = (byte) (clues[i] + ByteProtocol.VALIDATE_CLUE_PREFIX);
+						
+						// Send buffer to the client
+						ByteComm.send(this.socket, this.buffer);
 					}
+					
 					break;
+
 				default:
+					break;
 			}
 		}
 	}
@@ -98,30 +158,30 @@ public class GameLogic {
 	 * 	<li><strong><code>2</code></strong> - represents an absolute match wherein both the colour and position matches.</li>
 	 * </ul>
 	 * 
-	 * @param guess an <strong>int</strong> array containing the guesses which are the selected {@link com.mastermind.util.Colour Colour} values
+	 * @param guesses an <strong>int</strong> array containing the guesses which are the selected {@link com.mastermind.util.Colour Colour} values
 	 * @param answer an <strong>int</strong> array containing the answers which are a set of selected {@link com.mastermind.util.Colour Colour} values
 	 * @return an <strong>int</strong> array containing the appropriate clues
 	 * @see com.mastermind.util.Colour
 	 */
-	private int[] generateClue(int[] guess, int[] answer) {
+	private int[] generateClue(int[] guesses, int[] answer) {
 		int[] clues = new int[answer.length];
 		
 		for(int i = 0; i < answer.length; i++) {
 			int indirectMatch = -1;
 			
-			for(int j = 0; j < guess.length; j++)
-				if(answer[i] == guess[j])
-					if(i == j || answer[j] == guess[j]) {
+			for(int j = 0; j < guesses.length; j++)
+				if(answer[i] == guesses[j])
+					if(i == j || answer[j] == guesses[j]) {
 						clues[i] = 2;
 						indirectMatch = -1;
-						guess[j] = -1;
+						guesses[j] = -1;
 						break;
 					} else
 						indirectMatch = j;
 			
 			if(indirectMatch != -1) {
 				clues[i] = 1;
-				guess[indirectMatch] = -1;
+				guesses[indirectMatch] = -1;
 			}
 		}
 
@@ -145,7 +205,7 @@ public class GameLogic {
 		
 		// Iterate through 'colours' and populate array with randomized values
 		for(int i = 0; i < size; i++)
-			colours[i] = Colour.values()[rnd.nextInt(numOfColours)].toInteger();
+			colours[i] = Colour.values()[rnd.nextInt(numOfColours)].toInt();
 		
 		return colours;
 	}
