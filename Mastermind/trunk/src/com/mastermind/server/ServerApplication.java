@@ -3,8 +3,6 @@
  */
 package com.mastermind.server;
 
-import java.io.IOException;
-
 import com.mastermind.server.logic.ServerListener;
 import com.mastermind.util.ConsoleUtilities;
 
@@ -23,10 +21,20 @@ public class ServerApplication {
     public static void main(String[] args) {
 		try {
 			
+			// Determine socket port from arguments (default is 50,000)
 		    int serverPort = (args.length != 1 ? 50000 : Integer.parseInt(args[0]));
+		    
+		    // Print statement when server starts
+		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server is starting...");
+		    
+		    // Create new ServerListener instance
 		    ServerListener serverListener = new ServerListener(serverPort);
+		    
+		    // Listen for connections
 		    serverListener.startListening();
-		    System.err.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server has ended gracefully.");
+		    
+		    // Print statement when server ends
+		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server has ended gracefully.");
 		    
 		} catch (NumberFormatException nfe) {
 			

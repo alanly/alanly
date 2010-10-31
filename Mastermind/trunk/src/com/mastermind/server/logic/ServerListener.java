@@ -74,7 +74,7 @@ public class ServerListener {
 				clientSocket = serverSocket.accept();
 				
 				// Print status message for client connection
-				System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client connection from " + clientSocket.getInetAddress().getHostName());
+				System.out.println("\n[" + ConsoleUtilities.generateTimeStamp() + "] Client connection from " + clientSocket.getInetAddress().getHostAddress());
 				
 				// Create a ServerThread
 				ServerThread serverThread = new ServerThread(clientSocket);
@@ -86,7 +86,7 @@ public class ServerListener {
 		} catch(IOException ioe) {
 			
 		    // Throw new IOException with the appropriate message
-		    throw new IOException("Unable to open server socket on port " + this.listeningPort);
+			throw new IOException(ioe.getMessage());
 		    
 		} finally {
 			

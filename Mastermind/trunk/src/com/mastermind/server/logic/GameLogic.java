@@ -31,15 +31,11 @@ public class GameLogic {
 	 */
 	public static final int MAX_GUESSES = 10;
 	
-	/**
-	 * The size of the byte array message used to communicate between server and client.
-	 */
-	public static final int MESSAGE_SIZE = 5;
-	
 	// Global variables related to connection
 	private Socket socket;
 	private byte[] buffer;
 	private boolean clientConnected;
+	private int bufferSize;
 	
 	// Global variables related to game
 	private int[] answer;
@@ -57,6 +53,7 @@ public class GameLogic {
 		this.socket = clientSocket;
 		this.buffer = buffer;
 		this.clientConnected = true;
+		this.bufferSize = buffer.length;
 		this.initialiseGame();
 	}
 	
@@ -80,7 +77,7 @@ public class GameLogic {
 		while(true) {
 			
 			// Retrieve the message array from the client; if size of -1 is returned, then client has disconnected
-			for(int receiveSize = 0; receiveSize < MESSAGE_SIZE; receiveSize = ByteComm.receive(this.socket, this.buffer))
+			for(int receiveSize = 0; receiveSize < bufferSize; receiveSize = ByteComm.receive(this.socket, this.buffer))
 				if(receiveSize == -1) {
 					this.clientConnected = false;
 					break;
@@ -89,9 +86,9 @@ public class GameLogic {
 			// If the client is no longer connected, then break the loop
 			if(!this.clientConnected)
 				break;
-			
-			// Handle the client request
-			this.handleRequest();
+			else
+				// Handle the client request
+				this.handleRequest();
 		}
 	}
 	
@@ -177,14 +174,14 @@ public class GameLogic {
 				///
 				
 				// Create a new buffer array
-				this.buffer = new byte[MESSAGE_SIZE];
+				this.buffer = new byte[bufferSize];
 				
 				// Set the message header
 				this.buffer[0] = ByteProtocol.START_GAME_HEADER;
 				
 				// Add success message into the buffer
-				for(int i = 0; i < ANSWER_SIZE; i++)
-					buffer[i + 1] = (byte) (ByteProtocol.START_GAME_SUCCESS);
+				for(int i = 1; i < bufferSize; i++)
+					buffer[i] = (byte) (ByteProtocol.START_GAME_SUCCESS);
 				
 				// Send buffer content to the client
 				ByteComm.send(this.socket, this.buffer);
@@ -201,7 +198,7 @@ public class GameLogic {
 				///
 				
 				// Create a new buffer array
-				this.buffer = new byte[MESSAGE_SIZE];
+				this.buffer = new byte[bufferSize];
 				
 				// Set the message header
 				this.buffer[0] = ByteProtocol.END_GAME_HEADER;
@@ -237,7 +234,7 @@ public class GameLogic {
 					///
 					
 					// Create a new buffer array 
-					this.buffer = new byte[MESSAGE_SIZE];
+					this.buffer = new byte[bufferSize];
 					
 					// Set the message header
 					this.buffer[0] = ByteProtocol.VALIDATE_HEADER;
