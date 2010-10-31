@@ -229,6 +229,9 @@ public class GameLogic {
 					// Generate the clues
 					int[] clues = this.generateClue(guesses, this.answer);
 					
+					// Increment guess counter
+					this.guessCount++;
+					
 					///
 					// Send the clues back to the client
 					///
