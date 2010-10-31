@@ -17,7 +17,7 @@ import com.mastermind.util.net.ByteProtocol;
  * It contains the necessary behaviour required to interact and play a game of <strong>Mastermind</strong> with a client session.
  * 
  * @author Alan Ly
- * @version 1.5
+ * @version 1.6
  */
 public class GameLogic {
 	

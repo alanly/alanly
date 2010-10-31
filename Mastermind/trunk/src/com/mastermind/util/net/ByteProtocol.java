@@ -6,7 +6,7 @@ package com.mastermind.util.net;
 /**
  * The <code>ByteProtocol</code> class contains the constants used to represent a client/server message for a <strong>Mastermind</strong> session.
  * @author Alan Ly
- * @version 1.0
+ * @version 1.1
  */
 public class ByteProtocol {
 	/**
