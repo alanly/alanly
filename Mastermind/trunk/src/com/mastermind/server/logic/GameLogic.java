@@ -90,60 +90,8 @@ public class GameLogic {
 			if(!this.clientConnected)
 				break;
 			
-			// Figure what type of message it is using the message header (element 0),
-			switch(this.buffer[0]) {
-
-				// Start new game
-				case ByteProtocol.START_GAME_HEADER:
-					// Reset state
-					this.initialiseGame();
-					
-					break;
-				
-				// End current game and send the answer
-				case ByteProtocol.END_GAME_HEADER:
-					// Set 'lost' state
-					this.lostGame = true;
-					
-					break;
-
-				// Validate a guess and send the clues
-				case ByteProtocol.VALIDATE_HEADER:
-					
-					// Check for lost game and out-of-guesses
-					if(!lostGame && this.guessCount < MAX_GUESSES) {
-						int[] guesses = new int[ANSWER_SIZE];
-						
-						// Generate guesses array; decode from buffer
-						for(int i = 0; i < ANSWER_SIZE; i++)
-							guesses[i] = (buffer[i + 1] - ByteProtocol.VALIDATE_GUESS_PREFIX);
-						
-						// Generate the clues
-						int[] clues = this.generateClue(guesses, this.answer);
-						
-						//
-						// Send the clues back to the client
-						//
-						
-						// Create a new buffer array 
-						this.buffer = new byte[MESSAGE_SIZE];
-						
-						// Set the message header
-						this.buffer[0] = ByteProtocol.VALIDATE_HEADER;
-						
-						// Add clues into buffer; encode with prefix
-						for(int i = 0; i < ANSWER_SIZE; i++)
-							buffer[i + 1] = (byte) (clues[i] + ByteProtocol.VALIDATE_CLUE_PREFIX);
-						
-						// Send buffer to the client
-						ByteComm.send(this.socket, this.buffer);
-					}
-					
-					break;
-
-				default:
-					break;
-			}
+			// Handle the client request
+			this.handleRequest();
 		}
 	}
 	
@@ -208,6 +156,99 @@ public class GameLogic {
 			colours[i] = Colour.values()[rnd.nextInt(numOfColours)].toInt();
 		
 		return colours;
+	}
+	
+	/**
+	 * Handles the client request in the <strong>buffer</strong> array.
+	 * 
+	 * @throws IOException thrown when an IOException occurs when sending a reply to the client
+	 */
+	private void handleRequest() throws IOException {
+		// Figure what type of message it is using the message header (element 0),
+		switch(this.buffer[0]) {
+
+			// Start new game
+			case ByteProtocol.START_GAME_HEADER:
+				// Reset state
+				this.initialiseGame();
+				
+				///
+				// Send the answer back to the client
+				///
+				
+				// Create a new buffer array
+				this.buffer = new byte[MESSAGE_SIZE];
+				
+				// Set the message header
+				this.buffer[0] = ByteProtocol.START_GAME_HEADER;
+				
+				// Add success message into the buffer
+				for(int i = 0; i < ANSWER_SIZE; i++)
+					buffer[i + 1] = (byte) (ByteProtocol.START_GAME_SUCCESS);
+				
+				// Send buffer content to the client
+				ByteComm.send(this.socket, this.buffer);
+				
+				break;
+			
+			// End current game and send the answer
+			case ByteProtocol.END_GAME_HEADER:
+				// Set 'lost' state
+				this.lostGame = true;
+				
+				///
+				// Send the answer back to the client
+				///
+				
+				// Create a new buffer array
+				this.buffer = new byte[MESSAGE_SIZE];
+				
+				// Set the message header
+				this.buffer[0] = ByteProtocol.END_GAME_HEADER;
+				
+				// Add answer into buffer; encode with prefix
+				for(int i = 0; i < ANSWER_SIZE; i++)
+					buffer[i + 1] = (byte) (answer[i] + ByteProtocol.END_GAME_ANSWER_PREFIX);
+				
+				// Send buffer content to the client
+				ByteComm.send(this.socket, this.buffer);
+				
+				break;
+
+			// Validate a guess and send the clues
+			case ByteProtocol.VALIDATE_HEADER:
+				
+				// Check for lost game and out-of-guesses
+				if(!lostGame && this.guessCount < MAX_GUESSES) {
+					int[] guesses = new int[ANSWER_SIZE];
+					
+					// Generate guesses array; decode from buffer
+					for(int i = 0; i < ANSWER_SIZE; i++)
+						guesses[i] = (buffer[i + 1] - ByteProtocol.VALIDATE_GUESS_PREFIX);
+					
+					// Generate the clues
+					int[] clues = this.generateClue(guesses, this.answer);
+					
+					///
+					// Send the clues back to the client
+					///
+					
+					// Create a new buffer array 
+					this.buffer = new byte[MESSAGE_SIZE];
+					
+					// Set the message header
+					this.buffer[0] = ByteProtocol.VALIDATE_HEADER;
+					
+					// Add clues into buffer; encode with prefix
+					for(int i = 0; i < ANSWER_SIZE; i++)
+						buffer[i + 1] = (byte) (clues[i] + ByteProtocol.VALIDATE_CLUE_PREFIX);
+					
+					// Send buffer to the client
+					ByteComm.send(this.socket, this.buffer);
+				}
+				
+				break;
+		}
 	}
 	
 }

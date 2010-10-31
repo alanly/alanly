@@ -31,9 +31,11 @@ public class ByteProtocol {
 	 */
 	public static final byte END_GAME_REQUEST = 0x00;
 	/**
-	 * Specifies the body value in <strong>byte</strong> for a <em>End Game</em> successful response.
+	 * Specifies the prefix value in <strong>byte</strong> for a <em>End Game</em> successful response.
+	 * 
+	 * This value is prefixed, as the most significant digit, onto each clue value in the message body.
 	 */
-	public static final byte END_GAME_SUCCESS = 0x01;
+	public static final byte END_GAME_ANSWER_PREFIX = 0x10;
 	
 	/**
 	 * Specifies the header value in <strong>byte</strong> for a <em>Validate Guess</em> message.
