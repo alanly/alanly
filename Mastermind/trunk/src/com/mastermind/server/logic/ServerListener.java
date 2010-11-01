@@ -58,6 +58,7 @@ public class ServerListener {
 		
 		// Opens a ServerSocket on the port specified by the 'listeningPort' variable
 		try {
+			
 			// Initialise the server socket based on the assigned listening port
 		    serverSocket = new ServerSocket(this.listeningPort);
 		    
@@ -92,11 +93,11 @@ public class ServerListener {
 			
 		    // Close the client socket if necessary
 		    if(clientSocket.isConnected())
-			clientSocket.close();
+		    	clientSocket.close();
 		    
 		    // Close the server socket if necessary
 		    if(!serverSocket.isClosed())
-			serverSocket.close();
+		    	serverSocket.close();
 		    
 		}
     }
