@@ -16,7 +16,6 @@ public class GameBoard {
 	private Socket socket;
 	
 	// Global variables related to game
-	private int guessCount;
 	private boolean lostGame;
 	
 	public GameBoard(String serverAddress, int serverPort) throws IOException {
@@ -25,7 +24,6 @@ public class GameBoard {
 	}
 	
 	private void initialiseGame() {
-		this.guessCount = 0;
 		this.lostGame = false;
 	}
 	
