@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.mastermind.util.Colour;
+import com.mastermind.util.GameConstants;
 import com.mastermind.util.net.ByteComm;
 import com.mastermind.util.net.ByteProtocol;
 
@@ -18,19 +19,9 @@ import com.mastermind.util.net.ByteProtocol;
  * It contains the necessary behaviour required to interact and play a game of <strong>Mastermind</strong> with a client session.
  * 
  * @author Alan Ly
- * @version 1.6
+ * @version 1.8
  */
 public class GameLogic {
-	
-	/**
-	 * The size of the answer, as in the number of values that make up the answer.
-	 */
-	public static final int ANSWER_SIZE = 4;
-	
-	/**
-	 * The maximum number of guesses that are allowed before the user loses.
-	 */
-	public static final int MAX_GUESSES = 10;
 	
 	// Global variables related to connection
 	private Socket socket;
@@ -190,17 +181,17 @@ public class GameLogic {
 				// Check if client wants a predefined answer or not
 				if(this.buffer[1] > 0x10) {
 					// Initialise an answer array to contain the predefined answers
-					int[] answer = new int[ANSWER_SIZE];
+					int[] answer = new int[GameConstants.ANSWER_LENGTH];
 					
 					// Fetch the answer from the buffer and place it into the answer array
-					for(int i = 0; i < ANSWER_SIZE; i++)
+					for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
 						answer[i] = (this.buffer[i + 1] - ByteProtocol.START_GAME_REQUEST_ANSWER_PREFIX);
 					
 					// Initialise the game with the predefined answer
 					this.initialiseGame(answer);
 				} else
 					// Initialise the game with a generated answer
-					this.initialiseGame(this.generateAnswer(ANSWER_SIZE));
+					this.initialiseGame(this.generateAnswer(GameConstants.ANSWER_LENGTH));
 				
 				///
 				// Send the answer back to the client
@@ -237,7 +228,7 @@ public class GameLogic {
 				this.buffer[0] = ByteProtocol.END_GAME_HEADER;
 				
 				// Add answer into buffer; encode with prefix
-				for(int i = 0; i < ANSWER_SIZE; i++)
+				for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
 					buffer[i + 1] = (byte) (answer[i] + ByteProtocol.END_GAME_ANSWER_PREFIX);
 				
 				// Send buffer content to the client
@@ -249,11 +240,11 @@ public class GameLogic {
 			case ByteProtocol.VALIDATE_HEADER:
 				
 				// Check for lost game and out-of-guesses
-				if(!lostGame && this.guessCount < MAX_GUESSES) {
-					int[] guesses = new int[ANSWER_SIZE];
+				if(!lostGame && this.guessCount < GameConstants.MAX_NUM_OF_GUESSES) {
+					int[] guesses = new int[GameConstants.ANSWER_LENGTH];
 					
 					// Generate guesses array; decode from buffer
-					for(int i = 0; i < ANSWER_SIZE; i++)
+					for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
 						guesses[i] = (buffer[i + 1] - ByteProtocol.VALIDATE_GUESS_PREFIX);
 					
 					// Generate the clues
@@ -273,7 +264,7 @@ public class GameLogic {
 					this.buffer[0] = ByteProtocol.VALIDATE_HEADER;
 					
 					// Add clues into buffer; encode with prefix
-					for(int i = 0; i < ANSWER_SIZE; i++)
+					for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
 						buffer[i + 1] = (byte) (clues[i] + ByteProtocol.VALIDATE_CLUE_PREFIX);
 					
 					// Send buffer to the client
