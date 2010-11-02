@@ -5,6 +5,7 @@ package com.mastermind.server.logic;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Random;
 
 import com.mastermind.util.Colour;
@@ -146,6 +147,9 @@ public class GameLogic {
 				guesses[indirectMatch] = -1;
 			}
 		}
+		
+		// Sort clues so that they're not representative of the answer
+		Arrays.sort(clues);
 
 		return clues;
 	}
