@@ -50,10 +50,14 @@ public class GameLogic {
 	 */
 	public GameLogic(Socket clientSocket, byte[] buffer) {
 		super();
+		
+		// Initialise the connection
 		this.socket = clientSocket;
 		this.buffer = buffer;
 		this.clientConnected = true;
 		this.bufferSize = buffer.length;
+		
+		// Initialise the game
 		this.initialiseGame();
 	}
 	
@@ -109,23 +113,39 @@ public class GameLogic {
 	 * @see com.mastermind.util.Colour
 	 */
 	private int[] generateClue(int[] guesses, int[] answer) {
+		// Create clues array to store clues
 		int[] clues = new int[answer.length];
 		
+		// Loop through answers
 		for(int i = 0; i < answer.length; i++) {
 			int indirectMatch = -1;
 			
+			// Loop through guesses
 			for(int j = 0; j < guesses.length; j++)
+				// Check if answer at 'i' is equivalent to guess at 'j'
 				if(answer[i] == guesses[j])
+					// Check if 'i' and 'j' are equivalent or answer and guess at 'j' are equivalent
 					if(i == j || answer[j] == guesses[j]) {
+						// Direct match is found; add into clues at 'i'
 						clues[i] = 2;
+						
+						// Set no indirect match
 						indirectMatch = -1;
+						
+						// Disable the guess value so it doesn't get iterated through again
 						guesses[j] = -1;
+						
 						break;
 					} else
+						// Set indirect match found at 'j'
 						indirectMatch = j;
 			
+			// Check if indirect match was found
 			if(indirectMatch != -1) {
+				// Indirect match found; add into clues at 'i'
 				clues[i] = 1;
+				
+				// Disable the guess value so it doesn't get iterated through again
 				guesses[indirectMatch] = -1;
 			}
 		}
