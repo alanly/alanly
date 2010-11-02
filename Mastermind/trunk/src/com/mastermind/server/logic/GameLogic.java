@@ -56,16 +56,13 @@ public class GameLogic {
 		this.buffer = buffer;
 		this.clientConnected = true;
 		this.bufferSize = buffer.length;
-		
-		// Initialise the game
-		this.initialiseGame();
 	}
 	
 	/**
 	 * Sets the appropriate state for the start of a game or for a new game.
 	 */
-	private void initialiseGame() {
-		this.answer = generateAnswer(ANSWER_SIZE);
+	private void initialiseGame(int[] answer) {
+		this.answer = answer;
 		this.guessCount = 0;
 		this.lostGame = false;
 	}
@@ -186,8 +183,20 @@ public class GameLogic {
 
 			// Start new game
 			case ByteProtocol.START_GAME_HEADER:
-				// Reset state
-				this.initialiseGame();
+				// Check if client wants a predefined answer or not
+				if(this.buffer[1] > 0x10) {
+					// Initialise an answer array to contain the predefined answers
+					int[] answer = new int[ANSWER_SIZE];
+					
+					// Fetch the answer from the buffer and place it into the answer array
+					for(int i = 0; i < ANSWER_SIZE; i++)
+						answer[i] = (this.buffer[i + 1] - ByteProtocol.START_GAME_REQUEST_ANSWER_PREFIX);
+					
+					// Initialise the game with the predefined answer
+					this.initialiseGame(answer);
+				} else
+					// Initialise the game with a generated answer
+					this.initialiseGame(this.generateAnswer(ANSWER_SIZE));
 				
 				///
 				// Send the answer back to the client

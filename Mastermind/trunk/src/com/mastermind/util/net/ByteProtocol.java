@@ -14,9 +14,15 @@ public class ByteProtocol {
 	 */
 	public static final byte START_GAME_HEADER = 0x00;
 	/**
-	 * Specifies the body value in <strong>byte</strong> for a <em>Start Game</em> request.
+	 * Specifies the body value in <strong>byte</strong> for a <em>Start Game</em> request with a generated answer value.
 	 */
 	public static final byte START_GAME_REQUEST = 0x00;
+	/**
+	 * Specifies the prefix value in <strong>byte</strong> for a <em>Start Game</em> request with a predefined answer.
+	 * 
+	 *  This value is prefixed, as the most significant digit, onto each answer value in the message body
+	 */
+	public static final byte START_GAME_REQUEST_ANSWER_PREFIX = 0x10;
 	/**
 	 * Specifies the body value in <strong>byte</strong> for a <em>Start Game</em> successful response.
 	 */
@@ -27,7 +33,7 @@ public class ByteProtocol {
 	 */
 	public static final byte END_GAME_HEADER = 0x01;
 	/**
-	 * Specifies the body value in <strong>byte</strong> for a <em>End Game</em> request.
+	 * Specifies the body value in <strong>byte</strong> for an <em>End Game</em> request.
 	 */
 	public static final byte END_GAME_REQUEST = 0x00;
 	/**
