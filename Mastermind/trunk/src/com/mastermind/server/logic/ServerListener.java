@@ -66,7 +66,7 @@ public class ServerListener {
 		    this.listenForConnection = true;
 		    
 		    // Print out listening header for status
-		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server listening on port " + this.listeningPort + "...");
+		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server bound and listening on " + serverSocket.getInetAddress().getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + "...");
 		    
 		    // Run loop while condition is true to listen for clients
 		    while(this.listenForConnection) {

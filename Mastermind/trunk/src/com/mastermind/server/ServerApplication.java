@@ -25,7 +25,7 @@ public class ServerApplication {
 		    int serverPort = (args.length != 1 ? 50000 : Integer.parseInt(args[0]));
 		    
 		    // Print statement when server starts
-		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server is starting...");
+		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Mastermind Server is starting...");
 		    
 		    // Create new ServerListener instance
 		    ServerListener serverListener = new ServerListener(serverPort);

@@ -27,12 +27,11 @@ public class GameLogic {
 	private Socket socket;
 	private byte[] buffer;
 	private boolean clientConnected;
-	private int bufferSize;
 	
 	// Global variables related to game
 	private int[] answer;
 	private int guessCount;
-	private boolean lostGame;
+	private boolean gameEnded;
 	
 	/**
 	 * Initialises a <code>GameLogic</code> instance with a specified <code>clientSocket</code> and <code>buffer</code> array.
@@ -47,7 +46,6 @@ public class GameLogic {
 		this.socket = clientSocket;
 		this.buffer = buffer;
 		this.clientConnected = true;
-		this.bufferSize = buffer.length;
 	}
 	
 	/**
@@ -56,7 +54,7 @@ public class GameLogic {
 	private void initialiseGame(int[] answer) {
 		this.answer = answer;
 		this.guessCount = 0;
-		this.lostGame = false;
+		this.gameEnded = false;
 	}
 	
 	/**
@@ -70,7 +68,7 @@ public class GameLogic {
 		while(true) {
 			
 			// Retrieve the message array from the client; if size of -1 is returned, then client has disconnected
-			for(int receiveSize = 0; receiveSize < bufferSize; receiveSize = ByteComm.receive(this.socket, this.buffer))
+			for(int receiveSize = 0; receiveSize < GameConstants.BUFFER_LENGTH; receiveSize = ByteComm.receive(this.socket, this.buffer))
 				if(receiveSize == -1) {
 					this.clientConnected = false;
 					break;
@@ -198,13 +196,13 @@ public class GameLogic {
 				///
 				
 				// Create a new buffer array
-				this.buffer = new byte[bufferSize];
+				this.buffer = new byte[GameConstants.BUFFER_LENGTH];
 				
 				// Set the message header
 				this.buffer[0] = ByteProtocol.START_GAME_HEADER;
 				
 				// Add success message into the buffer
-				for(int i = 1; i < bufferSize; i++)
+				for(int i = 1; i < GameConstants.BUFFER_LENGTH; i++)
 					buffer[i] = (byte) (ByteProtocol.START_GAME_SUCCESS);
 				
 				// Send buffer content to the client
@@ -214,25 +212,27 @@ public class GameLogic {
 			
 			// End current game and send the answer
 			case ByteProtocol.END_GAME_HEADER:
-				// Set 'lost' state
-				this.lostGame = true;
-				
-				///
-				// Send the answer back to the client
-				///
-				
-				// Create a new buffer array
-				this.buffer = new byte[bufferSize];
-				
-				// Set the message header
-				this.buffer[0] = ByteProtocol.END_GAME_HEADER;
-				
-				// Add answer into buffer; encode with prefix
-				for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
-					buffer[i + 1] = (byte) (answer[i] + ByteProtocol.END_GAME_ANSWER_PREFIX);
-				
-				// Send buffer content to the client
-				ByteComm.send(this.socket, this.buffer);
+				if(!this.gameEnded) {
+					// Set 'lost' state
+					this.gameEnded = true;
+					
+					///
+					// Send the answer back to the client
+					///
+					
+					// Create a new buffer array
+					this.buffer = new byte[GameConstants.BUFFER_LENGTH];
+					
+					// Set the message header
+					this.buffer[0] = ByteProtocol.END_GAME_HEADER;
+					
+					// Add answer into buffer; encode with prefix
+					for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
+						buffer[i + 1] = (byte) (answer[i] + ByteProtocol.END_GAME_ANSWER_PREFIX);
+					
+					// Send buffer content to the client
+					ByteComm.send(this.socket, this.buffer);
+				}
 				
 				break;
 
@@ -240,7 +240,7 @@ public class GameLogic {
 			case ByteProtocol.VALIDATE_HEADER:
 				
 				// Check for lost game and out-of-guesses
-				if(!lostGame && this.guessCount < GameConstants.MAX_NUM_OF_GUESSES) {
+				if(!gameEnded && this.guessCount < GameConstants.MAX_NUM_OF_GUESSES) {
 					int[] guesses = new int[GameConstants.ANSWER_LENGTH];
 					
 					// Generate guesses array; decode from buffer
@@ -258,7 +258,7 @@ public class GameLogic {
 					///
 					
 					// Create a new buffer array 
-					this.buffer = new byte[bufferSize];
+					this.buffer = new byte[GameConstants.BUFFER_LENGTH];
 					
 					// Set the message header
 					this.buffer[0] = ByteProtocol.VALIDATE_HEADER;

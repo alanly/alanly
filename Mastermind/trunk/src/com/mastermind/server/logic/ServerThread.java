@@ -7,17 +7,13 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.mastermind.util.ConsoleUtilities;
+import com.mastermind.util.GameConstants;
 
 /**
  * @author Alan Ly
  * @version 1.2
  */
 public class ServerThread {
-    
-    /**
-     * Set the size of the message buffer for the byte array that holds messages sent back and fourth
-     */
-    private static final int MESSAGE_BUFFER_SIZE = 5;
     
     private Socket clientSocket;
     private byte[] messageBuffer;
@@ -34,7 +30,7 @@ public class ServerThread {
 		this.clientSocket = clientSocket;
 		
 		// Initialise message buffer
-		this.messageBuffer = new byte[MESSAGE_BUFFER_SIZE];
+		this.messageBuffer = new byte[GameConstants.BUFFER_LENGTH];
     }
     
     /**
@@ -60,7 +56,7 @@ public class ServerThread {
      */
     public void startThread() throws IOException {
 		
-		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostAddress());
+		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostAddress() + "...");
 		
 		try {
 			
