@@ -148,7 +148,7 @@ public class GameLogic {
 		// Create an instance of Random
 		Random rnd = new Random();
 		
-		// Iterate through 'colours' and populate array with randomized values
+		// Iterate through 'colours' and populate array with randomised values
 		for(int i = 0; i < size; i++)
 			colours[i] = Colour.values()[rnd.nextInt(numOfColours)].toInt();
 		
