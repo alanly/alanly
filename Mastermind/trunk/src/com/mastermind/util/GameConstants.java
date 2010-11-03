@@ -30,5 +30,10 @@ public class GameConstants {
 	 * The constant value that specifies the timeout time length of 15 minutes for a <strong>Socket</strong> in milliseconds.
 	 */
 	public static final int SOCKET_TIMEOUT = 900000;
+	
+	/**
+	 * The constant value that specifies the default port number for the <em>Mastermind</em> client and server.
+	 */
+	public static final int DEFAULT_PORT = 50000;
 
 }
