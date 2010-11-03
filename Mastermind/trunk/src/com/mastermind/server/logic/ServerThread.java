@@ -5,13 +5,16 @@ package com.mastermind.server.logic;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 
 import com.mastermind.util.ConsoleUtilities;
 import com.mastermind.util.GameConstants;
 
 /**
+ * The <strong>ServerThread</strong> is spawned when a client connects to the Mastermind server listener and it is responsible for handling that particular client connection.
+ * 
  * @author Alan Ly
- * @version 1.2
+ * @version 1.3
  */
 public class ServerThread {
     
@@ -22,6 +25,7 @@ public class ServerThread {
     /**
      * Creates a <code>ServerThread</code> with a specified <code>Socket</code> connection to the client. 
      * An <code>IOException</code> may be thrown if the appropriate IO streams cannot be obtained from the client socket connection.
+     * 
      * @param clientSocket the <code>Socket</code> connection to the client
      * @throws IOException thrown when IO streams cannot be retrieved from client
      */
@@ -35,6 +39,7 @@ public class ServerThread {
     
     /**
      * Gets the client <code>Socket</code> for the related instance of <code>ServerThread</code>.
+     * 
      * @return the client socket
      */
     public Socket getClientSocket() {
@@ -43,6 +48,7 @@ public class ServerThread {
     
     /**
      * Sets the appropriate client <code>Socket</code> for the <code>ServerThread</code>.
+     * 
      * @param clientSocket a client socket
      */
     public void setClientSocket(Socket clientSocket) {
@@ -51,30 +57,23 @@ public class ServerThread {
     
     /**
      * Starts the <code>ServerThread</code> and handles the assigned client connection.
-     * An <code>IOException</code> is thrown when the appropriate IO stream cannot be opened.
-     * @throws IOException thrown when IO stream cannot be opened
      */
-    public void startThread() throws IOException {
+    public void startThread() {
+    	try {
 		
-		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Handling client from " + this.clientSocket.getInetAddress().getHostAddress() + "...");
-		
-		try {
+			System.out.println(ConsoleUtilities.generateLogHeader() + "Handling client from " + this.clientSocket.getInetAddress().getHostAddress() + "...");
 			
+			// Create GameLogic and start game
 			this.game = new GameLogic(this.clientSocket, this.messageBuffer);
 			this.game.start();
+	
+			System.out.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + " disconnected");
 			
-		} catch (IOException ioe) {
-			
-		    throw new IOException(ioe.getMessage());
-		    
-		} finally {
-			
-		    if(this.clientSocket.getInputStream().read() == -1)
-		    	this.clientSocket.close();
-		    
-		}
-		
-		System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Client from " + this.clientSocket.getInetAddress().getHostAddress() + " disconnected");
+    	} catch (SocketException se) {
+    		
+    		System.err.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + " disconnected unexepctedly and uncleanly!");
+    		
+    	}
     }
     
 }
