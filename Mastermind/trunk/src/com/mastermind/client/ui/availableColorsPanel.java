@@ -9,8 +9,6 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -47,7 +45,7 @@ public class availableColorsPanel extends JPanel {
 		for(int i =0; i < 8 ; i++)
 		{
 			
-			availableColors[i] = new JButton(new ImageIcon("C:\\" + i + ".gif"));
+			availableColors[i] = new JButton(new ImageIcon("src/images/"+ i + ".gif"));
 			availableColors[i].setBorder(thickBorder);
 			availableColors[i].addActionListener(myActionListener);
 			add(availableColors[i], makeConstraints(i, 1, 1, 1));
@@ -81,7 +79,7 @@ public class availableColorsPanel extends JPanel {
 			for (int i = 0; i < 8; i++) {
 				if (o == availableColors[i]) {
 					Toolkit toolkit = Toolkit.getDefaultToolkit();
-					Image image = toolkit.getImage("C:\\click" + i + ".gif");
+					Image image = toolkit.getImage("src/images/click" + i + ".gif");
 					Point hotSpot = new Point(0, 0);
 					Cursor c = toolkit.createCustomCursor(image, hotSpot,
 							"Mastermind");

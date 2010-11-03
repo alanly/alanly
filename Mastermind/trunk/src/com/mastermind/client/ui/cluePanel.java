@@ -41,7 +41,7 @@ public class cluePanel extends JPanel {
 			for (int j = 0; j < 2; j++) 
 				for(int k =0; k<2;k++)
 			{
-				clue[i][j][k] = new JLabel(new ImageIcon("C:\\clue.gif"));
+				clue[i][j][k] = new JLabel(new ImageIcon("src/images/clue.gif"));
 				clue[i][j][k].setBorder(thickBorder);
 				add(clue[i][j][k], makeConstraints(j, i, 1, 1));
 				clue[i][j][k].setVisible(true);

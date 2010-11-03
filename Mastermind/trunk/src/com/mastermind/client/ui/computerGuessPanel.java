@@ -38,7 +38,7 @@ public class computerGuessPanel extends JPanel {
 		Border thickBorder = new LineBorder(Color.decode("#484444"), 0, true);
 
 		for (int j = 0; j < 4; j++) {
-			computerGuess[j] = new JLabel(new ImageIcon("C:\\QM.gif"));
+			computerGuess[j] = new JLabel(new ImageIcon("src/images/QM.gif"));
 
 			computerGuess[j].setBorder(thickBorder);
 			add(computerGuess[j], makeConstraints(j, 1, 1, 1));

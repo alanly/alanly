@@ -48,7 +48,7 @@ public class boardGamePanel extends JPanel {
 
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 10; j++) {
-				boardGame[i][j] = new JButton(new ImageIcon("C:\\board.gif"));
+				boardGame[i][j] = new JButton(new ImageIcon("src/images/board.gif"));
 				boardGame[i][j].setBorder(thickBorder);
 				add(boardGame[i][j], makeConstraints(i, j, 1, 1));
 				boardGame[i][j].setVisible(true);
@@ -86,7 +86,7 @@ public class boardGamePanel extends JPanel {
 				for (int j = 0; j < 10; j++) {
 
 					if (o == boardGame[i][j]) {
-						boardGame[i][j] = new JButton(new ImageIcon("C:\\"
+						boardGame[i][j] = new JButton(new ImageIcon("src/images/"
 								+ boardcolor + ".gif"));
 
 					}
