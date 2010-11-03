@@ -6,7 +6,6 @@ package com.mastermind.server.logic;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 import com.mastermind.util.ConsoleUtilities;
 
@@ -91,10 +90,6 @@ public class ServerListener {
 			throw new IOException(ioe.getMessage());
 		    
 		} finally {
-			
-		    // Close the client socket if necessary
-		    if(clientSocket.isConnected())
-		    	clientSocket.close();
 		    
 		    // Close the server socket if necessary
 		    if(!serverSocket.isClosed())
