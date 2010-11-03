@@ -25,7 +25,7 @@ public class ServerApplication {
 		    int serverPort = (args.length != 1 ? 50000 : Integer.parseInt(args[0]));
 		    
 		    // Print statement when server starts
-		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Mastermind Server is starting...");
+		    System.out.println(ConsoleUtilities.generateLogHeader() + "Mastermind Server is starting...");
 		    
 		    // Create new ServerListener instance
 		    ServerListener serverListener = new ServerListener(serverPort);
@@ -34,17 +34,18 @@ public class ServerApplication {
 		    serverListener.startListening();
 		    
 		    // Print statement when server ends
-		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server has ended gracefully.");
+		    System.out.println(ConsoleUtilities.generateLogHeader() + "Server has ended gracefully.");
 		    
 		} catch (NumberFormatException nfe) {
 			
-		    System.err.println("[" + ConsoleUtilities.generateTimeStamp() + "] ERROR - Invalid port number provided: " + args[0]);
-		    System.err.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server has quitted unexpectedly.");
+		    System.err.println(ConsoleUtilities.generateLogHeader() + "ERROR - Invalid port number provided: " + args[0]);
+		    System.err.println(ConsoleUtilities.generateLogHeader() + "Server has quitted.");
 		    
 		} catch (Exception e) {
 			
-		    System.err.println("[" + ConsoleUtilities.generateTimeStamp() + "] ERROR - " + e.getMessage());
-		    System.err.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server has quitted unexpectedly.");
+		    System.err.println(ConsoleUtilities.generateLogHeader() + "ERROR - " + e.getMessage());
+		    System.err.println(ConsoleUtilities.generateLogHeader() + "Unrecoverable exception encountered. Stack trace follows,\n");
+		    e.printStackTrace();
 		    
 		}
     }
