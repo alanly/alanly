@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+
 public class availableColorsPanel extends JPanel {
 
 	/**
@@ -22,11 +23,14 @@ public class availableColorsPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	JButton[] availableColors = new JButton[8];
+	ColorModel cursorColor = null;
+	ColorModel colorNum = null;
+	
+	
 
-	int ChosenColor = -1;
-
-	public availableColorsPanel() {
+	public availableColorsPanel(ColorModel cursorColor) {
 		super();
+		this.cursorColor = cursorColor;
 		initialize();
 	}
 
@@ -83,33 +87,13 @@ public class availableColorsPanel extends JPanel {
 					Point hotSpot = new Point(0, 0);
 					Cursor c = toolkit.createCustomCursor(image, hotSpot,
 							"Mastermind");
-					ChosenColor = i;
+					cursorColor.setCursorColor(c);
+					cursorColor.setColorNum(i) ;
 					setCursor(c);
+					
 				}
 			}
 		}
-	}
-
-
-
-	static Color choose(int l) {
-		if (l == 0)
-			return Color.red;
-		if (l == 1)
-			return Color.green;
-		if (l == 2)
-			return Color.blue;
-		if (l == 3)
-			return Color.yellow;
-		if (l == 4)
-			return Color.magenta;
-		if (l == 5)
-			return Color.cyan;
-		if (l == 6)
-			return Color.orange;
-		else
-			return Color.pink;
-
-	}
+	}	
 
 }

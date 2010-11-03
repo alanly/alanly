@@ -2,10 +2,15 @@ package com.mastermind.client.ui;
 
 import java.awt.Color;
 
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 
@@ -15,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class boardGamePanel extends JPanel {
+
+
+public class boardGamePanel extends JPanel implements Observer {
 
 	/**
 	 * 
@@ -23,12 +30,15 @@ public class boardGamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GridBagLayout gridBagLayout = null;
 	JButton[][] boardGame = new JButton[4][10];
-	availableColorsPanel color = new availableColorsPanel();
-	// int boardcolor = MyActionListener.ChosenColor;
-	int boardcolor = color.ChosenColor;
 
-	public boardGamePanel() {
+
+
+	private ColorModel cursorColor = null;
+	
+	
+	public boardGamePanel(ColorModel cursorColor) {
 		super();
+		this.cursorColor = cursorColor;
 		initialize();
 	}
 
@@ -69,6 +79,7 @@ public class boardGamePanel extends JPanel {
 		return gbc;
 	}
 
+
 	class MyActionListener implements ActionListener {
 
 		public static final int ChosenColor = 0;
@@ -81,18 +92,32 @@ public class boardGamePanel extends JPanel {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			Object o = e.getSource();
-
+			
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 10; j++) {
 
 					if (o == boardGame[i][j]) {
-						boardGame[i][j] = new JButton(new ImageIcon("src/images/"
-								+ boardcolor + ".gif"));
-
+						int c = cursorColor.getcolorNum();
+						boardGame[i][j] = new JButton(new ImageIcon("src/images/"+c+".gif"));
+						//setImageIcon();
+						
+						
 					}
 				}
 			}
 		}
+		
 
+	}
+public void update(Observable observable, Object object) {
+		
+		// Determine the source of the observer event
+		if (observable instanceof ColorModel) {
+			ColorModel observedData = (ColorModel) observable;
+			setCursor(observedData.getCursorColor());
+			
+			//object is null if not used
+			//textField.setText((String)object);
+		}
 	}
 }
