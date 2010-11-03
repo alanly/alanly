@@ -6,6 +6,7 @@ package com.mastermind.util.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * A utility class that contains the necessary static methods to send and receive data between a client and a server system over a <code>Socket</code> connection.
@@ -17,30 +18,32 @@ public class ByteComm {
 	/**
 	 * Gets a message from a connection specified by the <code>socket</code> and stores the message into the <code>buffer</code> array.
 	 * The return value either specifies the number of bytes received from the <code>Socket</code> connection or a client disconnect specified by the value <code>-1</code>.
-	 * An <code>IOException</code> may be thrown if an input stream from the socket cannot be opened. 
+	 * An <code>SocketException</code> may be thrown if an input stream from the socket cannot be opened. 
 	 * @param socket	the socket containing the connection to a client or server
 	 * @param buffer	the single-dimension <code>byte</code> array that references the buffer to store the received message into
 	 * @return	the status of the operation
-	 * @throws IOException	thrown if an input stream cannot be opened
+	 * @throws SocketException	thrown if an input stream cannot be opened
+	 * @see #communicate(int, Socket, byte[])
 	 */
-    public static int receive(Socket socket, byte[] buffer) throws IOException {
+    public static int receive(Socket socket, byte[] buffer) throws SocketException {
     	return communicate(0, socket, buffer);
     }
     
     /**
      * Sends a message specified by the <code>buffer</code> array to the connection specified by the <code>socket</code>.
-     * An <code>IOException</code> may be thrown if an output stream to the socket cannot be opened.
+     * An <code>SocketException</code> may be thrown if an output stream to the socket cannot be opened.
      * @param socket	the socket containing the connection to a client/server
      * @param buffer	the single-dimension <code>byte</code> array that references the buffer containing the message to be sent
-     * @throws IOException	thrown if an output stream cannot be opened
+     * @throws SocketException	thrown if an output stream cannot be opened
+     * @see #communicate(int, Socket, byte[])
      */
-    public static void send(Socket socket, byte[] buffer) throws IOException {
+    public static void send(Socket socket, byte[] buffer) throws SocketException {
     	communicate(1, socket, buffer);
     }
     
     /**
      * Performs an IO operation between a client/server based on the appropriate <code>mode</code> parameter.
-     * An <code>IOException</code> may be thrown if the appropriate IO streams cannot be retrieved from the client <code>Socket</code>.
+     * A <strong>SocketException</strong> may be thrown if the appropriate IO streams cannot be retrieved from the client <code>Socket</code>, indicating an unclean disconnection of the client socket connection.
      * The available modes are,
      * <ul>
      * 	<li><strong>0</strong> - specifies a <em>read</em> request from the client/server</li>
@@ -56,9 +59,9 @@ public class ByteComm {
      * @param socket	the <code>Socket</code> containing the appropriate connection
      * @param bufferArray	a reference to a single-dimension <code>byte</code> array that either contains the data to be <em>sent</em> or where the data should be buffered from a <em>read</em>
      * @return	an integer value that represents the result of the operation
-     * @throws IOException thrown when IO streams with client could not be opened
+     * @throws SocketException thrown when IO streams with client socket could not be opened
      */
-    public static int communicate(int mode, Socket socket, byte[] bufferArray) throws IOException {
+    public static int communicate(int mode, Socket socket, byte[] bufferArray) throws SocketException {
     	int streamStatus = 0;
     	
     	switch(mode) {
@@ -67,7 +70,7 @@ public class ByteComm {
     				InputStream stream = socket.getInputStream();
     				streamStatus = stream.read(bufferArray);
     			} catch (IOException ioe) {
-    				throw new IOException("Unable to open input stream to " + socket.getInetAddress().getHostAddress());
+    				throw new SocketException("Unable to open input stream to " + socket.getInetAddress().getHostAddress());
     			}
     			break;
     		case 1:
@@ -75,7 +78,7 @@ public class ByteComm {
     				socket.getOutputStream().write(bufferArray);
     				streamStatus = 1;
     			} catch (IOException ioe) {
-    				throw new IOException("Unable to open output stream to " + socket.getInetAddress().getHostAddress());
+    				throw new SocketException("Unable to open output stream to " + socket.getInetAddress().getHostAddress());
     			}
     			break;
     		default:
