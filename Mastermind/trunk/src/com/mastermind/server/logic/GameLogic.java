@@ -217,27 +217,25 @@ public class GameLogic {
 			
 			// End current game and send the answer
 			case ByteProtocol.END_GAME_HEADER:
-				if(!this.gameEnded) {
-					// Set 'lost' state
-					this.gameEnded = true;
+				// Set 'lost' state
+				this.gameEnded = true;
 					
-					///
-					// Send the answer back to the client
-					///
+				///
+				// Send the answer back to the client
+				///
+				
+				// Create a new buffer array
+				this.buffer = new byte[GameConstants.BUFFER_LENGTH];
+				
+				// Set the message header
+				this.buffer[0] = ByteProtocol.END_GAME_HEADER;
 					
-					// Create a new buffer array
-					this.buffer = new byte[GameConstants.BUFFER_LENGTH];
+				// Add answer into buffer; encode with prefix
+				for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
+					buffer[i + 1] = (byte) (answer[i] + ByteProtocol.END_GAME_ANSWER_PREFIX);
 					
-					// Set the message header
-					this.buffer[0] = ByteProtocol.END_GAME_HEADER;
-					
-					// Add answer into buffer; encode with prefix
-					for(int i = 0; i < GameConstants.ANSWER_LENGTH; i++)
-						buffer[i + 1] = (byte) (answer[i] + ByteProtocol.END_GAME_ANSWER_PREFIX);
-					
-					// Send buffer content to the client
-					ByteComm.send(this.socket, this.buffer);
-				}
+				// Send buffer content to the client
+				ByteComm.send(this.socket, this.buffer);
 				
 				break;
 
