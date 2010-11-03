@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import com.mastermind.client.logic.GameController;
 
-public class buttonPanel extends JPanel  {
+public class buttonPanel extends JPanel   {
 
 	/**
 	 * 

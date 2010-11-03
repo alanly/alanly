@@ -4,13 +4,20 @@ import java.awt.Color;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class computerGuessPanel extends JPanel {
+import com.mastermind.client.logic.GameController;
+import com.mastermind.util.GameConstants;
+
+
+public class computerGuessPanel extends JPanel implements Observer {
 
 	/**
 	 * 
@@ -18,6 +25,8 @@ public class computerGuessPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GridBagLayout gridBagLayout = null;
 	JLabel[] computerGuess = new JLabel[4];
+	int[]displayAnswers = new int[GameConstants.ANSWER_LENGTH];
+	
 
 	public computerGuessPanel() {
 		super();
@@ -56,6 +65,25 @@ public class computerGuessPanel extends JPanel {
 		gbc.gridwidth = gridwidth;
 
 		return gbc;
+	}
+	public void displayAnswers()
+	{
+		//change the labels here to display the answer
+	}
+	
+	public void setAnswers(int[]answers)
+	{
+		for(int i = 0 ; i < computerGuess.length;i++)
+		{
+			displayAnswers[i] =  answers[i];
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+			
+			
 	}
 
 }

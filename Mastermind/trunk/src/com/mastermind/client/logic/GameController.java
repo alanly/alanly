@@ -18,7 +18,7 @@ import com.mastermind.client.ui.computerGuessPanel;
  * @author FLIP
  *
  */
-public class GameController implements Observer{
+public class GameController extends Observable{
 	private int guessCount;
 	private GameBoard gameBoard;
 	private Mastermind view;
@@ -27,11 +27,15 @@ public class GameController implements Observer{
 	private buttonPanel buttonpanel;
 	private cluePanel cluepanel;
 	private computerGuessPanel compGuess;
+	private int [] answers;
+	private int [] clues;
 	
 	
 	public GameController(GameBoard gameBoard, Mastermind view,boardGamePanel boardGame,availableColorsPanel availColors,buttonPanel buttonpanel,cluePanel cluepanel,computerGuessPanel compGuess)
 	{
-		guessCount = 0;
+		guessCount = 9;
+		int [] answers = null;
+		int [] clues = null;
 		this.gameBoard = gameBoard;
 		this.view = view;	
 		this.availColors = availColors;
@@ -40,27 +44,41 @@ public class GameController implements Observer{
 		this.compGuess = compGuess;
 	}
 	
+	
+	
 	public void newGame() throws SocketException
 	{		
-		if()
 		gameBoard.startGame(null);
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void endGame() throws SocketException
 	{
-		gameBoard.endGame();
+		answers = gameBoard.endGame();
+		compGuess.setAnswers(answers);
+		compGuess.displayAnswers();
 	}
 	
 	public void check()
 	{
-		//gameBoard.validateGuess();
+		//guesses = boardGame.getGuesses();
+		clues = gameBoard.validateGuess(guesses);
+		setChanged();
+		notifyObservers();
+		guessCount--;
+	}
+	
+	public int getGuessCount()
+	{
+		return guessCount;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
+	public int[] getAnswers() {
 		
-		
+		return answers;
 	}
+
 	
 
 }
