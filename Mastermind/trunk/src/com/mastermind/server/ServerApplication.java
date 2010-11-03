@@ -5,6 +5,7 @@ package com.mastermind.server;
 
 import com.mastermind.server.logic.ServerListener;
 import com.mastermind.util.ConsoleUtilities;
+import com.mastermind.util.GameConstants;
 
 /**
  * The <code>ServerApplication</code> begins a <code>ServerListener</code> and accepts a port number to listen to client connections on.
@@ -21,8 +22,8 @@ public class ServerApplication {
     public static void main(String[] args) {
 		try {
 			
-			// Determine socket port from arguments (default is 50,000)
-		    int serverPort = (args.length != 1 ? 50000 : Integer.parseInt(args[0]));
+			// Determine socket port from arguments
+		    int serverPort = (args.length != 1 ? GameConstants.DEFAULT_PORT : Integer.parseInt(args[0]));
 		    
 		    // Print statement when server starts
 		    System.out.println(ConsoleUtilities.generateLogHeader() + "Mastermind Server is starting...");
