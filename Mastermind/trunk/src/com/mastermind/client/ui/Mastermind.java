@@ -5,9 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.*;
 
+import com.mastermind.client.logic.GameBoard;
 import com.mastermind.client.logic.GameController;
 
 
@@ -30,12 +32,19 @@ public class Mastermind extends JFrame implements ActionListener {
 	private boardGamePanel boardGame = null ;
 	private buttonPanel buttonPanel = null;
 	private titlePanel titlePanel = null;
+	GameBoard game = null;
+	GameController controller = null;
 	
 	private ColorModel cursorColor = null;
 
-	public Mastermind()  {
+	public Mastermind() throws IOException  {
 		
 		super();
+		int port;
+		String ip;
+		
+		port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
+		ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
 		cursorColor = new ColorModel();
 		
 		colorPanel = new availableColorsPanel(cursorColor);
@@ -44,6 +53,9 @@ public class Mastermind extends JFrame implements ActionListener {
 		boardGame = new boardGamePanel(cursorColor);
 		buttonPanel = new buttonPanel();
 		titlePanel = new titlePanel();
+		game = new GameBoard(ip, port);
+		controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
+		
 		initialize();
 		
 		cursorColor.addObserver(boardGame);
@@ -296,14 +308,6 @@ public class Mastermind extends JFrame implements ActionListener {
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 
-	public static  void main(String[] args) {
-
-				// Create and set up the window.
-				Mastermind frame = new Mastermind();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
-			}
-	
 	
 
 	}

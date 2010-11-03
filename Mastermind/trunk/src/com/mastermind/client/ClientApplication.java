@@ -5,6 +5,7 @@ package com.mastermind.client;
 
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.mastermind.client.logic.GameBoard;
@@ -22,14 +23,9 @@ public class ClientApplication {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		int port;
-		String ip;
 		
-		port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
-		ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
 		Mastermind view = new Mastermind();
-		GameBoard game = new GameBoard(ip, port);
-		GameController controller = new GameController(game,view);
+		view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
 		
 		
