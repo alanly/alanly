@@ -8,9 +8,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
+import com.mastermind.client.logic.GameController;
 
 
-public class Mastermind extends JFrame {
+
+public class Mastermind extends JFrame implements ActionListener {
 
 	/**
 	 * 
@@ -22,16 +24,16 @@ public class Mastermind extends JFrame {
 	JPanel southPanel = new JPanel(new BorderLayout());
 	JPanel Main = new JPanel(new BorderLayout());
 
-	availableColorsPanel colorPanel =null;
-	computerGuessPanel computerGuess = null;
-	cluePanel cluePanel = null ;
-	boardGamePanel boardGame = null ;
-	buttonPanel buttonPanel = null;
-	titlePanel titlePanel = null;
+	private availableColorsPanel colorPanel =null;
+	private computerGuessPanel computerGuess = null;
+	private cluePanel cluePanel = null ;
+	private boardGamePanel boardGame = null ;
+	private buttonPanel buttonPanel = null;
+	private titlePanel titlePanel = null;
 	
 	private ColorModel cursorColor = null;
 
-	public Mastermind() {
+	public Mastermind()  {
 		
 		super();
 		cursorColor = new ColorModel();
@@ -64,7 +66,7 @@ public class Mastermind extends JFrame {
 		centerPanel.add(colorPanel, BorderLayout.WEST);
 		Main.add(centerPanel,BorderLayout.CENTER);
 		
-	//	southPanel.add(colorPanel, BorderLayout.CENTER);
+		//southPanel.add(colorPanel, BorderLayout.CENTER);
 		//Main.add(southPanel,BorderLayout.SOUTH);
 		this.add(Main,BorderLayout.CENTER);
 		this.add(titlePanel,BorderLayout.EAST);
@@ -171,6 +173,7 @@ public class Mastermind extends JFrame {
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
+		
 		JMenuItem source = (JMenuItem) (e.getSource());
 		String s = "Menu event detected.\n" + "    Event source: "
 				+ source.getText();
@@ -298,6 +301,7 @@ public class Mastermind extends JFrame {
 				// Create and set up the window.
 				Mastermind frame = new Mastermind();
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
 			}
 	
 	
