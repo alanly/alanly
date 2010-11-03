@@ -25,7 +25,7 @@ public class ByteComm {
 	 * @throws SocketException	thrown if an input stream cannot be opened
 	 * @see #communicate(int, Socket, byte[])
 	 */
-    public static int receive(Socket socket, byte[] buffer) throws SocketException {
+    public static int receiveByte(Socket socket, byte[] buffer) throws SocketException {
     	return communicate(0, socket, buffer);
     }
     
