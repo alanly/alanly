@@ -22,8 +22,13 @@ public class GameConstants {
 	public static final int BUFFER_LENGTH = 5;
 	
 	/**
-	 * The constatn value that specifies the maximum number of guesses before the player loses the game.
+	 * The constant value that specifies the maximum number of guesses before the player loses the game.
 	 */
 	public static final int MAX_NUM_OF_GUESSES = 10;
+	
+	/**
+	 * The constant value that specifies the timeout time length of 15 minutes for a <strong>Socket</strong> in milliseconds.
+	 */
+	public static final int SOCKET_TIMEOUT = 900000;
 
 }
