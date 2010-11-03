@@ -58,7 +58,7 @@ public class TextClientTest {
 		
 		socket = new Socket(address, port);
 		
-		System.out.println("Connected to Mastermind Server...\n");
+		System.out.println("Connecting to Mastermind Server...\n");
 		
 		try {
 			initialiseGame();
@@ -72,7 +72,7 @@ public class TextClientTest {
 	private static void initialiseGame() throws IOException {
 		startNewGame(new int[] { 1, 2, 3, 4 });
 		
-		System.out.println("New game started,");
+		System.out.println("Connected - New game started,");
 		
 		System.out.println("You have " + GameConstants.MAX_NUM_OF_GUESSES + " guesses. The number of guesses made so far are shown in square brackets.\n" +
 				"To play, enter " + GameConstants.ANSWER_LENGTH + " values between 1 and 8 inclusive (e.g. '1738') or 'QUIT' to end the game and see the answer or 'NEW' to start a new game.\n" +
