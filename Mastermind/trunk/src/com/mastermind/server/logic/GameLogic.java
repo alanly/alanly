@@ -5,6 +5,7 @@ package com.mastermind.server.logic;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -60,26 +61,30 @@ public class GameLogic {
 	/**
 	 * Starts this <strong>GameLogic</strong> instance and plays a game of <strong>Mastermind</strong> with the client.
 	 * 
-	 * @throws IOException thrown if an error occurs when handling the client socket
+	 * @throws SocketException thrown if an error occurs when handling the client socket
 	 */
-	public void start() throws IOException {
-		
-		// Handle the client
-		while(true) {
-			
-			// Retrieve the message array from the client; if size of -1 is returned, then client has disconnected
-			for(int receiveSize = 0; receiveSize < GameConstants.BUFFER_LENGTH; receiveSize = ByteComm.receive(this.socket, this.buffer))
-				if(receiveSize == -1) {
-					this.clientConnected = false;
+	public void start() throws SocketException {
+		try {
+			// Handle the client
+			while(true) {
+				
+				// Retrieve the message array from the client; if size of -1 is returned, then client has disconnected
+				for(int receiveSize = 0; receiveSize < GameConstants.BUFFER_LENGTH; receiveSize = ByteComm.receive(this.socket, this.buffer))
+					if(receiveSize == -1) {
+						this.clientConnected = false;
+						socket.close();
+						break;
+					}
+				
+				// If the client is no longer connected, then break the loop
+				if(!this.clientConnected)
 					break;
-				}
-			
-			// If the client is no longer connected, then break the loop
-			if(!this.clientConnected)
-				break;
-			else
-				// Handle the client request
-				this.handleRequest();
+				else
+					// Handle the client request
+					this.handleRequest();
+			}
+		} catch (IOException ioe) {
+			throw new SocketException("Client socket disconnected and/or interrupted unexpectedly");
 		}
 	}
 	
@@ -168,9 +173,9 @@ public class GameLogic {
 	/**
 	 * Handles the client request in the <strong>buffer</strong> array.
 	 * 
-	 * @throws IOException thrown when an IOException occurs when sending a reply to the client
+	 * @throws SocketException thrown when an error occurs when communicating to the client
 	 */
-	private void handleRequest() throws IOException {
+	private void handleRequest() throws SocketException {
 		// Figure what type of message it is using the message header (element 0),
 		switch(this.buffer[0]) {
 
