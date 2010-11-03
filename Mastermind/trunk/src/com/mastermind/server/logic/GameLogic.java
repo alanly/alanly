@@ -66,11 +66,14 @@ public class GameLogic {
 	 */
 	public void start() throws SocketException {
 		try {
+			// Set the socket timeout value
+			this.socket.setSoTimeout(GameConstants.SOCKET_TIMEOUT);
+			
 			// Handle the client
 			while(true) {
 				
 				// Retrieve the message array from the client; if size of -1 is returned, then client has disconnected
-				for(int receiveSize = 0; receiveSize < GameConstants.BUFFER_LENGTH; receiveSize = ByteComm.receive(this.socket, this.buffer))
+				for(int receiveSize = 0; receiveSize < GameConstants.BUFFER_LENGTH; receiveSize = ByteComm.receiveByte(this.socket, this.buffer))
 					if(receiveSize == -1) {
 						this.clientConnected = false;
 						socket.close();
