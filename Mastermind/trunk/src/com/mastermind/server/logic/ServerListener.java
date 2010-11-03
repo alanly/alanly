@@ -6,6 +6,7 @@ package com.mastermind.server.logic;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 import com.mastermind.util.ConsoleUtilities;
 
@@ -66,7 +67,7 @@ public class ServerListener {
 		    this.listenForConnection = true;
 		    
 		    // Print out listening header for status
-		    System.out.println("[" + ConsoleUtilities.generateTimeStamp() + "] Server bound and listening on " + serverSocket.getInetAddress().getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + "...");
+		    System.out.println(ConsoleUtilities.generateLogHeader() + "Server bound to and listening on port " + serverSocket.getLocalPort() + "...");
 		    
 		    // Run loop while condition is true to listen for clients
 		    while(this.listenForConnection) {
@@ -75,7 +76,7 @@ public class ServerListener {
 				clientSocket = serverSocket.accept();
 				
 				// Print status message for client connection
-				System.out.println("\n[" + ConsoleUtilities.generateTimeStamp() + "] Client connection from " + clientSocket.getInetAddress().getHostAddress());
+				System.out.println(ConsoleUtilities.generateLogHeader() + "Client connection from " + clientSocket.getInetAddress().getHostAddress());
 				
 				// Create a ServerThread
 				ServerThread serverThread = new ServerThread(clientSocket);
@@ -83,8 +84,8 @@ public class ServerListener {
 				// Start handling client
 				serverThread.startThread();
 		    }
-		    
-		} catch(IOException ioe) {
+		    	    
+		} catch (IOException ioe) {
 			
 		    // Throw new IOException with the appropriate message
 			throw new IOException(ioe.getMessage());
