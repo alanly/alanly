@@ -210,8 +210,8 @@ public class TextClientTest {
 		return clues;
 	}
 	
-	private static void receiveMessage(Socket sock, byte[] buff, int len) throws IOException {
-		for(int receiveSize = 0; receiveSize < len; receiveSize = ByteComm.receive(sock, buff)) {
+	private static void receiveMessage(Socket sock, byte[] buff, int len) throws SocketException {
+		for(int receiveSize = 0; receiveSize < len; receiveSize = ByteComm.receiveByte(sock, buff)) {
 			if(receiveSize == -1)
 				throw new SocketException("Socket disconnected while receiving.");
 		}
