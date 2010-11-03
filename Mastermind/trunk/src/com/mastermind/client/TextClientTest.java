@@ -79,7 +79,7 @@ public class TextClientTest {
 				"Clues are given to help guide you; 0 represents no matches, 1 represents a colour match and 2 represents a complete match. Good Luck!\n");
 		
 		do{
-			System.out.print("[" + guessCount + " out of " + GameConstants.MAX_NUM_OF_GUESSES + "] Enter a value: ");
+			System.out.print("[" + (guessCount + 1) + " out of " + GameConstants.MAX_NUM_OF_GUESSES + "] Enter a value: ");
 			
 			String input = consoleScan.nextLine();
 			
@@ -124,6 +124,8 @@ public class TextClientTest {
 		} while(!gameEnd && guessCount < GameConstants.MAX_NUM_OF_GUESSES);
 		
 		if(!wonGame) {
+			answers = quitGame();
+			
 			System.out.print("\n\nThe answers were, ");
 			
 			for(int answer : answers)
