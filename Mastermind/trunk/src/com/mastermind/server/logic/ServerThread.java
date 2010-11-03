@@ -61,17 +61,17 @@ public class ServerThread {
     public void startThread() {
     	try {
 		
-			System.out.println(ConsoleUtilities.generateLogHeader() + "Handling client from " + this.clientSocket.getInetAddress().getHostAddress() + "...");
+			System.out.println(ConsoleUtilities.generateLogHeader() + "Handling client over " + this.clientSocket.getInetAddress().getHostAddress() + ":" + this.clientSocket.getPort() + "...");
 			
 			// Create GameLogic and start game
 			this.game = new GameLogic(this.clientSocket, this.messageBuffer);
 			this.game.start();
 	
-			System.out.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + " disconnected");
+			System.out.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + ":" + this.clientSocket.getPort() + " disconnected");
 			
     	} catch (SocketException se) {
     		
-    		System.err.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + " disconnected unexepctedly and uncleanly!");
+    		System.err.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + ":" + this.clientSocket.getPort() + " disconnected unexepctedly and uncleanly!");
     		
     	}
     }
