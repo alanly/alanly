@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.mastermind.util.Colour;
+import com.mastermind.util.ConsoleUtilities;
 import com.mastermind.util.GameConstants;
 import com.mastermind.util.net.ByteComm;
 import com.mastermind.util.net.ByteProtocol;
@@ -172,10 +173,9 @@ public class GameLogic {
 	
 	/**
 	 * Handles the client request in the <strong>buffer</strong> array.
-	 * 
-	 * @throws SocketException thrown when an error occurs when communicating to the client
+	 * @throws IOException 
 	 */
-	private void handleRequest() throws SocketException {
+	private void handleRequest() throws IOException {
 		// Figure what type of message it is using the message header (element 0),
 		switch(this.buffer[0]) {
 
@@ -273,6 +273,16 @@ public class GameLogic {
 					// Send buffer to the client
 					ByteComm.send(this.socket, this.buffer);
 				}
+				
+				break;
+			
+			// If the header does not match any valid option
+			default:
+				// Close the connection
+				socket.close();
+				
+				// Print error to console
+				System.err.println(ConsoleUtilities.generateLogHeader() + "Client sent invalid command!");
 				
 				break;
 		}

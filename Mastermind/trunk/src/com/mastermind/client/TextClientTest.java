@@ -72,14 +72,14 @@ public class TextClientTest {
 	private static void initialiseGame() throws IOException {
 		startNewGame(new int[] { 1, 2, 3, 4 });
 		
-		System.out.println("New game started,\n");
+		System.out.println("New game started,");
 		
 		System.out.println("You have " + GameConstants.MAX_NUM_OF_GUESSES + " guesses. The number of guesses made so far are shown in square brackets.\n" +
 				"To play, enter " + GameConstants.ANSWER_LENGTH + " values between 1 and 8 inclusive (e.g. '1738') or 'QUIT' to end the game and see the answer or 'NEW' to start a new game.\n" +
 				"Clues are given to help guide you; 0 represents no matches, 1 represents a colour match and 2 represents a complete match. Good Luck!\n");
 		
 		do{
-			System.out.print("[" + (guessCount + 1) + " out of " + GameConstants.MAX_NUM_OF_GUESSES + "] Enter a value: ");
+			System.out.print("\n[" + (guessCount + 1) + " out of " + GameConstants.MAX_NUM_OF_GUESSES + "] Enter a value: ");
 			
 			String input = consoleScan.nextLine();
 			
@@ -93,6 +93,8 @@ public class TextClientTest {
 					guessCount = 0;
 					System.out.println("\nNew Game Started\n");
 				}
+			} else if(input.equalsIgnoreCase("WAR")) {
+				System.out.println("\nWOULD YOU LIKE TO PLAY THERMONUCLEAR WARFARE?");
 			} else {
 				if(input.length() == GameConstants.ANSWER_LENGTH) {
 					guesses = new int[GameConstants.ANSWER_LENGTH];
@@ -112,7 +114,7 @@ public class TextClientTest {
 						wonGame = true;
 						gameEnd = true;
 					} else {
-						System.out.println("\nThe clues are: " + cluesResult);
+						System.out.println("The clues are: " + cluesResult);
 					}
 					
 					guessCount++;
@@ -141,6 +143,8 @@ public class TextClientTest {
 		}
 		
 		socket.close();
+		
+		consoleScan.nextLine();
 	}
 	
 	private static boolean startNewGame(int[] answer) throws IOException {
