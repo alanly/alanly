@@ -45,6 +45,7 @@ public class TextClientTest {
 		consoleScan = new Scanner(System.in);
 		String input;
 		
+		System.out.println("Please enter the required server details (default values are in parenthesis),");
 		System.out.print("Server Address (127.0.0.1): ");
 		input = consoleScan.nextLine();
 		
@@ -73,8 +74,8 @@ public class TextClientTest {
 		
 		System.out.println("New game started,\n");
 		
-		System.out.println("You have " + GameConstants.MAX_NUM_OF_GUESSES + " guesses. The remaining guesses are shown in square brackets.\n" +
-				"To play, enter " + GameConstants.ANSWER_LENGTH + " values between 1 and 8 inclusive (e.g. '1738') or 'QUIT' to end the game and see the answer.\n" +
+		System.out.println("You have " + GameConstants.MAX_NUM_OF_GUESSES + " guesses. The number of guesses made so far are shown in square brackets.\n" +
+				"To play, enter " + GameConstants.ANSWER_LENGTH + " values between 1 and 8 inclusive (e.g. '1738') or 'QUIT' to end the game and see the answer or 'NEW' to start a new game.\n" +
 				"Clues are given to help guide you; 0 represents no matches, 1 represents a colour match and 2 represents a complete match. Good Luck!\n");
 		
 		do{
@@ -85,6 +86,13 @@ public class TextClientTest {
 			if(input.equalsIgnoreCase("QUIT")) {
 				answers = quitGame();
 				gameEnd = true;
+			} else if(input.equalsIgnoreCase("NEW")) {
+				if(startNewGame(null)) {
+					gameEnd = false;
+					wonGame = false;
+					guessCount = 0;
+					System.out.println("\nNew Game Started\n");
+				}
 			} else {
 				if(input.length() == GameConstants.ANSWER_LENGTH) {
 					guesses = new int[GameConstants.ANSWER_LENGTH];
