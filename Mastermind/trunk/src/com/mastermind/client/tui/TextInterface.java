@@ -47,10 +47,10 @@ public class TextInterface {
 	public void run() throws Exception {
 		// Print the awesome looking header-ASCII-thing
 		System.out.println("===========================================================");
-		System.out.println("#   #   #    #### ##### ##### ####  #   # ##### #   # ####");
-		System.out.println("## ##  # #  #       #   #     #   # ## ##   #   ##  # #   #");
-		System.out.println("# # # #   #  ###    #   ####  ####  # # #   #   # # # #   #");
-		System.out.println("#   # #####     #   #   #     #   # #   #   #   #  ## #   #");
+		System.out.println("#   #  ###   #### ##### ##### ####  #   # ##### #   # ####");
+		System.out.println("## ## #   # #       #   #     #   # ## ##   #   ##  # #   #");
+		System.out.println("# # # #####  ###    #   ####  ####  # # #   #   # # # #   #");
+		System.out.println("#   # #   #     #   #   #     #   # #   #   #   #  ## #   #");
 		System.out.println("#   # #   # ####    #   ##### #   # #   # ##### #   # ####");
 		System.out.println("==Mastermind===============================================");
 		System.out.println();
