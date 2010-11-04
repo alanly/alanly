@@ -28,10 +28,9 @@ public class GameBoard {
 	private int guessCount;
 	
 	/**
-	 * Initialises a <strong>GameBoard</strong> class with the specified <em>Mastermind Server</em> details.
+	 * Initialises a <strong>GameBoard</strong> class with a specified <em>Mastermind Server</em> socket.
 	 * 
-	 * @param serverAddress the IP address of the <em>Mastermind Server</em>
-	 * @param serverPort the port number that the <em>Mastermind Server</em> is bound to
+	 * @param socket the socket to the server that is provided by the calling method
 	 * @throws IOException thrown if an error occurs related to the creation of the socket
 	 */
 	public GameBoard(Socket socket) throws IOException {
