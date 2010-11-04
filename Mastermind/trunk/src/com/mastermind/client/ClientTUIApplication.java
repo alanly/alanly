@@ -6,6 +6,8 @@ package com.mastermind.client;
 import com.mastermind.client.tui.TextInterface;
 
 /**
+ * The <strong>ClientTUIApplication</strong> launches the text-based user-interface.
+ * 
  * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.0
  */
