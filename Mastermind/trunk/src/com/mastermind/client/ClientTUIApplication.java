@@ -1,7 +1,9 @@
 /**
  * Contains all the classes that are use to present a text-based interactive user interface.
  */
-package com.mastermind.client.tui;
+package com.mastermind.client;
+
+import com.mastermind.client.tui.TextInterface;
 
 /**
  * @author Alan Ly
