@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains all the classes that are use to present a text-based interactive user interface.
  */
 package com.mastermind.client.tui;
 
@@ -11,28 +11,41 @@ import com.mastermind.client.logic.ClientGameLogic;
 import com.mastermind.util.GameConstants;
 
 /**
+ * The <strong>TextInterface</strong> represents an interactive console text-based user interface that will accept commands from the user and perform the appropriate processing in the background in order to interact with a <em>Mastermind Server</em> to play a game of </em>Mastermind</em>.
+ * 
  * @author Alan Ly
- *
+ * @version 1.0
  */
 public class TextInterface {
 	
-	private ClientGameLogic gameBoard;
+	// Global variables for connection and logic
+	private ClientGameLogic gameLogic;
 	private Scanner scanner;
 	private Socket socket;
+	
+	// Global variables for game
 	private int[] answers;
 	private int[] guesses;
 	private boolean hasWon;
 	private boolean showAnswer;
 	
+	/**
+	 * Initialises a <strong>TextInterface</strong> class.
+	 */
 	public TextInterface() {
 		super();
 		
-		this.gameBoard = null;
+		this.gameLogic = null;
 		this.scanner = new Scanner(System.in);
 	}
 	
+	/**
+	 * Starts the <strong>TextInterface</strong> class and begins interacting with user.
+	 * 
+	 * @throws Exception thrown if any exception occurs during the handling of the game
+	 */
 	public void run() throws Exception {
-		// Print the awesome looking header ASCII thing
+		// Print the awesome looking header-ASCII-thing
 		System.out.println("===========================================================");
 		System.out.println("#   #   #    #### ##### ##### ####  #   # ##### #   # ####");
 		System.out.println("## ##  # #  #       #   #     #   # ## ##   #   ##  # #   #");
@@ -50,10 +63,25 @@ public class TextInterface {
 		// Initialise the game
 		this.initialiseGame();
 		
+		// Create the game board
+		this.gameLogic = new ClientGameLogic(this.socket);
+		
+		// Start the game with a random answer; specify the answer as an Integer array if pre-defined answer is required
+		this.gameLogic.startGame(null);
+		
 		// Start playing the game
 		this.playGame();
 	}
 	
+	/**
+	 * Creates a <strong>Socket</strong> by interacting with the user. If the user does not enter any values, the default values specified by <code>defaultServer</code> and <code>defaultPort</code> will be used.
+	 * 
+	 * @param defaultServer the default server address to connect to
+	 * @param defaultPort the default server port to connect to
+	 * @return a <strong>Socket</strong> object representing the new connection
+	 * @throws IOException thrown if an error occurs while generating the <strong>Socket</strong>
+	 * @see java.net.Socket
+	 */
 	private Socket createSocket(String defaultServer, int defaultPort) throws IOException {
 		Socket sock = null;
 		String input = "";
@@ -87,78 +115,108 @@ public class TextInterface {
 		return sock;
 	}
 	
-	private void initialiseGame() throws IOException {
+	/**
+	 * Initialises the game with the default values required for a new game session.
+	 */
+	private void initialiseGame() {
 		this.answers = null;
 		this.guesses = null;
 		this.hasWon = false;
 		this.showAnswer = true;
-		
-		
-		// Create the game board
-		this.gameBoard = new ClientGameLogic(this.socket);
-		this.gameBoard.startGame(null);
 	}
 	
+	/**
+	 * Plays a game of <em>Mastermind</em> with the user. In addition to the guesses, it will accept various commands from the user such as 'NEW' (to start a new game), 'QUIT' (to end the current game and see the answer), 'HELP' (to display the help text) and 'EXIT' (to exit the client).
+	 * 
+	 * @throws IOException thrown if an error occurs while communicating with the server
+	 */
 	private void playGame() throws IOException {
+		// Create String to hold user input values
 		String input = "";
 		
+		// Display connected message and print the instructions for the game
 		System.out.println("Connected to the server.");
 		this.printInstructions();
 		
+		// Keep looping until user quits
 		while(true) {
-			if(!this.gameBoard.hasLostGame())
-				System.out.print("[" + (gameBoard.getGuessCount() + 1) + "/" + GameConstants.MAX_NUM_OF_GUESSES + "] Command: ");
+			// Check whether or not the user has lost the game to output the appropriate prompt
+			if(!this.gameLogic.hasLostGame())
+				System.out.print("[" + (gameLogic.getGuessCount() + 1) + "/" + GameConstants.MAX_NUM_OF_GUESSES + "] Command: ");
 			else
 				System.out.print("\tCommand: ");
 			
+			// Get the user input
 			input = scanner.nextLine();
 			
+			// Determine whether the user's entered a command or a guess
 			if(input.equalsIgnoreCase("NEW")) {
+				
 				// Create a new game
-				this.gameBoard.startGame(null);
+				this.gameLogic.startGame(null);
 				this.initialiseGame();
 				System.out.println();
+				
 			} else if(input.equalsIgnoreCase("QUIT")) {
-				if(!this.gameBoard.hasLostGame()) {
+				
+				// End the current game if it is still in play
+				if(!this.gameLogic.hasLostGame()) {
 					// End the current game
-					this.answers = this.gameBoard.endGame();
+					this.answers = this.gameLogic.endGame();
 				}
+				
 			} else if(input.equalsIgnoreCase("EXIT")) {
+				
 				// Exit the application
 				System.out.println("\nGoodbye!");
 				break;
+				
 			} else if(input.equalsIgnoreCase("HELP")) {
+				
 				// Print the instructions
 				this.printInstructions();
+				
 			} else {
-				if(!this.gameBoard.hasLostGame()) {
-					// Process guesses
+				
+				// Check if the user has already lost or not
+				if(!this.gameLogic.hasLostGame()) {
+					
+					// Process guesses if valid, else print message
 					if(input.length() == GameConstants.ANSWER_LENGTH) {
+						// Create the guesses array
 						this.guesses = new int[GameConstants.ANSWER_LENGTH];
 						
+						// Get the guesses from the user input
 						for(int i = 0; i < this.guesses.length; i++)
 							this.guesses[i] = Integer.parseInt(input.charAt(i) + "");
 						
+						// Create String to hold output clues
 						String clueString = "";
 						
 						// Get the clues
-						int[] clues = this.gameBoard.validateGuess(this.guesses);
+						int[] clues = this.gameLogic.validateGuess(this.guesses);
 						
+						// Add clues into the String
 						for(int clue : clues)
 							clueString += clue;
 						
+						// Check if user has won or not
 						if(clueString.equals("2222"))
 							this.hasWon = true;
 						else
 							System.out.println("Clues: " + clueString + "\n");
+						
 					} else
 						System.out.println("\nGuesses must be " + GameConstants.ANSWER_LENGTH + " characters long! Valid commands are NEW, QUIT, HELP and EXIT.\n");
 				}
 			}
 			
-			if(showAnswer && (this.gameBoard.hasLostGame() || this.gameBoard.getGuessCount() >= GameConstants.MAX_NUM_OF_GUESSES || this.hasWon)) {
-				this.answers = this.gameBoard.endGame();
+			// Check if answer should be shown, and if so, is the game over or not
+			if(showAnswer && (this.hasWon || this.gameLogic.hasLostGame() || this.gameLogic.getGuessCount() >= GameConstants.MAX_NUM_OF_GUESSES)) {
+				// Get the answers
+				this.answers = this.gameLogic.endGame();
 				
+				// Print the appropriate message if the user has won or if the user has lost
 				if(this.hasWon)
 					System.out.println("Congratualations!! You've guessed right!");
 				else
@@ -166,18 +224,24 @@ public class TextInterface {
 				
 				System.out.print("The answer was: ");
 				
+				// Print each answer into the console
 				for(int answer : this.answers)
 					System.out.print(answer + " ");
 				
 				System.out.println("\nTo start a new game type NEW, to exit type EXIT, for help type HELP.\n");
 				
+				// Prevent answer from being shown again, until a new game
 				showAnswer = false;
 			}
 		}
 		
+		// Close the socket if the user's exiting
 		this.socket.close();
 	}
 	
+	/**
+	 * Prints the instructions to the console with newline before and after the message.
+	 */
 	private void printInstructions() {
 		System.out.println("\nINSTRUCTIONS");
 		System.out.println("------------");
