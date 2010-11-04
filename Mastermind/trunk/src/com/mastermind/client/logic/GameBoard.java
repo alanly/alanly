@@ -15,7 +15,7 @@ import com.mastermind.util.net.ByteProtocol;
  * The <strong>GameBoard</strong> class represents the basic client-side logic for a <strong>Mastermind</strong> game.
  * 
  * @author Alan Ly
- * @version 1.0
+ * @version 1.1
  */
 public class GameBoard {
 
@@ -34,11 +34,11 @@ public class GameBoard {
 	 * @param serverPort the port number that the <em>Mastermind Server</em> is bound to
 	 * @throws IOException thrown if an error occurs related to the creation of the socket
 	 */
-	public GameBoard(String serverAddress, int serverPort) throws IOException {
+	public GameBoard(Socket socket) throws IOException {
 		super();
 		
 		// Initialise the connection
-		this.socket = new Socket(serverAddress, serverPort);
+		this.socket = socket;
 		this.buffer = new byte[GameConstants.BUFFER_LENGTH];
 		
 		// Initialise the game
@@ -58,9 +58,9 @@ public class GameBoard {
 	 * 
 	 * If the player loses, the value is set to true, else it is set to false under normal circumstances.
 	 * 
-	 * @return a boolean to determine the 'lost' state of the game
+	 * @return a boolean to determine the lost of the game
 	 */
-	public boolean getLostGame() {
+	public boolean hasLostGame() {
 		return this.lostGame;
 	}
 	
@@ -141,7 +141,7 @@ public class GameBoard {
 				// Get the answer value by removing the prefix.
 				answers[i] = (this.buffer[i + 1] - ByteProtocol.END_GAME_ANSWER_PREFIX);
 			
-			// Set lost game state to true
+			// Set lost game state to true;
 			this.lostGame = true;
 		}
 		
@@ -155,7 +155,7 @@ public class GameBoard {
 	 * @return the associated clues in an Integer array
 	 * @throws SocketException thrown if an error is encountered during communication with the server
 	 */
-	public int[] validateGuess(int[] guesses) throws SocketException {
+	public int[] validateGuess(int[] guesses) throws SocketException {		
 		if(this.lostGame)
 			return null;
 		
@@ -185,6 +185,9 @@ public class GameBoard {
 			
 			// Increment the guess count
 			this.guessCount++;
+			
+			if(this.guessCount >= GameConstants.MAX_NUM_OF_GUESSES)
+				this.lostGame = true;
 		}
 		
 		return clues;

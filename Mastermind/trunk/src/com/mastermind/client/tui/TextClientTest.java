@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mastermind.client;
+package com.mastermind.client.tui;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -70,7 +70,7 @@ public class TextClientTest {
 	}
 	
 	private static void initialiseGame() throws IOException {
-		startNewGame(new int[] { 1, 2, 3, 4 });
+		startNewGame(new int[] { 5, 2, 2, 2 });
 		
 		System.out.println("Connected - New game started,");
 		
@@ -144,7 +144,7 @@ public class TextClientTest {
 		
 		socket.close();
 		
-		consoleScan.nextLine();
+		//consoleScan.nextLine();
 	}
 	
 	private static boolean startNewGame(int[] answer) throws IOException {
