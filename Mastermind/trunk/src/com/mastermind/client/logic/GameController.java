@@ -29,6 +29,7 @@ public class GameController extends Observable{
 	private computerGuessPanel compGuess;
 	private int [] answers;
 	private int [] clues;
+	private int[] guesses;
 	
 	
 	public GameController(ClientGameLogic gameBoard, Mastermind view,boardGamePanel boardGame,availableColorsPanel availColors,buttonPanel buttonpanel,cluePanel cluepanel,computerGuessPanel compGuess)
@@ -63,7 +64,7 @@ public class GameController extends Observable{
 	public void check()
 	{
 		//guesses = boardGame.getGuesses();
-		clues = gameBoard.validateGuess(guesses);
+		//clues = gameBoard.validateGuess(guesses);
 		setChanged();
 		notifyObservers();
 		guessCount--;
