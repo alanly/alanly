@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.*;
 
@@ -53,7 +54,8 @@ public class Mastermind extends JFrame implements ActionListener {
 		boardGame = new boardGamePanel(cursorColor);
 		buttonPanel = new buttonPanel();
 		titlePanel = new titlePanel();
-		game = new ClientGameLogic(ip, port);
+		Socket socket = new Socket(ip, port);
+		game = new ClientGameLogic(socket);
 		controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
 		
 		initialize();
