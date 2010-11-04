@@ -1,12 +1,14 @@
 /**
- * 
+ * Contains general utilities that can be used between the <em>Mastermind</em> client and server.
  */
 package com.mastermind.util;
 
 import java.util.Calendar;
 
 /**
- * @author Alan Ly
+ * Contains some basic utilities methods used for console output .
+ * 
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.2
  */
 public class ConsoleUtilities {

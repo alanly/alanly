@@ -1,11 +1,12 @@
 /**
- * 
+ * Contains general utilities that can be used between the <em>Mastermind</em> client and server.
  */
 package com.mastermind.util;
 
 /**
  * The <code>Colours</code> enum class contains the appropriate constant values for every colour used in the Mastermind game.
- * @author Alan Ly
+ * 
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.0
  */
 public enum Colour {

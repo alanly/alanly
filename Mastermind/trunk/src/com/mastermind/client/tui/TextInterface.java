@@ -13,7 +13,7 @@ import com.mastermind.util.GameConstants;
 /**
  * The <strong>TextInterface</strong> represents an interactive console text-based user interface that will accept commands from the user and perform the appropriate processing in the background in order to interact with a <em>Mastermind Server</em> to play a game of </em>Mastermind</em>.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.0
  */
 public class TextInterface {

@@ -1,12 +1,12 @@
 /**
- * 
+ * Contains the necessary utility classes to perform data communications between a server and a client system.
  */
 package com.mastermind.util.net;
 
 /**
  * The <code>ByteProtocol</code> class contains the constants used to represent a client/server message for a <strong>Mastermind</strong> session.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.1
  */
 public class ByteProtocol {

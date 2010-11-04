@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains the logical back-end of the <em>Mastermind</em> client.
  */
 package com.mastermind.client.logic;
 
@@ -14,7 +14,7 @@ import com.mastermind.util.net.ByteProtocol;
 /**
  * The <strong>GameBoard</strong> class represents the basic client-side logic for a <strong>Mastermind</strong> game.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.2
  */
 public class ClientGameLogic {

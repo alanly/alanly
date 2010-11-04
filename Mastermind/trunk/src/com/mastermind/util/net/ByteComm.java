@@ -10,7 +10,8 @@ import java.net.SocketException;
 
 /**
  * A utility class that contains the necessary static methods to send and receive data between a client and a server system over a <code>Socket</code> connection.
- * @author Alan Ly
+ * 
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.1
  */
 public class ByteComm {

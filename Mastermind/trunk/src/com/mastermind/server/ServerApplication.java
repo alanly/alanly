@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains the <em>Mastermind</em> server classes.
  */
 package com.mastermind.server;
 
@@ -11,7 +11,7 @@ import com.mastermind.util.GameConstants;
  * The <code>ServerApplication</code> begins a <code>ServerListener</code> and accepts a port number to listen to client connections on.
  * If a specific port number is not provided, the default port to listen on for the <strong>Mastermind</strong> server is port <code>50,000</code>.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.0
  */
 public class ServerApplication {

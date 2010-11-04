@@ -1,18 +1,20 @@
 /**
- * 
+ * Contains the logical classes that make up the <em>Mastermind</em> server.
  */
 package com.mastermind.server.logic;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.mastermind.util.ConsoleUtilities;
 
 /**
- * The <code>ServerListener</code> class listens for and handles client connections to the Mastermind server. 
- * @author Alan Ly
- * @version 1.0
+ * The <code>ServerListener</code> class listens for and handles client connections to the Mastermind server.
+ *  
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
+ * @version 1.1
  */
 public class ServerListener {
         
@@ -65,8 +67,8 @@ public class ServerListener {
 		    // Enable server to listen for connection
 		    this.listenForConnection = true;
 		    
-		    // Print out listening header for status
-		    System.out.println(ConsoleUtilities.generateLogHeader() + "Server started and listening on " + serverSocket.getInetAddress().getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + "...");
+			// Print out listening header for status
+		    System.out.println(ConsoleUtilities.generateLogHeader() + "Server started and listening on " + InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + "...");
 		    
 		    // Run loop while condition is true to listen for clients
 		    while(this.listenForConnection) {

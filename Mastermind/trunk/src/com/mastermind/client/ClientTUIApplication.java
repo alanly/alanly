@@ -6,7 +6,7 @@ package com.mastermind.client;
 import com.mastermind.client.tui.TextInterface;
 
 /**
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.0
  */
 public class ClientTUIApplication {

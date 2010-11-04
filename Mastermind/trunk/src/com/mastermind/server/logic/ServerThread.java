@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains the logical classes that make up the <em>Mastermind</em> server.
  */
 package com.mastermind.server.logic;
 
@@ -13,7 +13,7 @@ import com.mastermind.util.GameConstants;
 /**
  * The <strong>ServerThread</strong> is spawned when a client connects to the Mastermind server listener and it is responsible for handling that particular client connection.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.3
  */
 public class ServerThread {

@@ -1,12 +1,12 @@
 /**
- * 
+ * Contains general utilities that can be used between the <em>Mastermind</em> client and server.
  */
 package com.mastermind.util;
 
 /**
  * Contains the constant values that are necessary for the general functionality of the <strong>Mastermind</strong> game. Constants are universal between client and server units.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.0
  */
 public class GameConstants {

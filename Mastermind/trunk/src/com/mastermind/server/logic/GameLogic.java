@@ -1,5 +1,5 @@
 /**
- * 
+ * Contains the logical classes that make up the <em>Mastermind</em> server.
  */
 package com.mastermind.server.logic;
 
@@ -20,7 +20,7 @@ import com.mastermind.util.net.ByteProtocol;
  * 
  * It contains the necessary behaviour required to interact and play a game of <strong>Mastermind</strong> with a client session.
  * 
- * @author Alan Ly
+ * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
  * @version 1.8
  */
 public class GameLogic {
