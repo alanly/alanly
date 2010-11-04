@@ -15,7 +15,7 @@ import com.mastermind.util.net.ByteProtocol;
  * The <strong>GameBoard</strong> class represents the basic client-side logic for a <strong>Mastermind</strong> game.
  * 
  * @author Alan Ly
- * @version 1.1
+ * @version 1.2
  */
 public class GameBoard {
 
