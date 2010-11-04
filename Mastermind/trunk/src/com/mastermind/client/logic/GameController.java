@@ -20,7 +20,7 @@ import com.mastermind.client.ui.computerGuessPanel;
  */
 public class GameController extends Observable{
 	private int guessCount;
-	private GameBoard gameBoard;
+	private ClientGameLogic gameBoard;
 	private Mastermind view;
 	private boardGamePanel boardGame;
 	private availableColorsPanel availColors;
@@ -31,7 +31,7 @@ public class GameController extends Observable{
 	private int [] clues;
 	
 	
-	public GameController(GameBoard gameBoard, Mastermind view,boardGamePanel boardGame,availableColorsPanel availColors,buttonPanel buttonpanel,cluePanel cluepanel,computerGuessPanel compGuess)
+	public GameController(ClientGameLogic gameBoard, Mastermind view,boardGamePanel boardGame,availableColorsPanel availColors,buttonPanel buttonpanel,cluePanel cluepanel,computerGuessPanel compGuess)
 	{
 		guessCount = 9;
 		int [] answers = null;
