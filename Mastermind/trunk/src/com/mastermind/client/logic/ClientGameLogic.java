@@ -17,7 +17,7 @@ import com.mastermind.util.net.ByteProtocol;
  * @author Alan Ly
  * @version 1.2
  */
-public class GameBoard {
+public class ClientGameLogic {
 
 	// Global variables related to connection
 	private Socket socket;
@@ -33,7 +33,7 @@ public class GameBoard {
 	 * @param socket the socket to the server that is provided by the calling method
 	 * @throws IOException thrown if an error occurs related to the creation of the socket
 	 */
-	public GameBoard(Socket socket) throws IOException {
+	public ClientGameLogic(Socket socket) throws IOException {
 		super();
 		
 		// Initialise the connection

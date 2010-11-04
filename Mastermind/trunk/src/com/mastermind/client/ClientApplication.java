@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.mastermind.client.logic.GameBoard;
+import com.mastermind.client.logic.ClientGameLogic;
 import com.mastermind.client.logic.GameController;
 import com.mastermind.client.ui.Mastermind;
 

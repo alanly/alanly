@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import com.mastermind.client.logic.GameBoard;
+import com.mastermind.client.logic.ClientGameLogic;
 import com.mastermind.client.logic.GameController;
 
 
@@ -32,7 +32,7 @@ public class Mastermind extends JFrame implements ActionListener {
 	private boardGamePanel boardGame = null ;
 	private buttonPanel buttonPanel = null;
 	private titlePanel titlePanel = null;
-	GameBoard game = null;
+	ClientGameLogic game = null;
 	GameController controller = null;
 	
 	private ColorModel cursorColor = null;
@@ -43,17 +43,18 @@ public class Mastermind extends JFrame implements ActionListener {
 		int port;
 		String ip;
 		
-	//	port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
-		//ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
+		port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
+		ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
 		cursorColor = new ColorModel();
+		
 		colorPanel = new availableColorsPanel(cursorColor);
 		computerGuess = new computerGuessPanel();
 		cluePanel = new cluePanel();
 		boardGame = new boardGamePanel(cursorColor);
 		buttonPanel = new buttonPanel();
 		titlePanel = new titlePanel();
-		//game = new GameBoard(ip, port);
-		//controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
+		game = new ClientGameLogic(ip, port);
+		controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
 		
 		initialize();
 		

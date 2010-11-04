@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
-import com.mastermind.client.logic.GameBoard;
+import com.mastermind.client.logic.ClientGameLogic;
 import com.mastermind.util.GameConstants;
 
 /**
@@ -16,7 +16,7 @@ import com.mastermind.util.GameConstants;
  */
 public class TextInterface {
 	
-	private GameBoard gameBoard;
+	private ClientGameLogic gameBoard;
 	private Scanner scanner;
 	private Socket socket;
 	private int[] answers;
@@ -95,7 +95,7 @@ public class TextInterface {
 		
 		
 		// Create the game board
-		this.gameBoard = new GameBoard(this.socket);
+		this.gameBoard = new ClientGameLogic(this.socket);
 		this.gameBoard.startGame(null);
 	}
 	
