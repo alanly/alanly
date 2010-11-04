@@ -61,9 +61,9 @@ public class Mastermind extends JFrame implements ActionListener {
 		initialize();
 		
 		cursorColor.addObserver(boardGame);
-	
+		setSize(350,605);
 		setTitle("Mastermind");
-		pack();
+		//pack();
 		this.setVisible(true);
 		
 	}

@@ -29,7 +29,7 @@ public class cluePanel extends JPanel {
 		// Set Layout
 		this.setLayout(gridBagLayout);
 		createAndPlaceLabels();
-		setBackground(Color.decode("#484444"));
+		setBackground(Color.decode("#939393"));
 
 	}
 
@@ -42,6 +42,7 @@ public class cluePanel extends JPanel {
 				for(int k =0; k<2;k++)
 			{
 				clue[i][j][k] = new JLabel(new ImageIcon("src/images/clue.gif"));
+				
 				clue[i][j][k].setBorder(thickBorder);
 				add(clue[i][j][k], makeConstraints(j, i, 1, 1));
 				clue[i][j][k].setVisible(true);

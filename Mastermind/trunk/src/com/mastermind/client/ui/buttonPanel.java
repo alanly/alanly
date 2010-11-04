@@ -24,7 +24,7 @@ public class buttonPanel extends JPanel   {
 	JButton check = new JButton("Check");
 	JButton newGame = new JButton("New Game");
 	JButton quit = new JButton("Quit");
-	
+	int row = 9;
 
 	public buttonPanel() {
 		super();
@@ -48,15 +48,15 @@ public class buttonPanel extends JPanel   {
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {	
-		int i = 9;
+	
 		Object o =  e.getSource();
 		if ( o == check){
+		row--;
+		model.setCurrentRow(row);
+		int []colorArray =model.getArray();
+	
+		System.out.println(colorArray);
 		
-		i = model.getCurrentRow();
-		i--;
-		//controller.check();
-		model.setCurrentRow(i);
-		System.out.println(i);
 	}
 		
 	}
