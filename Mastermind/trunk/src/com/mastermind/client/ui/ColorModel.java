@@ -4,18 +4,20 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.util.Observable;
 
-import javax.swing.ImageIcon;
 
 public class ColorModel extends Observable {
 
 	private static Cursor c1 = null;
 	private static int colorNum = -1 ;
 	private static Image image = null;
+	int row = 10;
 
 	public ColorModel() {
 		super();
 	}
-
+public int getCurrentRow(){
+return row;
+}
 	public Cursor getCursorColor() {
 		return c1;
 	}
@@ -25,7 +27,9 @@ public class ColorModel extends Observable {
 	public Image getImage(){
 		return image;
 	}
-
+public void setCurrentRow(int i ){
+	row = i;
+}
 	public void setCursorColor(Cursor c) {
 		ColorModel.c1 = c;
 		setChanged();
@@ -45,8 +49,8 @@ public class ColorModel extends Observable {
 		notifyObservers();
 		
 	}
-	public void setImage(Image image){
-		ColorModel.image = image;
+	public void setImage(Image image2){
+		ColorModel.image = image2;
 	}
 
 }

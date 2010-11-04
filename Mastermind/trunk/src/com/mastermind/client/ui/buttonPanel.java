@@ -18,7 +18,7 @@ public class buttonPanel extends JPanel   {
 	 * 
 	 */
 	private GameController controller;
-	
+	ColorModel model = new ColorModel();
 	private static final long serialVersionUID = 1L;
 	
 	JButton check = new JButton("Check");
@@ -34,11 +34,11 @@ public class buttonPanel extends JPanel   {
 	private void initialize() {
 		setBackground(Color.decode("#484444"));
 		MyActionListenerCheck alc = new MyActionListenerCheck();
-		MyActionListenerNew aln = new MyActionListenerNew();
-		MyActionListenerQuit alq = new MyActionListenerQuit();
+	//	MyActionListenerNew aln = new MyActionListenerNew();
+		//MyActionListenerQuit alq = new MyActionListenerQuit();
 		check.addActionListener(alc);
-		newGame.addActionListener(aln);
-		quit.addActionListener(alq);
+	//	newGame.addActionListener(aln);
+		//quit.addActionListener(alq);
 		add(check);
 		add(newGame);
 		add(quit);
@@ -48,9 +48,15 @@ public class buttonPanel extends JPanel   {
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {	
+		int i = 9;
+		Object o =  e.getSource();
+		if ( o == check){
 		
-		controller.check();
-		
+		i = model.getCurrentRow();
+		i--;
+		//controller.check();
+		model.setCurrentRow(i);
+		System.out.println(i);
 	}
 		
 	}
@@ -83,6 +89,6 @@ public class buttonPanel extends JPanel   {
 	
 	
 	
-	
+	}
 	
 }

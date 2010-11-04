@@ -17,7 +17,7 @@ public class cluePanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private GridBagLayout gridBagLayout = null;
-	JLabel[][][] clue = new JLabel[19][2][2];
+	JLabel[][][] clue = new JLabel[20][2][2];
 
 	public cluePanel() {
 		super();
@@ -37,7 +37,7 @@ public class cluePanel extends JPanel {
 
 		Border thickBorder = new LineBorder(Color.decode("#484444"), 0, true);
 
-		for (int i = 0; i < 19; i++)
+		for (int i = 0; i < 20; i++)
 			for (int j = 0; j < 2; j++) 
 				for(int k =0; k<2;k++)
 			{

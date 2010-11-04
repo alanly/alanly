@@ -24,7 +24,6 @@ public class availableColorsPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JButton[] availableColors = new JButton[8];
 	ColorModel cursorColor = null;
-	ColorModel colorNum = null;
 	
 	
 
@@ -50,6 +49,7 @@ public class availableColorsPanel extends JPanel {
 		{
 			
 			availableColors[i] = new JButton(new ImageIcon("src/images/"+ i + ".gif"));
+			availableColors[i].setBackground(Color.decode("#484444"));
 			availableColors[i].setBorder(thickBorder);
 			availableColors[i].addActionListener(myActionListener);
 			add(availableColors[i], makeConstraints(i, 1, 1, 1));
@@ -79,18 +79,24 @@ public class availableColorsPanel extends JPanel {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			Object o = e.getSource();
-
+			
+			Toolkit toolkit = Toolkit.getDefaultToolkit();
+			Point hotSpot = new Point(0, 0);
+			int num = -1;
 			for (int i = 0; i < 8; i++) {
 				if (o == availableColors[i]) {
-					Toolkit toolkit = Toolkit.getDefaultToolkit();
+					
 					Image image = toolkit.getImage("src/images/click" + i + ".gif");
-					Point hotSpot = new Point(0, 0);
+					
 					Cursor c = toolkit.createCustomCursor(image, hotSpot,
 							"Mastermind");
+					availableColors[i].setBackground(Color.decode("#484444"));
 					cursorColor.setCursorColor(c);
 					cursorColor.setColorNum(i) ;
+					num = cursorColor.getcolorNum();
+					System.out.println(num);
 					setCursor(c);
-					
+
 				}
 			}
 		}

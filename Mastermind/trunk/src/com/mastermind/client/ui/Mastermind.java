@@ -43,18 +43,17 @@ public class Mastermind extends JFrame implements ActionListener {
 		int port;
 		String ip;
 		
-		port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
-		ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
+	//	port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
+		//ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
 		cursorColor = new ColorModel();
-		
 		colorPanel = new availableColorsPanel(cursorColor);
 		computerGuess = new computerGuessPanel();
 		cluePanel = new cluePanel();
 		boardGame = new boardGamePanel(cursorColor);
 		buttonPanel = new buttonPanel();
 		titlePanel = new titlePanel();
-		game = new GameBoard(ip, port);
-		controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
+		//game = new GameBoard(ip, port);
+		//controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
 		
 		initialize();
 		
