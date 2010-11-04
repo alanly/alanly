@@ -150,7 +150,24 @@ public class TextInterface {
 			input = scanner.nextLine();
 			
 			// Determine whether the user's entered a command or a guess
-			if(input.equalsIgnoreCase("NEW")) {
+			if(input.equalsIgnoreCase("NEWANSWER")) {
+				// Initialise the answer array
+				this.answers = new int[GameConstants.ANSWER_LENGTH];
+				
+				// Request for a predetermined answer
+				System.out.print("Please enter the predetermined answer (e.g. '1234'): ");
+				input = scanner.nextLine();
+				
+				// Get answer values into array
+				for(int i = 0; i < this.answers.length; i++)
+					this.answers[i] = Integer.parseInt(input.charAt(i) + "");
+				
+				// Create a new game with the predetermined answer
+				this.gameLogic.startGame(this.answers);
+				this.initialiseGame();
+				System.out.println();
+				
+			} else 	if(input.equalsIgnoreCase("NEW")) {
 				
 				// Create a new game
 				this.gameLogic.startGame(null);
@@ -218,9 +235,9 @@ public class TextInterface {
 				
 				// Print the appropriate message if the user has won or if the user has lost
 				if(this.hasWon)
-					System.out.println("Congratualations!! You've guessed right!");
+					System.out.println("\nCongratualations!! You've guessed right!\n");
 				else
-					System.out.println("\n\"You're a born loooooseeerrr!\"\n");
+					System.out.println("\nOh noes! You lost!!\n");
 				
 				System.out.print("The answer was: ");
 				
