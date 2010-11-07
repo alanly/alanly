@@ -224,7 +224,7 @@ public class TextInterface {
 							System.out.println("Clues: " + clueString + "\n");
 						
 					} else
-						System.out.println("\nGuesses must be " + GameConstants.ANSWER_LENGTH + " characters long! Valid commands are NEW, QUIT, HELP and EXIT.\n");
+						System.out.println("\nGuesses must be " + GameConstants.ANSWER_LENGTH + " characters long! Valid commands are NEW, NEWANSWER, QUIT, HELP and EXIT.\n");
 				}
 			}
 			
@@ -245,7 +245,7 @@ public class TextInterface {
 				for(int answer : this.answers)
 					System.out.print(answer + " ");
 				
-				System.out.println("\nTo start a new game type NEW, to exit type EXIT, for help type HELP.\n");
+				System.out.println("\nTo start a new game type NEW, to start with a predefined answer type NEWANSWER, to exit type EXIT, for help type HELP.\n");
 				
 				// Prevent answer from being shown again, until a new game
 				showAnswer = false;
@@ -265,7 +265,8 @@ public class TextInterface {
 		System.out.println("You have " + GameConstants.MAX_NUM_OF_GUESSES + " guesses. The number of guesses made so far are shown in square brackets.\n" +
 				"To play, enter " + GameConstants.ANSWER_LENGTH + " values between 1 and 8 inclusive (e.g. '1738') or 'QUIT' to end the game and see the answer or 'NEW' to start a new game.\n" +
 				"Clues are given to help guide you; 0 represents no matches, 1 represents a colour match and 2 represents a complete match. Good Luck!\n\n" +
-				"Valid commands are: NEW, QUIT, HELP, EXIT");
+				"To start a new game with a predefined answer type 'NEWANSWER' and then when prompted, type the desired predefined answer.\n" +
+				"Valid commands are: NEW, NEWANSWER, QUIT, HELP, EXIT");
 		System.out.println("------------\n");
 	}
 }
