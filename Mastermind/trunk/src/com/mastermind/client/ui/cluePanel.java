@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import com.mastermind.client.logic.GameController;
+
 public class cluePanel extends JPanel {
 
 	/**
@@ -18,7 +20,7 @@ public class cluePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GridBagLayout gridBagLayout = null;
 	JLabel[][][] clue = new JLabel[20][2][2];
-
+	private GameController controller;
 	public cluePanel() {
 		super();
 		initialize();
@@ -34,7 +36,10 @@ public class cluePanel extends JPanel {
 	}
 
 	private void createAndPlaceLabels() {
-
+		//int [] clues =controller.getClues();
+		//for(int b = 0 ; b < clues.length;b++){
+	//System.out.println(clues[b]);
+//}
 		Border thickBorder = new LineBorder(Color.decode("#484444"), 0, true);
 
 		for (int i = 0; i < 20; i++)

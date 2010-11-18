@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.SocketException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -55,8 +53,13 @@ public class buttonPanel extends JPanel   {
 		model.setCurrentRow(row);
 		int []colorArray =model.getArray();
 	
-		System.out.println(colorArray);
-		
+	try {
+		controller.check(colorArray);
+	} catch (SocketException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	
 	}
 		
 	}

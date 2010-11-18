@@ -14,8 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import com.mastermind.client.logic.GameController;
-
 public class boardGamePanel extends JPanel implements Observer {
 
 	/**
@@ -27,6 +25,7 @@ public class boardGamePanel extends JPanel implements Observer {
 	int c = -1;
 	private ColorModel cursorColor = null;
 	
+	int []  colorArray = new int[4];
 //	GameController counter = new GameController();
 	public boardGamePanel(ColorModel cursorColor) {
 		super();
@@ -83,7 +82,7 @@ public class boardGamePanel extends JPanel implements Observer {
 			
 			Object o =  e.getSource();
 			int color = cursorColor.getcolorNum();
-			int []  colorArray = new int[4];
+			
 			
 				for (int j = 0; j < 4; j++) {
 
@@ -92,40 +91,53 @@ public class boardGamePanel extends JPanel implements Observer {
 						switch(color){
 						case 0:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(Color.decode("#fb3001"));
+							colorArray[j]=color+1;
 							break;
 						case 1:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(Color.decode("#01fb36"));
+							colorArray[j]=color+1;
 							break;
 						case 2:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(Color.decode("#01330fb"));
+							colorArray[j]=color+1;
 							break;
 						case 3:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(Color.decode("#fbf801"));
+							colorArray[j]=color+1;
 							break;
 						case 4:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(Color.decode("#a001fb"));
+							colorArray[j]=color+1;
 							break;
 						case 5:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(	Color.decode("#01f2fb"));
+							colorArray[j]=color+1;
 							break;
 						case 6:
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(	Color.decode("#fba001"));
+							colorArray[j]=color+1;
 							break;
 						case 7:
+							colorArray[j]=color+1;
 							boardGame[cursorColor.getCurrentRow()][j].setBackground(	Color.decode("#fc9ccf"));
 							break;
 							
 						
-						}	colorArray[j]=color;
+						}
 						
 					}
 				}
-				cursorColor.setArray(colorArray);
+				
+
+				
+		
+			cursorColor.setArray(colorArray);
+			
 			
 				
-				}
+				
 		}
-
+	}
 	
 
 	public void update(Observable observable, Object object) {

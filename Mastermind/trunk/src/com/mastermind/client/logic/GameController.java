@@ -29,14 +29,13 @@ public class GameController extends Observable{
 	private computerGuessPanel compGuess;
 	private int [] answers;
 	private int [] clues;
-	private int[] guesses;
 	
 	
 	public GameController(ClientGameLogic gameBoard, Mastermind view,boardGamePanel boardGame,availableColorsPanel availColors,buttonPanel buttonpanel,cluePanel cluepanel,computerGuessPanel compGuess)
 	{
 		guessCount = 9;
-		int [] answers = null;
-		int [] clues = null;
+		this.answers = null;
+		this.clues = null;
 		this.gameBoard = gameBoard;
 		this.view = view;	
 		this.availColors = availColors;
@@ -61,10 +60,13 @@ public class GameController extends Observable{
 		compGuess.displayAnswers();
 	}
 	
-	public void check()
+	public void check(int []array) throws SocketException
 	{
-		//guesses = boardGame.getGuesses();
-		//clues = gameBoard.validateGuess(guesses);
+		//guesses = array;
+		clues = gameBoard.validateGuess(array);
+		for(int i = 0 ; i < clues.length;i ++){
+			System.out.println(clues[i]);
+		}
 		setChanged();
 		notifyObservers();
 		guessCount--;
@@ -78,6 +80,10 @@ public class GameController extends Observable{
 	public int[] getAnswers() {
 		
 		return answers;
+	}
+	public int[] getClues(){
+		return clues;
+		
 	}
 
 	

@@ -44,8 +44,8 @@ public class Mastermind extends JFrame implements ActionListener {
 		int port;
 		String ip;
 		
-		port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
-		ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
+		//port = Integer.parseInt(JOptionPane.showInputDialog("Enter port number to connect to :"));
+	//	ip = JOptionPane.showInputDialog("Enter a connection IP address: " );
 		cursorColor = new ColorModel();
 		
 		colorPanel = new availableColorsPanel(cursorColor);
@@ -54,9 +54,9 @@ public class Mastermind extends JFrame implements ActionListener {
 		boardGame = new boardGamePanel(cursorColor);
 		buttonPanel = new buttonPanel();
 		titlePanel = new titlePanel();
-		Socket socket = new Socket(ip, port);
-		game = new ClientGameLogic(socket);
-		controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
+		//Socket socket = new Socket(ip, port);
+	//	game = new ClientGameLogic(socket);
+		//controller = new GameController(game,this,boardGame,colorPanel,buttonPanel,cluePanel,computerGuess);
 		
 		initialize();
 		
