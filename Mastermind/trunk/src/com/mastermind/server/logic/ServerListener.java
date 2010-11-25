@@ -18,7 +18,10 @@ import com.mastermind.util.ConsoleUtilities;
  */
 public class ServerListener {
 	
-	private final int MAX_CHILDREN_THREADS = 10;
+	/**
+	 * Specifies the maximum number of <code>ServerThread</code>s that may be spawned and active at any time.
+	 */
+	private static final int MAX_SERVER_THREADS = 10;
         
     private int listeningPort;
     private boolean listenForConnection;
@@ -76,7 +79,8 @@ public class ServerListener {
 		    
 		    // Run loop while condition is true to listen for clients
 		    while(this.listenForConnection) {
-		    	if(this.threadGroup.activeCount() < this.MAX_CHILDREN_THREADS) {			    	
+		    	// Check if the current number of threads is less than the allowed limit
+		    	if(this.threadGroup.activeCount() < MAX_SERVER_THREADS) {			    	
 			    	// Print status message
 			    	System.out.println(ConsoleUtilities.generateLogHeader() + "Listening for client connections...");
 			    	
@@ -89,6 +93,7 @@ public class ServerListener {
 					// Create a ServerThread and start it
 					new Thread(this.threadGroup, new ServerThread(clientSocket)).start();
 		    	} else
+		    		// Sleep for 50 milliseconds before checking again
 		    		Thread.sleep(50);
 		    }
 		    	    
@@ -98,8 +103,13 @@ public class ServerListener {
 			throw new IOException(ioe.getMessage());
 		    
 		} catch (InterruptedException e) {
-	        // TODO Auto-generated catch block
+
+			// Print out the stack trace if such an Exception occurs.
 	        e.printStackTrace();
+	        
+	        // Exit from the server application
+	        System.exit(1);
+	        
         } finally {
 		    
 		    // Close the server socket if necessary

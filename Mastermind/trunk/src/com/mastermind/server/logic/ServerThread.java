@@ -78,8 +78,10 @@ public class ServerThread  implements Runnable {
 
 	@Override
     public void run() {
+		
 		// Start the thread
 	    this.startThread();
+	    
     }
     
 }
