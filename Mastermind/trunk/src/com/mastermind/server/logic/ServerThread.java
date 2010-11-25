@@ -14,9 +14,9 @@ import com.mastermind.util.GameConstants;
  * The <strong>ServerThread</strong> is spawned when a client connects to the Mastermind server listener and it is responsible for handling that particular client connection.
  * 
  * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
- * @version 1.3
+ * @version 1.4
  */
-public class ServerThread {
+public class ServerThread  implements Runnable {
     
     private Socket clientSocket;
     private byte[] messageBuffer;
@@ -74,6 +74,12 @@ public class ServerThread {
     		System.err.println(ConsoleUtilities.generateLogHeader() + "Client from " + this.clientSocket.getInetAddress().getHostAddress() + ":" + this.clientSocket.getPort() + " disconnected unexepctedly and uncleanly!");
     		
     	}
+    }
+
+	@Override
+    public void run() {
+		// Start the thread
+	    this.startThread();
     }
     
 }

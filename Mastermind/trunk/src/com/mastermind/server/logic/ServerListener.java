@@ -14,12 +14,15 @@ import com.mastermind.util.ConsoleUtilities;
  * The <code>ServerListener</code> class listens for and handles client connections to the Mastermind server.
  *  
  * @author Pedram Balalzadeh, Phillipe Thibault, Alan Ly
- * @version 1.1
+ * @version 1.2
  */
 public class ServerListener {
+	
+	private final int MAX_CHILDREN_THREADS = 10;
         
     private int listeningPort;
     private boolean listenForConnection;
+    private ThreadGroup threadGroup;
     
     /**
      * Create a <code>ServerListener</code> with a specified listening port to listen for and handle client connections to the Mastermind server.
@@ -28,6 +31,7 @@ public class ServerListener {
     public ServerListener(int listeningPort) {
 		super();
 		this.listeningPort = listeningPort;
+		this.threadGroup = new ThreadGroup("mastermind-server");
     }
     
     /**
@@ -68,22 +72,24 @@ public class ServerListener {
 		    this.listenForConnection = true;
 		    
 			// Print out listening header for status
-		    System.out.println(ConsoleUtilities.generateLogHeader() + "Server started and listening on " + InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + "...");
+		    System.out.println(ConsoleUtilities.generateLogHeader() + "Server started on " + InetAddress.getLocalHost().getHostAddress() + ":" + serverSocket.getLocalPort() + "...");
 		    
 		    // Run loop while condition is true to listen for clients
 		    while(this.listenForConnection) {
-		    	
-				// Get a socket connection to the client
-				clientSocket = serverSocket.accept();
-				
-				// Print status message for client connection
-				System.out.println(ConsoleUtilities.generateLogHeader() + "Client connection from " + clientSocket.getInetAddress().getHostAddress());
-				
-				// Create a ServerThread
-				ServerThread serverThread = new ServerThread(clientSocket);
-				
-				// Start handling client
-				serverThread.startThread();
+		    	if(this.threadGroup.activeCount() < this.MAX_CHILDREN_THREADS) {			    	
+			    	// Print status message
+			    	System.out.println(ConsoleUtilities.generateLogHeader() + "Listening for client connections...");
+			    	
+					// Get a socket connection to the client
+					clientSocket = serverSocket.accept();
+					
+					// Print status message for client connection
+					System.out.println(ConsoleUtilities.generateLogHeader() + "Client connection from " + clientSocket.getInetAddress().getHostAddress());
+					
+					// Create a ServerThread and start it
+					new Thread(this.threadGroup, new ServerThread(clientSocket)).start();
+		    	} else
+		    		Thread.sleep(50);
 		    }
 		    	    
 		} catch (IOException ioe) {
@@ -91,12 +97,14 @@ public class ServerListener {
 		    // Throw new IOException with the appropriate message
 			throw new IOException(ioe.getMessage());
 		    
-		} finally {
+		} catch (InterruptedException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        } finally {
 		    
 		    // Close the server socket if necessary
 		    if(!serverSocket.isClosed())
 		    	serverSocket.close();
-		    
 		}
     }
     
